@@ -9,442 +9,77 @@
     <style>
         /* ===== CSS Variables (Light & Dark) ===== */
         :root {
-            --bg-light: #ffffff;
-            --bg-subtle: #f0f8ff;
-            --text-primary: #154963;
-            --text-secondary: #595857;
-            --accent-blue: #2993c7;
-            --border-color: #154963;
-            --shadow-color: #154963;
-            --card-bg: #ffffff;
-            --highlight-bg: #fff3cd;
-            --highlight-border: #f59e0b;
-            --highlight-text: #856404;
-            --stat-item-bg: #ffffff;
-            --table-header-bg: #154963;
-            --table-header-text: #fff;
-            --table-border: #154963;
-            --tab-bg: #ffffff;
-            --tab-active-bg: #154963;
-            --tab-active-text: #fff;
-            --footer-border: #154963;
-            --resource-bg: #ffffff;
-            --btn-bg: #154963;
-            --btn-text: #fff;
-            --gold: #f1c40f;
-            --green: #28a745;
-            --red: #dc3545;
+            --bg-light: #ffffff; --bg-subtle: #f0f8ff; --text-primary: #154963; --text-secondary: #595857;
+            --accent-blue: #2993c7; --border-color: #154963; --shadow-color: #154963; --card-bg: #ffffff;
+            --highlight-bg: #fff3cd; --highlight-border: #f59e0b; --highlight-text: #856404;
+            --stat-item-bg: #ffffff; --table-header-bg: #154963; --table-header-text: #fff; --table-border: #154963;
+            --tab-bg: #ffffff; --tab-active-bg: #154963; --tab-active-text: #fff; --footer-border: #154963;
+            --resource-bg: #ffffff; --btn-bg: #154963; --btn-text: #fff; --gold: #f1c40f; --green: #28a745; --red: #dc3545;
         }
         [data-theme="dark"] {
-            --bg-light: #1e2a3a;
-            --bg-subtle: #151e2a;
-            --text-primary: #c8d6e5;
-            --text-secondary: #a0b4c8;
-            --accent-blue: #4dabf7;
-            --border-color: #4dabf7;
-            --shadow-color: #4dabf7;
-            --card-bg: #1e2a3a;
-            --highlight-bg: #2a3f4a;
-            --highlight-border: #f59e0b;
-            --highlight-text: #f0d080;
-            --stat-item-bg: #1e2a3a;
-            --table-header-bg: #0f1a2b;
-            --table-header-text: #c8d6e5;
-            --table-border: #4dabf7;
-            --tab-bg: #1e2a3a;
-            --tab-active-bg: #4dabf7;
-            --tab-active-text: #0f1a2b;
-            --footer-border: #4dabf7;
-            --resource-bg: #1e2a3a;
-            --btn-bg: #4dabf7;
-            --btn-text: #0f1a2b;
+            --bg-light: #1e2a3a; --bg-subtle: #151e2a; --text-primary: #c8d6e5; --text-secondary: #a0b4c8;
+            --accent-blue: #4dabf7; --border-color: #4dabf7; --shadow-color: #4dabf7; --card-bg: #1e2a3a;
+            --highlight-bg: #2a3f4a; --highlight-border: #f59e0b; --highlight-text: #f0d080;
+            --stat-item-bg: #1e2a3a; --table-header-bg: #0f1a2b; --table-header-text: #c8d6e5; --table-border: #4dabf7;
+            --tab-bg: #1e2a3a; --tab-active-bg: #4dabf7; --tab-active-text: #0f1a2b; --footer-border: #4dabf7;
+            --resource-bg: #1e2a3a; --btn-bg: #4dabf7; --btn-text: #0f1a2b;
         }
-        /* ===== 基础样式 ===== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Open Sans', 'Poppins', sans-serif;
-            background: var(--bg-subtle);
-            color: var(--text-secondary);
-            padding: 20px;
-            transition: background 0.3s, color 0.3s;
-        }
+        body { font-family: 'Open Sans', 'Poppins', sans-serif; background: var(--bg-subtle); color: var(--text-secondary); padding: 20px; transition: background 0.3s, color 0.3s; }
         .container { max-width: 1100px; margin: 0 auto; }
-        /* 头部 */
-        .header {
-            background: var(--bg-light);
-            border: 2px solid var(--border-color);
-            box-shadow: 4px 4px 0 var(--shadow-color);
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            color: var(--text-primary);
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-            transition: color 0.3s;
-        }
+        .header { background: var(--bg-light); border: 2px solid var(--border-color); box-shadow: 4px 4px 0 var(--shadow-color); padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; transition: 0.3s; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--text-primary); text-shadow: 2px 2px 0 rgba(0,0,0,0.1); }
         .logo span { color: var(--accent-blue); }
-        .tagline {
-            font-weight: 600;
-            font-size: 1rem;
-            background: var(--text-primary);
-            color: var(--bg-light);
-            padding: 0.4rem 1rem;
-            border: 2px solid #000;
-            box-shadow: 2px 2px 0 #000;
-            white-space: nowrap;
-            transition: background 0.3s, color 0.3s;
-        }
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem 1.5rem;
-            align-items: center;
-        }
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border-bottom: 2px solid transparent;
-            transition: 0.2s;
-        }
-        .nav-links a:hover {
-            border-bottom-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        .theme-toggle, .lang-switch {
-            display: inline-flex;
-            gap: 4px;
-            align-items: center;
-            border: 2px solid var(--border-color);
-            padding: 2px 6px;
-            background: var(--card-bg);
-            cursor: pointer;
-            font-weight: 700;
-            color: var(--text-primary);
-            transition: background 0.3s, color 0.3s, border-color 0.3s;
-        }
-        .theme-toggle:hover, .lang-switch:hover {
-            background: var(--accent-blue);
-            color: #fff;
-        }
-        .lang-btn {
-            background: transparent;
-            border: none;
-            font-weight: 700;
-            padding: 4px 10px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-family: 'Poppins', sans-serif;
-            transition: 0.2s;
-        }
-        .lang-btn.active {
-            background: var(--text-primary);
-            color: var(--bg-light);
-        }
-        .lang-btn:hover:not(.active) {
-            background: #e0e0e0;
-        }
-        /* 卡片 */
-        .card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            box-shadow: 4px 4px 0 var(--shadow-color);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        .card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            transition: color 0.3s, border-color 0.3s;
-        }
+        .tagline { font-weight: 600; font-size: 1rem; background: var(--text-primary); color: var(--bg-light); padding: 0.4rem 1rem; border: 2px solid #000; box-shadow: 2px 2px 0 #000; }
+        .nav-links { display: flex; flex-wrap: wrap; gap: 0.8rem 1.5rem; align-items: center; }
+        .nav-links a { color: var(--text-primary); text-decoration: none; font-weight: 700; font-size: 0.9rem; border-bottom: 2px solid transparent; transition: 0.2s; }
+        .nav-links a:hover { border-bottom-color: var(--accent-blue); color: var(--accent-blue); }
+        .theme-toggle, .lang-switch { display: inline-flex; gap: 4px; align-items: center; border: 2px solid var(--border-color); padding: 2px 6px; background: var(--card-bg); cursor: pointer; font-weight: 700; color: var(--text-primary); }
+        .lang-btn { background: transparent; border: none; font-weight: 700; padding: 4px 10px; cursor: pointer; color: var(--text-secondary); }
+        .lang-btn.active { background: var(--text-primary); color: var(--bg-light); }
+        .card { background: var(--card-bg); border: 2px solid var(--border-color); box-shadow: 4px 4px 0 var(--shadow-color); padding: 2rem; margin-bottom: 2rem; transition: 0.3s; }
+        .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: var(--text-primary); margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .feature-item {
-            border: 2px solid var(--border-color);
-            padding: 1.2rem;
-            background: var(--card-bg);
-            box-shadow: 3px 3px 0 var(--shadow-color);
-            transition: 0.15s, background 0.3s, border-color 0.3s;
-        }
-        .feature-item:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 var(--shadow-color);
-        }
-        .feature-item i {
-            font-size: 2rem;
-            color: var(--accent-blue);
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        .feature-item h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-        }
-        .feature-item p { font-size: 0.95rem; line-height: 1.6; }
-        .stat-badge {
-            display: inline-block;
-            background: var(--text-primary);
-            color: var(--bg-light);
-            padding: 0.2rem 1rem;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            border: 2px solid #000;
-            box-shadow: 2px 2px 0 #000;
-            margin-right: 0.5rem;
-            transition: background 0.3s, color 0.3s;
-        }
-        .highlight-box {
-            background: var(--highlight-bg);
-            border: 2px solid var(--highlight-border);
-            box-shadow: 4px 4px 0 var(--highlight-border);
-            padding: 1.2rem 1.8rem;
-            font-weight: 600;
-            color: var(--highlight-text);
-            transition: background 0.3s, border-color 0.3s, color 0.3s;
-        }
-        .btn-demo {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            background: var(--btn-bg);
-            color: var(--btn-text);
-            border: 2px solid #000;
-            box-shadow: 4px 4px 0 #000;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.1s, background 0.3s, color 0.3s;
-            margin-top: 0.5rem;
-        }
-        .btn-demo:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0 #000;
-            background: var(--accent-blue);
-            color: #fff;
-        }
+        .feature-item { border: 2px solid var(--border-color); padding: 1.2rem; background: var(--card-bg); box-shadow: 3px 3px 0 var(--shadow-color); transition: 0.15s; }
+        .feature-item:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--shadow-color); }
+        .feature-item i { font-size: 2rem; color: var(--accent-blue); margin-bottom: 0.5rem; display: block; }
+        .feature-item h3 { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.3rem; }
+        .stat-badge { display: inline-block; background: var(--text-primary); color: var(--bg-light); padding: 0.2rem 1rem; font-family: 'Orbitron', sans-serif; font-weight: 700; border: 2px solid #000; box-shadow: 2px 2px 0 #000; margin-right: 0.5rem; }
+        .highlight-box { background: var(--highlight-bg); border: 2px solid var(--highlight-border); box-shadow: 4px 4px 0 var(--highlight-border); padding: 1.2rem 1.8rem; font-weight: 600; color: var(--highlight-text); }
+        .btn-demo { display: inline-block; padding: 0.8rem 2rem; background: var(--btn-bg); color: var(--btn-text); border: 2px solid #000; box-shadow: 4px 4px 0 #000; font-family: 'Orbitron', sans-serif; font-weight: 700; text-decoration: none; transition: 0.1s; margin-top: 0.5rem; }
+        .btn-demo:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #000; background: var(--accent-blue); color: #fff; }
         .table-wrap { overflow-x: auto; max-height: 600px; overflow-y: auto; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--card-bg);
-            border: 2px solid var(--table-border);
-            box-shadow: 4px 4px 0 var(--shadow-color);
-            transition: background 0.3s, border-color 0.3s;
-        }
-        th, td {
-            padding: 0.8rem 1rem;
-            text-align: left;
-            border-bottom: 2px solid #eee;
-        }
-        th {
-            background: var(--table-header-bg);
-            color: var(--table-header-text);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            border-bottom: 2px solid #000;
-            position: sticky;
-            top: 0;
-            z-index: 5;
-            transition: background 0.3s, color 0.3s;
-        }
+        table { width: 100%; border-collapse: collapse; background: var(--card-bg); border: 2px solid var(--table-border); box-shadow: 4px 4px 0 var(--shadow-color); }
+        th, td { padding: 0.8rem 1rem; text-align: left; border-bottom: 2px solid #eee; }
+        th { background: var(--table-header-bg); color: var(--table-header-text); font-family: 'Orbitron', sans-serif; font-weight: 700; text-transform: uppercase; border-bottom: 2px solid #000; position: sticky; top: 0; z-index: 5; }
         tr:last-child td { border-bottom: none; }
-        .footer {
-            margin-top: 3rem;
-            text-align: center;
-            border-top: 2px solid var(--footer-border);
-            padding-top: 2rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: border-color 0.3s, color 0.3s;
-        }
-
-        /* ===== 动态元素 ===== */
-        .typing-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.2em;
-            background: var(--text-primary);
-            margin-left: 4px;
-            vertical-align: text-bottom;
-            animation: blink 1s step-end infinite;
-            transition: background 0.3s;
-        }
+        .footer { margin-top: 3rem; text-align: center; border-top: 2px solid var(--footer-border); padding-top: 2rem; font-weight: 600; color: var(--text-secondary); }
+        .typing-cursor { display: inline-block; width: 3px; height: 1.2em; background: var(--text-primary); margin-left: 4px; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
-
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
-            color: var(--text-primary);
-            display: inline-block;
-            transition: color 0.3s;
-        }
-        .stat-label {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: color 0.3s;
-        }
-        .stat-row {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 1.5rem 0;
-        }
-        .stat-item {
-            text-align: center;
-            background: var(--stat-item-bg);
-            padding: 0.8rem 1.5rem;
-            border: 2px solid var(--border-color);
-            box-shadow: 3px 3px 0 var(--shadow-color);
-            min-width: 140px;
-            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        /* Tab */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            padding: 0.6rem 1.4rem;
-            background: var(--tab-bg);
-            border: 2px solid var(--border-color);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.1s, background 0.3s, border-color 0.3s;
-            box-shadow: 2px 2px 0 var(--shadow-color);
-            color: var(--text-primary);
-        }
-        .tab-btn.active {
-            background: var(--tab-active-bg);
-            color: var(--tab-active-text);
-            box-shadow: 3px 3px 0 var(--accent-blue);
-        }
-        .tab-btn:hover:not(.active) {
-            background: var(--accent-blue);
-            color: #fff;
-        }
+        .stat-number { font-family: 'Orbitron', sans-serif; font-size: 2.8rem; color: var(--text-primary); display: inline-block; }
+        .stat-label { font-size: 1rem; font-weight: 600; color: var(--text-secondary); }
+        .stat-row { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin: 1.5rem 0; }
+        .stat-item { text-align: center; background: var(--stat-item-bg); padding: 0.8rem 1.5rem; border: 2px solid var(--border-color); box-shadow: 3px 3px 0 var(--shadow-color); min-width: 140px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .tab-btn { padding: 0.6rem 1.4rem; background: var(--tab-bg); border: 2px solid var(--border-color); font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; box-shadow: 2px 2px 0 var(--shadow-color); color: var(--text-primary); }
+        .tab-btn.active { background: var(--tab-active-bg); color: var(--tab-active-text); box-shadow: 3px 3px 0 var(--accent-blue); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-
-        /* 资源卡片 */
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .resource-item {
-            background: var(--resource-bg);
-            border: 2px solid var(--border-color);
-            padding: 1rem;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 700;
-            transition: 0.15s, background 0.3s, border-color 0.3s, color 0.3s;
-            box-shadow: 3px 3px 0 var(--shadow-color);
-        }
-        .resource-item:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0 var(--shadow-color);
-            background: var(--bg-subtle);
-        }
-        .resource-item i {
-            font-size: 1.8rem;
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--accent-blue);
-        }
-        .resource-item .sub {
-            font-weight: 400;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            display: block;
-            margin-top: 0.2rem;
-        }
-
-        /* Live indicator */
-        .live-indicator {
-            display: inline-block;
-            background: var(--red);
-            color: #fff;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.8rem;
-            border-radius: 20px;
-            font-weight: 700;
-            margin-left: 12px;
-            animation: pulse 1.5s ease-in-out infinite;
-            transition: background 0.3s, color 0.3s;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        /* 暗色微调 */
-        [data-theme="dark"] td { border-bottom-color: #2a3f4a; }
-        [data-theme="dark"] .highlight-box { color: #f0d080; }
-
-        /* 建议反馈区域 */
-        .feedback-box {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            text-align: center;
-            padding: 1.2rem;
-            border: 2px dashed var(--accent-blue);
-            background: var(--bg-subtle);
-            margin-top: 1rem;
-        }
-        .feedback-box i {
-            font-size: 2rem;
-            color: var(--accent-blue);
-        }
-        .feedback-box a {
-            color: var(--accent-blue);
-            font-weight: 700;
-            text-decoration: none;
-            border-bottom: 2px solid var(--accent-blue);
-        }
-        .feedback-box a:hover {
-            color: var(--text-primary);
-            border-bottom-color: var(--text-primary);
-        }
-
-        /* 响应式 */
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .resource-item { background: var(--resource-bg); border: 2px solid var(--border-color); padding: 1rem; text-align: center; text-decoration: none; color: var(--text-primary); font-weight: 700; box-shadow: 3px 3px 0 var(--shadow-color); transition: 0.15s; display: block; }
+        .resource-item:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--shadow-color); background: var(--bg-subtle); }
+        .resource-item i { font-size: 1.8rem; display: block; margin-bottom: 0.5rem; color: var(--accent-blue); }
+        .resource-item .sub { font-weight: 400; font-size: 0.8rem; color: var(--text-secondary); display: block; margin-top: 0.2rem; }
+        .live-indicator { display: inline-block; background: var(--red); color: #fff; padding: 0.2rem 0.8rem; font-size: 0.8rem; border-radius: 20px; font-weight: 700; margin-left: 12px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .loading-text { text-align: center; padding: 2rem; font-weight: 600; color: var(--text-secondary); }
+        .feedback-box { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; text-align: center; padding: 1.2rem; border: 2px dashed var(--accent-blue); background: var(--bg-subtle); margin-top: 1rem; }
+        .feedback-box a { color: var(--accent-blue); font-weight: 700; text-decoration: none; border-bottom: 2px solid var(--accent-blue); }
         @media (max-width: 768px) {
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .header { flex-direction: column; align-items: stretch; gap: 0.8rem; }
-            .logo { text-align: center; }
-            .tagline { text-align: center; }
-            .nav-links { justify-content: center; }
+            .header { flex-direction: column; align-items: stretch; }
+            .logo, .tagline, .nav-links { text-align: center; justify-content: center; }
             .stat-number { font-size: 2rem; }
             .resource-grid { grid-template-columns: 1fr 1fr; }
             .table-wrap { max-height: 400px; }
@@ -452,9 +87,7 @@
     </style>
 </head>
 <body>
-
 <div class="container">
-    <!-- HEADER + NAV -->
     <header class="header">
         <div class="logo">Moon<span>Bazaar</span></div>
         <div class="tagline" data-i18n="tagline">任务 · 积分 · 兑换</div>
@@ -466,9 +99,7 @@
             <a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" data-i18n="nav_tutorial">📖 教程</a>
             <a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" data-i18n="nav_survey">📝 问卷教程</a>
             <a href="mailto:admin@moonbazaar.de5.net" data-i18n="nav_contact">📮 联系站长</a>
-            <div class="theme-toggle" id="themeToggle" title="切换暗色/亮色模式">
-                <i class="fas fa-moon"></i>
-            </div>
+            <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
             <div class="lang-switch">
                 <button class="lang-btn active" data-lang="zh">中</button>
                 <button class="lang-btn" data-lang="en">EN</button>
@@ -476,27 +107,15 @@
         </div>
     </header>
 
-    <!-- INTRO -->
-    <section class="card" id="intro-card">
+    <section class="card">
         <h2 class="card-title"><i class="fas fa-rocket" style="color:var(--accent-blue);"></i> <span id="typing-title" data-i18n="typing_zh"></span><span class="typing-cursor"></span></h2>
-        <p id="intro-text" style="font-size:1.15rem; line-height:1.8; color:var(--text-primary); font-weight:600;" data-i18n="intro_text">
-            MoonBazaar 是一个<strong>积分任务平台</strong>，您可以通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，
-            并用积分兑换 <strong>礼品卡、游戏内物品、Steam 余额、现金</strong> 等丰富奖励。
-            平台采用硬核的 Neo-Brutalism 设计，风格鲜明，操作透明。
+        <p style="font-size:1.15rem; line-height:1.8; color:var(--text-primary); font-weight:600;" data-i18n="intro_text">
+            MoonBazaar 是一个<strong>积分任务平台</strong>，您可以通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，并用积分兑换 <strong>礼品卡、游戏内物品、Steam 余额、现金</strong> 等丰富奖励。
         </p>
         <div class="stat-row">
-            <div class="stat-item">
-                <div class="stat-number" id="userCount">0</div>
-                <div class="stat-label" data-i18n="stat_users"><i class="fas fa-users"></i> 注册用户</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="gcCount">0</div>
-                <div class="stat-label" data-i18n="stat_gc"><i class="fas fa-coins"></i> 已发放 GC</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="rewardCount">0</div>
-                <div class="stat-label" data-i18n="stat_rewards"><i class="fas fa-gift"></i> 已兑换奖品</div>
-            </div>
+            <div class="stat-item"><div class="stat-number" id="userCount">0</div><div class="stat-label" data-i18n="stat_users"><i class="fas fa-users"></i> 注册用户</div></div>
+            <div class="stat-item"><div class="stat-number" id="gcCount">0</div><div class="stat-label" data-i18n="stat_gc"><i class="fas fa-coins"></i> 已发放 GC</div></div>
+            <div class="stat-item"><div class="stat-number" id="rewardCount">0</div><div class="stat-label" data-i18n="stat_rewards"><i class="fas fa-gift"></i> 已兑换奖品</div></div>
         </div>
         <div style="margin-top:0.5rem; display:flex; gap:0.8rem; flex-wrap:wrap;">
             <span class="stat-badge" data-i18n="badge_weekly"><i class="fas fa-trophy"></i> 周榜奖励 200 GC</span>
@@ -504,44 +123,18 @@
         </div>
     </section>
 
-    <!-- CORE FEATURES -->
     <section class="card">
         <h2 class="card-title" data-i18n="features_title"><i class="fas fa-cogs" style="color:var(--gold);"></i> 核心机制</h2>
         <div class="grid-3">
-            <div class="feature-item">
-                <i class="fas fa-tasks"></i>
-                <h3 data-i18n="f1_title">任务墙</h3>
-                <p data-i18n="f1_desc">聚合多个任务提供商（CPX、TheoremReach、BitLabs 等），点击即做，积分自动到账。</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-dice"></i>
-                <h3 data-i18n="f2_title">运气游戏</h3>
-                <p data-i18n="f2_desc">多人幸运房间（满员开奖）和单人命运转盘，高风险高回报，刺激有趣。</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-chart-line"></i>
-                <h3 data-i18n="f3_title">排行榜</h3>
-                <p data-i18n="f3_desc">周榜、累计榜、单次高额榜，每周前10名额外奖励 Gascoin，竞争激烈。</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-hand-holding-usd"></i>
-                <h3 data-i18n="f4_title">推荐好友</h3>
-                <p data-i18n="f4_desc">分享邀请链接，好友赚积分您得 5% 佣金，里程碑再送 100 GC。</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-calendar-alt"></i>
-                <h3 data-i18n="f5_title">活动中心</h3>
-                <p data-i18n="f5_desc">限时活动（如周年庆），报名后完成任务可参与抽奖，赢取正版游戏、京东E卡等。</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-history"></i>
-                <h3 data-i18n="f6_title">交易历史</h3>
-                <p data-i18n="f6_desc">清晰记录每笔积分变动，提现记录可追溯，透明可信。</p>
-            </div>
+            <div class="feature-item"><i class="fas fa-tasks"></i><h3 data-i18n="f1_title">任务墙</h3><p data-i18n="f1_desc">聚合多个任务提供商（CPX、TheoremReach、BitLabs 等），点击即做，积分自动到账。</p></div>
+            <div class="feature-item"><i class="fas fa-dice"></i><h3 data-i18n="f2_title">运气游戏</h3><p data-i18n="f2_desc">多人幸运房间（满员开奖）和单人命运转盘，高风险高回报，刺激有趣。</p></div>
+            <div class="feature-item"><i class="fas fa-chart-line"></i><h3 data-i18n="f3_title">排行榜</h3><p data-i18n="f3_desc">周榜、累计榜、单次高额榜，每周前10名额外奖励 Gascoin，竞争激烈。</p></div>
+            <div class="feature-item"><i class="fas fa-hand-holding-usd"></i><h3 data-i18n="f4_title">推荐好友</h3><p data-i18n="f4_desc">分享邀请链接，好友赚积分您得 5% 佣金，里程碑再送 100 GC。</p></div>
+            <div class="feature-item"><i class="fas fa-calendar-alt"></i><h3 data-i18n="f5_title">活动中心</h3><p data-i18n="f5_desc">限时活动，报名后完成任务可参与抽奖，赢取正版游戏、京东E卡等。</p></div>
+            <div class="feature-item"><i class="fas fa-history"></i><h3 data-i18n="f6_title">交易历史</h3><p data-i18n="f6_desc">清晰记录每笔积分变动，提现记录可追溯，透明可信。</p></div>
         </div>
     </section>
 
-    <!-- EXCHANGE SHOWCASE -->
     <section class="card">
         <h2 class="card-title" data-i18n="exchange_title"><i class="fas fa-exchange-alt" style="color:var(--green);"></i> 提现兑换品类</h2>
         <div class="grid-2">
@@ -549,7 +142,7 @@
                 <h3 style="font-family:'Orbitron'; color:var(--text-primary); margin-bottom:0.5rem;" data-i18n="exchange_game">🎮 游戏 & 娱乐</h3>
                 <ul style="list-style:none; padding-left:0; font-weight:600; line-height:2;">
                     <li data-i18n="ex_item1"><i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft 正版激活码 / 披风 / 加速IP</li>
-                    <li data-i18n="ex_item2"><i class="fas fa-check-circle" style="color:var(--green);"></i> Steam 余额（国区/全球）及游戏购物车</li>
+                    <li data-i18n="ex_item2"><i class="fas fa-check-circle" style="color:var(--green);"></i> Steam 余额及游戏购物车</li>
                     <li data-i18n="ex_item3"><i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox 礼品卡（多地区）</li>
                     <li data-i18n="ex_item4"><i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate</li>
                     <li data-i18n="ex_item5"><i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro</li>
@@ -566,733 +159,182 @@
                 </ul>
             </div>
         </div>
-        <div class="highlight-box" style="margin-top:1.5rem;" data-i18n="exchange_custom">
-            <i class="fas fa-lightbulb"></i> 支持“我想要其他东西” — 联系客服，可用积分兑换硬件、零食、周边等实物。
-        </div>
     </section>
 
-    <!-- RANKING -->
     <section class="card" id="rank-card">
-        <h2 class="card-title">
-            <i class="fas fa-crown" style="color:var(--gold);"></i>
-            <span data-i18n="rank_title">实时排行榜</span>
-            <span class="live-indicator"><i class="fas fa-circle"></i> <span data-i18n="live_label">实时</span></span>
-        </h2>
+        <h2 class="card-title"><i class="fas fa-crown" style="color:var(--gold);"></i> <span data-i18n="rank_title">实时排行榜</span><span class="live-indicator"><i class="fas fa-circle"></i> <span data-i18n="live_label">实时</span></span></h2>
         <div class="tabs">
             <button class="tab-btn active" data-tab="weekly" data-i18n="rank_weekly">🏆 周榜</button>
             <button class="tab-btn" data-tab="total" data-i18n="rank_total">📊 累计榜</button>
             <button class="tab-btn" data-tab="single" data-i18n="rank_single">🎯 单次高额</button>
         </div>
         <div class="tab-content active" id="tab-weekly">
-            <div class="table-wrap">
-                <table>
-                    <thead><tr>
-                        <th data-i18n="th_rank">排名</th>
-                        <th data-i18n="th_user">用户</th>
-                        <th data-i18n="th_weekly">周赚取 (GC)</th>
-                    </tr></thead>
-                    <tbody id="weekly-body"></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table><thead><tr><th data-i18n="th_rank">排名</th><th data-i18n="th_user">用户</th><th data-i18n="th_weekly">周赚取 (GC)</th></tr></thead><tbody id="weekly-body"><tr><td colspan="3" class="loading-text"><i class="fas fa-spinner fa-spin"></i> 加载中...</td></tr></tbody></table></div>
         </div>
         <div class="tab-content" id="tab-total">
-            <div class="table-wrap">
-                <table>
-                    <thead><tr>
-                        <th data-i18n="th_rank">排名</th>
-                        <th data-i18n="th_user">用户</th>
-                        <th data-i18n="th_total">累计 (GC)</th>
-                    </tr></thead>
-                    <tbody id="total-body"></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table><thead><tr><th data-i18n="th_rank">排名</th><th data-i18n="th_user">用户</th><th data-i18n="th_total">累计 (GC)</th></tr></thead><tbody id="total-body"><tr><td colspan="3" class="loading-text"><i class="fas fa-spinner fa-spin"></i> 加载中...</td></tr></tbody></table></div>
         </div>
         <div class="tab-content" id="tab-single">
-            <div class="table-wrap">
-                <table>
-                    <thead><tr>
-                        <th data-i18n="th_rank">排名</th>
-                        <th data-i18n="th_user">用户</th>
-                        <th data-i18n="th_single">单次 (GC)</th>
-                        <th data-i18n="th_source">任务商</th>
-                        <th data-i18n="th_time">完成时间</th>
-                    </tr></thead>
-                    <tbody id="single-body"></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table><thead><tr><th data-i18n="th_rank">排名</th><th data-i18n="th_user">用户</th><th data-i18n="th_single">单次 (GC)</th><th data-i18n="th_source">任务商</th><th data-i18n="th_time">完成时间</th></tr></thead><tbody id="single-body"><tr><td colspan="5" class="loading-text"><i class="fas fa-spinner fa-spin"></i> 加载中...</td></tr></tbody></table></div>
         </div>
-        <p style="margin-top:1rem; font-weight:600; font-size:0.9rem; color:var(--text-secondary);">
-            <i class="fas fa-clock"></i> <span data-i18n="update_label">数据更新时间</span>: <span id="update-time-display">—</span>
-        </p>
+        <p style="margin-top:1rem; font-weight:600; font-size:0.9rem; color:var(--text-secondary);"><i class="fas fa-clock"></i> <span data-i18n="update_label">数据更新时间</span>: <span id="update-time-display">—</span></p>
     </section>
 
-    <!-- 建议反馈 -->
     <section class="card">
         <h2 class="card-title"><i class="fas fa-comment-dots" style="color:var(--accent-blue);"></i> <span data-i18n="feedback_title">建议反馈</span></h2>
         <div class="feedback-box">
-            <i class="fas fa-envelope-open-text"></i>
-            <p style="font-size:1.1rem; font-weight:600; margin:0;" data-i18n="feedback_desc">
-                有建议或问题？欢迎发送邮件至
-                <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>
-            </p>
+            <i class="fas fa-envelope-open-text" style="font-size:2rem; color:var(--accent-blue);"></i>
+            <p style="font-size:1.1rem; font-weight:600; margin:0;" data-i18n="feedback_desc">有建议或问题？欢迎发送邮件至 <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a></p>
         </div>
     </section>
 
-    <!-- 资源中心 -->
     <section class="card">
         <h2 class="card-title"><i class="fas fa-life-ring" style="color:var(--accent-blue);"></i> <span data-i18n="resources_title">帮助与资源</span></h2>
         <div class="resource-grid">
-            <a href="https://docs.qq.com/doc/DRnFQTW13S25OS0tO" target="_blank" class="resource-item">
-                <i class="fas fa-envelope"></i> <span data-i18n="res_email">邮件模板收录</span>
-                <span class="sub" data-i18n="res_email_sub">常见邮件模板</span>
-            </a>
-            <a href="https://docs.qq.com/doc/DRkdjcmJIVk1UUFZh" target="_blank" class="resource-item">
-                <i class="fas fa-question-circle"></i> <span data-i18n="res_faq_zh">FAQ 中文</span>
-                <span class="sub" data-i18n="res_faq_zh_sub">常见问题汇总</span>
-            </a>
-            <a href="https://docs.qq.com/doc/DRmxyVWxHZ0hyb2hy" target="_blank" class="resource-item">
-                <i class="fas fa-question-circle"></i> <span data-i18n="res_faq_en">FAQ English</span>
-                <span class="sub" data-i18n="res_faq_en_sub">Frequently Asked Questions</span>
-            </a>
-            <a href="https://wwbma.lanzoue.com/b01d70j0if" target="_blank" class="resource-item">
-                <i class="fas fa-download"></i> <span data-i18n="res_plugin">浏览器插件</span>
-                <span class="sub" data-i18n="res_plugin_sub">提取码 6666</span>
-            </a>
-            <a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" class="resource-item">
-                <i class="fas fa-book"></i> <span data-i18n="res_tutorial">教程文档</span>
-                <span class="sub" data-i18n="res_tutorial_sub">PC修复/浏览器加载</span>
-            </a>
-            <a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" class="resource-item">
-                <i class="fas fa-clipboard-list"></i> <span data-i18n="res_survey">问卷教程</span>
-                <span class="sub" data-i18n="res_survey_sub">做问卷详细指导</span>
-            </a>
-            <a href="mailto:admin@moonbazaar.de5.net" class="resource-item">
-                <i class="fas fa-paper-plane"></i> <span data-i18n="res_contact">联系站长</span>
-                <span class="sub" data-i18n="res_contact_sub">admin@moonbazaar.de5.net</span>
-            </a>
+            <a href="https://docs.qq.com/doc/DRnFQTW13S25OS0tO" target="_blank" class="resource-item"><i class="fas fa-envelope"></i> <span data-i18n="res_email">邮件模板收录</span><span class="sub" data-i18n="res_email_sub">常见邮件模板</span></a>
+            <a href="https://docs.qq.com/doc/DRkdjcmJIVk1UUFZh" target="_blank" class="resource-item"><i class="fas fa-question-circle"></i> <span data-i18n="res_faq_zh">FAQ 中文</span><span class="sub" data-i18n="res_faq_zh_sub">常见问题汇总</span></a>
+            <a href="https://docs.qq.com/doc/DRmxyVWxHZ0hyb2hy" target="_blank" class="resource-item"><i class="fas fa-question-circle"></i> <span data-i18n="res_faq_en">FAQ English</span><span class="sub" data-i18n="res_faq_en_sub">Frequently Asked Questions</span></a>
+            <a href="https://wwbma.lanzoue.com/b01d70j0if" target="_blank" class="resource-item"><i class="fas fa-download"></i> <span data-i18n="res_plugin">浏览器插件</span><span class="sub" data-i18n="res_plugin_sub">提取码 6666</span></a>
+            <a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" class="resource-item"><i class="fas fa-book"></i> <span data-i18n="res_tutorial">教程文档</span><span class="sub" data-i18n="res_tutorial_sub">PC修复/浏览器加载</span></a>
+            <a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" class="resource-item"><i class="fas fa-clipboard-list"></i> <span data-i18n="res_survey">问卷教程</span><span class="sub" data-i18n="res_survey_sub">做问卷详细指导</span></a>
+            <a href="mailto:admin@moonbazaar.de5.net" class="resource-item"><i class="fas fa-paper-plane"></i> <span data-i18n="res_contact">联系站长</span><span class="sub" data-i18n="res_contact_sub">admin@moonbazaar.de5.net</span></a>
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
     <section class="card">
         <h2 class="card-title"><i class="fas fa-play-circle" style="color:var(--accent-blue);"></i> <span data-i18n="steps_title">三步上手</span></h2>
         <div style="display:flex; flex-wrap:wrap; gap:1.5rem; justify-content:space-between;">
             <div style="flex:1; min-width:150px; background:var(--card-bg); border:2px solid var(--border-color); padding:1.5rem; text-align:center; box-shadow:3px 3px 0 var(--shadow-color);">
-                <span style="display:block; font-family:'Orbitron'; font-size:2.5rem; color:var(--accent-blue);">1</span>
-                <h3 style="color:var(--text-primary);" data-i18n="step1_title">注册</h3>
-                <p data-i18n="step1_desc">用邮箱免费创建账户，无需钱包。</p>
+                <span style="display:block; font-family:'Orbitron'; font-size:2.5rem; color:var(--accent-blue);">1</span><h3 style="color:var(--text-primary);" data-i18n="step1_title">注册</h3><p data-i18n="step1_desc">用邮箱免费创建账户，无需钱包。</p>
             </div>
             <div style="flex:1; min-width:150px; background:var(--card-bg); border:2px solid var(--border-color); padding:1.5rem; text-align:center; box-shadow:3px 3px 0 var(--shadow-color);">
-                <span style="display:block; font-family:'Orbitron'; font-size:2.5rem; color:var(--accent-blue);">2</span>
-                <h3 style="color:var(--text-primary);" data-i18n="step2_title">做任务</h3>
-                <p data-i18n="step2_desc">在任务墙选择问卷或试玩，完成后积分自动到账。</p>
+                <span style="display:block; font-family:'Orbitron'; font-size:2.5rem; color:var(--accent-blue);">2</span><h3 style="color:var(--text-primary);" data-i18n="step2_title">做任务</h3><p data-i18n="step2_desc">在任务墙选择问卷或试玩，完成后积分自动到账。</p>
             </div>
             <div style="flex:1; min-width:150px; background:var(--card-bg); border:2px solid var(--border-color); padding:1.5rem; text-align:center; box-shadow:3px 3px 0 var(--shadow-color);">
-                <span style="display:block; font-family:'Orbitron'; font-size:2.5rem; color:var(--accent-blue);">3</span>
-                <h3 style="color:var(--text-primary);" data-i18n="step3_title">兑换</h3>
-                <p data-i18n="step3_desc">在提现页面选择心仪的商品，消耗积分即可。</p>
+                <span style="display:block; font-family:'Orbitron'; font-size:2.5rem; color:var(--accent-blue);">3</span><h3 style="color:var(--text-primary);" data-i18n="step3_title">兑换</h3><p data-i18n="step3_desc">在提现页面选择心仪的商品，消耗积分即可。</p>
             </div>
         </div>
-        <div style="text-align:center; margin-top:1.8rem;">
-            <a href="https://mnb.ee?ar=71941" class="btn-demo" target="_blank"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_start">开始赚取 Gascoin</span></a>
-        </div>
+        <div style="text-align:center; margin-top:1.8rem;"><a href="https://mnb.ee?ar=71941" class="btn-demo" target="_blank"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_start">开始赚取 Gascoin</span></a></div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p><i class="fas fa-moon"></i> MoonBazaar · <span data-i18n="footer_slogan">硬核任务平台</span></p>
-        <p style="font-size:0.9rem; color:var(--text-secondary);">
-            <span data-i18n="footer_note">本页面为介绍性演示，排行榜数据来自 MoonBazaar 官网。访问 <strong>moonbazaar.xyz</strong> 体验完整功能。</span>
-        </p>
-        <p style="margin-top:0.5rem;">
-            <i class="fas fa-envelope"></i>
-            <a href="mailto:admin@moonbazaar.de5.net" style="color:var(--accent-blue); font-weight:700; text-decoration:none;">admin@moonbazaar.de5.net</a>
-        </p>
+        <p style="font-size:0.9rem;" data-i18n="footer_note">本页面数据来自 MoonBazaar 官网，每 6 小时自动更新。访问 <strong>moonbazaar.xyz</strong> 体验完整功能。</p>
+        <p style="margin-top:0.5rem;"><i class="fas fa-envelope"></i> <a href="mailto:admin@moonbazaar.de5.net" style="color:var(--accent-blue); font-weight:700; text-decoration:none;">admin@moonbazaar.de5.net</a></p>
     </footer>
 </div>
 
 <script>
-    // ============================================================
-    // 排行榜真实数据
-    // ============================================================
-    const LEADERBOARD_DATA = {
-        weekly: [
-            {"rank":"🥇","user":"GRIMGIN","amount":2088.25},
-            {"rank":"🥈","user":"auroray9225","amount":1782.7},
-            {"rank":"🥉","user":"2126625309","amount":1127.05},
-            {"rank":"#4","user":"46550177","amount":860.63},
-            {"rank":"#5","user":"XHYL","amount":781.0},
-            {"rank":"#6","user":"qwertyuiop_8446","amount":759.6},
-            {"rank":"#7","user":"3830859997","amount":755.75},
-            {"rank":"#8","user":"MineAI","amount":720.2},
-            {"rank":"#9","user":"tgedujb","amount":700.9},
-            {"rank":"#10","user":"imle24134","amount":653.0}
-        ],
-        total: [
-            {"rank":"#1","user":"jiajunba","amount":44476.26},
-            {"rank":"#2","user":"jiajunda","amount":33155.49},
-            {"rank":"#3","user":"hrx","amount":31956.63},
-            {"rank":"#4","user":"aya114514","amount":25848.31},
-            {"rank":"#5","user":"Qwercvh49","amount":24770.95},
-            {"rank":"#6","user":"chengfayunsuan","amount":20898.31},
-            {"rank":"#7","user":"qwer123","amount":18154.28},
-            {"rank":"#8","user":"auroray9225","amount":17753.02},
-            {"rank":"#9","user":"tgedujb","amount":15999.95},
-            {"rank":"#10","user":"Sod777","amount":13357.57},
-            {"rank":"#11","user":"46550177","amount":12862.86},
-            {"rank":"#12","user":"Eromours","amount":12505.78},
-            {"rank":"#13","user":"zhangyuzan1435","amount":12455.42},
-            {"rank":"#14","user":"Qwevcb6","amount":11983.15},
-            {"rank":"#15","user":"scorchingyang","amount":11612.0},
-            {"rank":"#16","user":"knei","amount":10271.32},
-            {"rank":"#17","user":"Rushime","amount":9851.23},
-            {"rank":"#18","user":"witzzz523","amount":8702.47},
-            {"rank":"#19","user":"Moon3558","amount":8655.94},
-            {"rank":"#20","user":"terry_xzys","amount":8515.54},
-            {"rank":"#21","user":"1145149178","amount":8100.42},
-            {"rank":"#22","user":"aqsbhgf","amount":8076.45},
-            {"rank":"#23","user":"GRIMGIN","amount":8068.25},
-            {"rank":"#24","user":"zzz111_2518","amount":8053.1},
-            {"rank":"#25","user":"tinythreebody","amount":7624.51},
-            {"rank":"#26","user":"Liu666666","amount":7607.74},
-            {"rank":"#27","user":"123172983","amount":7577.05},
-            {"rank":"#28","user":"DJSRYHM","amount":7331.07},
-            {"rank":"#29","user":"XHYL","amount":7310.35},
-            {"rank":"#30","user":"myf2003","amount":7310.3},
-            {"rank":"#31","user":"世尘","amount":6914.23},
-            {"rank":"#32","user":"330","amount":6491.45},
-            {"rank":"#33","user":"qazplm629","amount":6413.8},
-            {"rank":"#34","user":"Minemumu","amount":6374.67},
-            {"rank":"#35","user":"Zhongqian222","amount":6163.72},
-            {"rank":"#36","user":"[email protected]","amount":6097.01},
-            {"rank":"#37","user":"woshigedasabi2","amount":6032.69},
-            {"rank":"#38","user":"zy","amount":5977.0},
-            {"rank":"#39","user":"China_4090Ti","amount":5499.92},
-            {"rank":"#40","user":"ASF182","amount":5440.7},
-            {"rank":"#41","user":"KJU101","amount":5410.0},
-            {"rank":"#42","user":"LanYue08","amount":5363.35},
-            {"rank":"#43","user":"uryady","amount":5308.89},
-            {"rank":"#44","user":"maz","amount":5232.65},
-            {"rank":"#45","user":"Clarity","amount":5153.31},
-            {"rank":"#46","user":"Chenry","amount":4936.69},
-            {"rank":"#47","user":"BEAN","amount":4918.55},
-            {"rank":"#48","user":"cf","amount":4910.74},
-            {"rank":"#49","user":"PilarSet2556565","amount":4861.0},
-            {"rank":"#50","user":"Vincent999","amount":4777.28},
-            {"rank":"#51","user":"wts666","amount":4752.86},
-            {"rank":"#52","user":"qquser","amount":4652.01},
-            {"rank":"#53","user":"llnb88889","amount":4561.5},
-            {"rank":"#54","user":"Michael_","amount":4555.47},
-            {"rank":"#55","user":"24519916690","amount":4544.29},
-            {"rank":"#56","user":"awa6666","amount":4523.26},
-            {"rank":"#57","user":"moon123","amount":4482.03},
-            {"rank":"#58","user":"jeiduebwk","amount":4482.0},
-            {"rank":"#59","user":"NeuroXw","amount":4464.12},
-            {"rank":"#60","user":"天禄爱吃金","amount":4313.27},
-            {"rank":"#61","user":"Miky","amount":4292.71},
-            {"rank":"#62","user":"yueming","amount":4264.74},
-            {"rank":"#63","user":"caoanyiming","amount":4264.3},
-            {"rank":"#64","user":"weibingyu","amount":4256.11},
-            {"rank":"#65","user":"MC_MuZiyi","amount":4243.88},
-            {"rank":"#66","user":"lcw85","amount":4239.55},
-            {"rank":"#67","user":"Sacura","amount":4080.84},
-            {"rank":"#68","user":"CAIMAO2114_Registered","amount":3928.0},
-            {"rank":"#69","user":"edenhall","amount":3898.9},
-            {"rank":"#70","user":"1073496180","amount":3846.01},
-            {"rank":"#71","user":"htz","amount":3828.74},
-            {"rank":"#72","user":"tctctc","amount":3758.85},
-            {"rank":"#73","user":"dubao45hao2","amount":3678.29},
-            {"rank":"#74","user":"zsy111","amount":3662.39},
-            {"rank":"#75","user":"Desioder","amount":3661.9},
-            {"rank":"#76","user":"dangzimaomc","amount":3653.89},
-            {"rank":"#77","user":"NekoFuish","amount":3653.13},
-            {"rank":"#78","user":"GW","amount":3604.55},
-            {"rank":"#79","user":"[email protected]","amount":3536.38},
-            {"rank":"#80","user":"I_am_man","amount":3520.69},
-            {"rank":"#81","user":"sushi","amount":3475.0},
-            {"rank":"#82","user":"无不滑稽","amount":3423.4},
-            {"rank":"#83","user":"Wangxiansen2","amount":3410.49},
-            {"rank":"#84","user":"Mingming","amount":3402.35},
-            {"rank":"#85","user":"lindedaoqwq","amount":3389.96},
-            {"rank":"#86","user":"Philip0098","amount":3381.72},
-            {"rank":"#87","user":"Huxiao2026","amount":3321.0},
-            {"rank":"#88","user":"jojo_hjq","amount":3316.47},
-            {"rank":"#89","user":"openclaw","amount":3294.56},
-            {"rank":"#90","user":"ldwxnl","amount":3202.61},
-            {"rank":"#91","user":"Gong2025","amount":3193.5},
-            {"rank":"#92","user":"SWORDCREEPER","amount":3166.46},
-            {"rank":"#93","user":"isisms","amount":3163.0},
-            {"rank":"#94","user":"xiaoxigege277","amount":3145.4},
-            {"rank":"#95","user":"asp213141516","amount":3133.4},
-            {"rank":"#96","user":"dahan","amount":3130.0},
-            {"rank":"#97","user":"668826285","amount":3120.4},
-            {"rank":"#98","user":"braveCreeper","amount":3105.0},
-            {"rank":"#99","user":"emayfly","amount":2990.57},
-            {"rank":"#100","user":"ZhiMax","amount":2983.25}
-        ],
-        single: [
-            {"rank":"#1","user":"jiajunda","amount":3675.0,"provider":"Lootably","finish_time":"2026-07-06 14:15"},
-            {"rank":"#2","user":"LanYue08","amount":2278.0,"provider":"Prime Survey","finish_time":"2026-06-15 20:54"},
-            {"rank":"#3","user":"foohujia","amount":1344.0,"provider":"ToroX","finish_time":"2026-04-19 14:21"},
-            {"rank":"#4","user":"DFUP","amount":630.0,"provider":"MarketXcel","finish_time":"2026-08-16 18:55"},
-            {"rank":"#5","user":"GRIMGIN","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-30 16:08"},
-            {"rank":"#6","user":"witzzz523","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 00:00"},
-            {"rank":"#7","user":"330","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 08:46"},
-            {"rank":"#8","user":"mei","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-24 22:01"},
-            {"rank":"#9","user":"hyhnb","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 07:58"},
-            {"rank":"#10","user":"maz","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 09:15"},
-            {"rank":"#11","user":"qwer123","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 00:00"},
-            {"rank":"#12","user":"auroray9225","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 08:21"},
-            {"rank":"#13","user":"wlyxk","amount":612.5,"provider":"ZlexQ","finish_time":"2026-09-05 00:07"},
-            {"rank":"#14","user":"Ciallo_","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 08:21"},
-            {"rank":"#15","user":"DJSRYHM","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 00:00"},
-            {"rank":"#16","user":"QIANSU","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-21 14:46"},
-            {"rank":"#17","user":"chengfayunsuan","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 00:00"},
-            {"rank":"#18","user":"1145149178","amount":612.5,"provider":"ZlexQ","finish_time":"2026-09-05 00:01"},
-            {"rank":"#19","user":"486","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-25 00:26"},
-            {"rank":"#20","user":"imle24134","amount":612.5,"provider":"ZlexQ","finish_time":"2026-09-05 03:17"},
-            {"rank":"#21","user":"46550177","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-31 08:22"},
-            {"rank":"#22","user":"wdfk9178","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-28 14:21"},
-            {"rank":"#23","user":"aya114514","amount":612.5,"provider":"ZlexQ","finish_time":"2026-09-05 00:00"},
-            {"rank":"#24","user":"bzwdh","amount":612.5,"provider":"ZlexQ","finish_time":"2026-08-24 20:03"},
-            {"rank":"#25","user":"iop012","amount":560.0,"provider":"TheoremReach","finish_time":"2026-07-13 15:08"},
-            {"rank":"#26","user":"zhuang","amount":560.0,"provider":"ZlexQ","finish_time":"2026-08-19 01:44"},
-            {"rank":"#27","user":"jdhfhswh","amount":560.0,"provider":"TheoremReach","finish_time":"2026-07-13 12:50"},
-            {"rank":"#28","user":"XAslow","amount":560.0,"provider":"ZlexQ","finish_time":"2026-08-19 02:15"},
-            {"rank":"#29","user":"dgxhwbbdxh","amount":542.5,"provider":"TheoremReach","finish_time":"2026-07-13 05:48"},
-            {"rank":"#30","user":"[email protected]","amount":507.5,"provider":"TheoremReach","finish_time":"2026-07-13 08:29"},
-            {"rank":"#31","user":"ton","amount":504.0,"provider":"Prime Survey","finish_time":"2026-01-23 13:07"},
-            {"rank":"#32","user":"Jacksonlll","amount":490.0,"provider":"ZlexQ","finish_time":"2026-08-14 12:39"},
-            {"rank":"#33","user":"chabai","amount":490.0,"provider":"ZlexQ","finish_time":"2026-08-14 02:10"},
-            {"rank":"#34","user":"yourqing","amount":472.5,"provider":"TheoremReach","finish_time":"2026-07-13 03:54"},
-            {"rank":"#35","user":"[email protected]","amount":455.0,"provider":"TheoremReach","finish_time":"2026-08-02 05:44"},
-            {"rank":"#36","user":"project37","amount":430.5,"provider":"TheoremReach","finish_time":"2025-12-11 11:31"},
-            {"rank":"#37","user":"FangShwen","amount":427.0,"provider":"MarketXcel","finish_time":"2026-07-20 23:59"},
-            {"rank":"#38","user":"[email protected]","amount":420.0,"provider":"MarketXcel","finish_time":"2026-07-25 10:50"},
-            {"rank":"#39","user":"wts666","amount":392.0,"provider":"Bitlabs","finish_time":"2026-07-25 05:57"},
-            {"rank":"#40","user":"jiajunba","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-13 17:06"},
-            {"rank":"#41","user":"jntmjntm31","amount":392.0,"provider":"Bitlabs","finish_time":"2025-08-27 04:46"},
-            {"rank":"#42","user":"TuStartes","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-22 01:06"},
-            {"rank":"#43","user":"212","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-24 07:00"},
-            {"rank":"#44","user":"chengfayunsuan1","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-23 06:48"},
-            {"rank":"#45","user":"hdhhdhdnd","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-14 00:43"},
-            {"rank":"#46","user":"CN_6784","amount":392.0,"provider":"Bitlabs","finish_time":"2025-08-18 23:40"},
-            {"rank":"#47","user":"zy","amount":392.0,"provider":"Bitlabs","finish_time":"2026-04-09 23:07"},
-            {"rank":"#48","user":"[email protected]","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-24 08:13"},
-            {"rank":"#49","user":"2302188","amount":392.0,"provider":"MarketXcel","finish_time":"2026-08-24 06:11"},
-            {"rank":"#50","user":"maom2","amount":385.0,"provider":"ZlexQ","finish_time":"2026-08-20 11:07"},
-            {"rank":"#51","user":"svip_1314188","amount":355.6,"provider":"Bitlabs","finish_time":"2025-09-21 09:38"},
-            {"rank":"#52","user":"bajfqi4512545","amount":352.0,"provider":"Bitlabs","finish_time":"2025-08-19 03:37"},
-            {"rank":"#53","user":"SWORDCREEPER","amount":350.0,"provider":"CPX Research","finish_time":"2026-04-15 14:55"},
-            {"rank":"#54","user":"67_2537","amount":350.0,"provider":"ZlexQ","finish_time":"2026-08-14 01:38"},
-            {"rank":"#55","user":"无敌棍母666","amount":350.0,"provider":"CPX Research","finish_time":"2026-06-17 16:21"},
-            {"rank":"#56","user":"Txds","amount":350.0,"provider":"MarketXcel","finish_time":"2026-07-18 04:03"},
-            {"rank":"#57","user":"lingshuo","amount":350.0,"provider":"CPX Research","finish_time":"2026-03-28 01:37"},
-            {"rank":"#58","user":"terry_xzys","amount":350.0,"provider":"ZlexQ","finish_time":"2026-08-13 03:29"},
-            {"rank":"#59","user":"Philip0098","amount":350.0,"provider":"CPX Research","finish_time":"2026-06-06 10:43"},
-            {"rank":"#60","user":"GvEst","amount":350.0,"provider":"CPX Research","finish_time":"2026-03-28 03:52"},
-            {"rank":"#61","user":"qlQAQ","amount":350.0,"provider":"ZlexQ","finish_time":"2026-08-18 02:42"},
-            {"rank":"#62","user":"RedenGarden","amount":350.0,"provider":"CPX Research","finish_time":"2026-04-25 04:56"},
-            {"rank":"#63","user":"ytgvfg","amount":350.0,"provider":"CPX Research","finish_time":"2026-02-22 06:13"},
-            {"rank":"#64","user":"Yang_Haoyu1","amount":350.0,"provider":"CPX Research","finish_time":"2026-05-05 04:12"},
-            {"rank":"#65","user":"hemintao2","amount":350.0,"provider":"ZlexQ","finish_time":"2026-08-13 06:07"},
-            {"rank":"#66","user":"jeiduebwk","amount":344.4,"provider":"TheoremReach","finish_time":"2025-12-07 11:49"},
-            {"rank":"#67","user":"_HUH_","amount":339.5,"provider":"CPX Research","finish_time":"2026-07-14 06:01"},
-            {"rank":"#68","user":"tgedujb","amount":339.5,"provider":"CPX Research","finish_time":"2026-08-07 05:00"},
-            {"rank":"#69","user":"Gjh_9258","amount":339.5,"provider":"CPX Research","finish_time":"2026-07-01 02:17"},
-            {"rank":"#70","user":"Windowsyjy","amount":339.5,"provider":"CPX Research","finish_time":"2026-08-19 09:00"},
-            {"rank":"#71","user":"2464tfgg","amount":339.5,"provider":"CPX Research","finish_time":"2026-08-14 12:21"},
-            {"rank":"#72","user":"Youyu559","amount":339.5,"provider":"CPX Research","finish_time":"2026-06-27 07:35"},
-            {"rank":"#73","user":"lem43","amount":339.5,"provider":"CPX Research","finish_time":"2026-08-28 18:38"},
-            {"rank":"#74","user":"NeuroXw","amount":339.5,"provider":"CPX Research","finish_time":"2026-08-06 14:32"},
-            {"rank":"#75","user":"emayfly","amount":339.5,"provider":"CPX Research","finish_time":"2026-07-20 00:59"},
-            {"rank":"#76","user":"liangzaiawa","amount":339.0,"provider":"Prime Survey","finish_time":"2026-01-22 15:08"},
-            {"rank":"#77","user":"yizhixiaoxy","amount":336.0,"provider":"Prime Survey","finish_time":"2025-12-24 12:50"},
-            {"rank":"#78","user":"jacksybornd","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-04 05:51"},
-            {"rank":"#79","user":"XCSStudio","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-03 04:58"},
-            {"rank":"#80","user":"ASF182","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-13 16:36"},
-            {"rank":"#81","user":"Eromours","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-24 04:57"},
-            {"rank":"#82","user":"54QVQ","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-17 05:09"},
-            {"rank":"#83","user":"CCEN_Studios","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-01 07:48"},
-            {"rank":"#84","user":"风饥高","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-27 12:56"},
-            {"rank":"#85","user":"qazplm629","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-13 16:42"},
-            {"rank":"#86","user":"[email protected]","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-04 00:08"},
-            {"rank":"#87","user":"[email protected]","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-06 01:59"},
-            {"rank":"#88","user":"hujunzhe","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-24 03:17"},
-            {"rank":"#89","user":"xiaophuang","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-11 08:46"},
-            {"rank":"#90","user":"sssr","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-28 05:37"},
-            {"rank":"#91","user":"dbnfegrr","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-24 00:50"},
-            {"rank":"#92","user":"AllenopMc","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-15 22:56"},
-            {"rank":"#93","user":"[email protected]","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-23 05:42"},
-            {"rank":"#94","user":"dubao45hao2","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-30 15:05"},
-            {"rank":"#95","user":"zilongya","amount":336.0,"provider":"Prime Survey","finish_time":"2026-02-09 20:53"},
-            {"rank":"#96","user":"PilarSet2556565","amount":336.0,"provider":"Prime Survey","finish_time":"2026-01-08 13:12"},
-            {"rank":"#97","user":"Moon3558","amount":336.0,"provider":"Prime Survey","finish_time":"2025-12-28 13:18"},
-            {"rank":"#98","user":"qf123mc","amount":336.0,"provider":"Prime Survey","finish_time":"2025-12-30 05:50"},
-            {"rank":"#99","user":"02151","amount":335.3,"provider":"CPX Research","finish_time":"2026-08-12 09:15"},
-            {"rank":"#100","user":"KJU101","amount":332.5,"provider":"CPX Research","finish_time":"2026-05-29 10:22"}
-        ],
-        updatedAt: "2026-09-12T15:40:39"
-    };
-
-    // ============================================================
-    // 渲染排行榜
-    // ============================================================
-    function renderLeaderboards() {
-        const data = LEADERBOARD_DATA;
-
-        const weeklyBody = document.getElementById('weekly-body');
-        weeklyBody.innerHTML = data.weekly.map(item => `
-            <tr>
-                <td>${item.rank}</td>
-                <td>${item.user}</td>
-                <td>${item.amount.toLocaleString()}</td>
-            </tr>
-        `).join('');
-
-        const totalBody = document.getElementById('total-body');
-        totalBody.innerHTML = data.total.map(item => `
-            <tr>
-                <td>${item.rank}</td>
-                <td>${item.user}</td>
-                <td>${item.amount.toLocaleString()}</td>
-            </tr>
-        `).join('');
-
-        const singleBody = document.getElementById('single-body');
-        singleBody.innerHTML = data.single.map(item => `
-            <tr>
-                <td>${item.rank}</td>
-                <td>${item.user}</td>
-                <td>${item.amount.toLocaleString()}</td>
-                <td>${item.provider || ''}</td>
-                <td>${item.finish_time || ''}</td>
-            </tr>
-        `).join('');
-
-        const updateTime = new Date(data.updatedAt);
-        document.getElementById('update-time-display').textContent = updateTime.toLocaleString('zh-CN', { hour12: false });
-    }
-
-    // ============================================================
-    // 多语言数据
-    // ============================================================
+    // ===== 翻译与初始化逻辑 =====
     const translations = {
-        zh: {
-            tagline: '任务 · 积分 · 兑换',
-            nav_email: '📧 邮件模板',
-            nav_faq_zh: '❓ FAQ 中文',
-            nav_faq_en: '❓ FAQ English',
-            nav_plugin: '🔧 浏览器插件',
-            nav_tutorial: '📖 教程',
-            nav_survey: '📝 问卷教程',
-            nav_contact: '📮 联系站长',
-            typing_zh: '欢迎来到 MoonBazaar',
-            intro_text: 'MoonBazaar 是一个<strong>积分任务平台</strong>，您可以通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，并用积分兑换 <strong>礼品卡、游戏内物品、Steam 余额、现金</strong> 等丰富奖励。平台采用硬核的 Neo-Brutalism 设计，风格鲜明，操作透明。',
-            stat_users: '<i class="fas fa-users"></i> 注册用户',
-            stat_gc: '<i class="fas fa-coins"></i> 已发放 GC',
-            stat_rewards: '<i class="fas fa-gift"></i> 已兑换奖品',
-            badge_weekly: '<i class="fas fa-trophy"></i> 周榜奖励 200 GC',
-            badge_refer: '<i class="fas fa-star"></i> 推荐返利 5%',
-            features_title: '<i class="fas fa-cogs" style="color:var(--gold);"></i> 核心机制',
-            f1_title: '任务墙',
-            f1_desc: '聚合多个任务提供商（CPX、TheoremReach、BitLabs 等），点击即做，积分自动到账。',
-            f2_title: '运气游戏',
-            f2_desc: '多人幸运房间（满员开奖）和单人命运转盘，高风险高回报，刺激有趣。',
-            f3_title: '排行榜',
-            f3_desc: '周榜、累计榜、单次高额榜，每周前10名额外奖励 Gascoin，竞争激烈。',
-            f4_title: '推荐好友',
-            f4_desc: '分享邀请链接，好友赚积分您得 5% 佣金，里程碑再送 100 GC。',
-            f5_title: '活动中心',
-            f5_desc: '限时活动（如周年庆），报名后完成任务可参与抽奖，赢取正版游戏、京东E卡等。',
-            f6_title: '交易历史',
-            f6_desc: '清晰记录每笔积分变动，提现记录可追溯，透明可信。',
-            exchange_title: '<i class="fas fa-exchange-alt" style="color:var(--green);"></i> 提现兑换品类',
-            exchange_game: '🎮 游戏 & 娱乐',
-            ex_item1: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft 正版激活码 / 披风 / 加速IP',
-            ex_item2: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Steam 余额（国区/全球）及游戏购物车',
-            ex_item3: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox 礼品卡（多地区）',
-            ex_item4: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate',
-            ex_item5: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro',
-            exchange_life: '💳 生活 & 现金',
-            ex_item6: '<i class="fas fa-check-circle" style="color:var(--green);"></i> 京东E卡（50/100/200元）',
-            ex_item7: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bilibili 大会员 / 超级大会员',
-            ex_item8: '<i class="fas fa-check-circle" style="color:var(--green);"></i> QQ音乐 / 网易云 / 酷狗 会员',
-            ex_item9: '<i class="fas fa-check-circle" style="color:var(--green);"></i> PayPal / Zelle / Interac / FPS 现金',
-            ex_item10: '<i class="fas fa-check-circle" style="color:var(--green);"></i> 比特币（BTC）',
-            exchange_custom: '<i class="fas fa-lightbulb"></i> 支持“我想要其他东西” — 联系客服，可用积分兑换硬件、零食、周边等实物。',
-            rank_title: '实时排行榜',
-            live_label: '实时',
-            rank_weekly: '🏆 周榜',
-            rank_total: '📊 累计榜',
-            rank_single: '🎯 单次高额',
-            th_rank: '排名',
-            th_user: '用户',
-            th_weekly: '周赚取 (GC)',
-            th_total: '累计 (GC)',
-            th_single: '单次 (GC)',
-            th_source: '任务商',
-            th_time: '完成时间',
-            update_label: '数据更新时间',
-            feedback_title: '建议反馈',
-            feedback_desc: '有建议或问题？欢迎发送邮件至 <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>',
-            resources_title: '帮助与资源',
-            res_email: '邮件模板收录',
-            res_email_sub: '常见邮件模板',
-            res_faq_zh: 'FAQ 中文',
-            res_faq_zh_sub: '常见问题汇总',
-            res_faq_en: 'FAQ English',
-            res_faq_en_sub: 'Frequently Asked Questions',
-            res_plugin: '浏览器插件',
-            res_plugin_sub: '提取码 6666',
-            res_tutorial: '教程文档',
-            res_tutorial_sub: 'PC修复/浏览器加载',
-            res_survey: '问卷教程',
-            res_survey_sub: '做问卷详细指导',
-            res_contact: '联系站长',
-            res_contact_sub: 'admin@moonbazaar.de5.net',
-            steps_title: '三步上手',
-            step1_title: '注册',
-            step1_desc: '用邮箱免费创建账户，无需钱包。',
-            step2_title: '做任务',
-            step2_desc: '在任务墙选择问卷或试玩，完成后积分自动到账。',
-            step3_title: '兑换',
-            step3_desc: '在提现页面选择心仪的商品，消耗积分即可。',
-            btn_start: '开始赚取 Gascoin',
-            footer_slogan: '硬核任务平台',
-            footer_note: '本页面为介绍性演示，排行榜数据来自 MoonBazaar 官网。访问 <strong>moonbazaar.xyz</strong> 体验完整功能。'
-        },
-        en: {
-            tagline: 'Tasks · Points · Redeem',
-            nav_email: '📧 Email Templates',
-            nav_faq_zh: '❓ FAQ Chinese',
-            nav_faq_en: '❓ FAQ English',
-            nav_plugin: '🔧 Browser Plugin',
-            nav_tutorial: '📖 Tutorial',
-            nav_survey: '📝 Survey Guide',
-            nav_contact: '📮 Contact Admin',
-            typing_zh: 'Welcome to MoonBazaar',
-            intro_text: 'MoonBazaar is a <strong>reward task platform</strong>. You can earn <strong>Gascoin</strong> by completing surveys and app trials, then redeem them for <strong>gift cards, in-game items, Steam balance, cash</strong> and more. The platform features a hardcore Neo-Brutalism design, clear and transparent.',
-            stat_users: '<i class="fas fa-users"></i> Registered Users',
-            stat_gc: '<i class="fas fa-coins"></i> GC Distributed',
-            stat_rewards: '<i class="fas fa-gift"></i> Rewards Redeemed',
-            badge_weekly: '<i class="fas fa-trophy"></i> Weekly Prize 200 GC',
-            badge_refer: '<i class="fas fa-star"></i> Referral Bonus 5%',
-            features_title: '<i class="fas fa-cogs" style="color:var(--gold);"></i> Core Features',
-            f1_title: 'Task Wall',
-            f1_desc: 'Aggregates multiple providers (CPX, TheoremReach, BitLabs, etc.). Click and earn, points credited automatically.',
-            f2_title: 'Luck Games',
-            f2_desc: 'Multiplayer lucky rooms (draw when full) and single-player spin wheel – high risk, high reward, exciting.',
-            f3_title: 'Leaderboards',
-            f3_desc: 'Weekly, All-time, and Single-high-score boards. Top 10 get extra GC every week.',
-            f4_title: 'Referral',
-            f4_desc: 'Share your invite link. Earn 5% commission from your referrals\' earnings, plus 100 GC milestone bonus.',
-            f5_title: 'Event Center',
-            f5_desc: 'Time-limited events (e.g., anniversary). Sign up and complete tasks to join lucky draws for games and gift cards.',
-            f6_title: 'Transaction History',
-            f6_desc: 'Track every point change and withdrawal record – transparent and reliable.',
-            exchange_title: '<i class="fas fa-exchange-alt" style="color:var(--green);"></i> Redeemable Items',
-            exchange_game: '🎮 Games & Entertainment',
-            ex_item1: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft Java/Bedrock codes / Capes / Proxy IP',
-            ex_item2: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Steam Wallet (CN/Global) & Game Cart',
-            ex_item3: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox Gift Cards (multi-region)',
-            ex_item4: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate',
-            ex_item5: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro',
-            exchange_life: '💳 Lifestyle & Cash',
-            ex_item6: '<i class="fas fa-check-circle" style="color:var(--green);"></i> JD Card (¥50/100/200)',
-            ex_item7: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bilibili Premium / Super Premium',
-            ex_item8: '<i class="fas fa-check-circle" style="color:var(--green);"></i> QQ Music / NetEase Cloud / Kugou VIP',
-            ex_item9: '<i class="fas fa-check-circle" style="color:var(--green);"></i> PayPal / Zelle / Interac / FPS Cash',
-            ex_item10: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bitcoin (BTC)',
-            exchange_custom: '<i class="fas fa-lightbulb"></i> "I want something else" – contact support to redeem hardware, snacks, merch, etc.',
-            rank_title: 'Live Leaderboard',
-            live_label: 'Live',
-            rank_weekly: '🏆 Weekly',
-            rank_total: '📊 All-Time',
-            rank_single: '🎯 Single High',
-            th_rank: 'Rank',
-            th_user: 'User',
-            th_weekly: 'Weekly (GC)',
-            th_total: 'Total (GC)',
-            th_single: 'Single (GC)',
-            th_source: 'Provider',
-            th_time: 'Finish Time',
-            update_label: 'Updated at',
-            feedback_title: 'Feedback',
-            feedback_desc: 'Have suggestions or questions? Email us at <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>',
-            resources_title: 'Help & Resources',
-            res_email: 'Email Templates',
-            res_email_sub: 'Common email templates',
-            res_faq_zh: 'FAQ Chinese',
-            res_faq_zh_sub: 'Frequently Asked Questions (CN)',
-            res_faq_en: 'FAQ English',
-            res_faq_en_sub: 'Frequently Asked Questions (EN)',
-            res_plugin: 'Browser Plugin',
-            res_plugin_sub: 'Extraction code 6666',
-            res_tutorial: 'Tutorial',
-            res_tutorial_sub: 'PC fix / browser load',
-            res_survey: 'Survey Guide',
-            res_survey_sub: 'Detailed survey guide',
-            res_contact: 'Contact Admin',
-            res_contact_sub: 'admin@moonbazaar.de5.net',
-            steps_title: 'Get Started in 3 Steps',
-            step1_title: 'Sign Up',
-            step1_desc: 'Create a free account with email – no wallet needed.',
-            step2_title: 'Do Tasks',
-            step2_desc: 'Pick surveys or app trials from the Task Wall, points credited automatically.',
-            step3_title: 'Redeem',
-            step3_desc: 'Choose your desired item in the Withdraw page and spend your points.',
-            btn_start: 'Start Earning Gascoin',
-            footer_slogan: 'Hardcore Reward Platform',
-            footer_note: 'This page is a demo. Leaderboard data comes from MoonBazaar official site. Visit <strong>moonbazaar.xyz</strong> for the full experience.'
-        }
+        zh: { tagline: '任务 · 积分 · 兑换', nav_email: '📧 邮件模板', nav_faq_zh: '❓ FAQ 中文', nav_faq_en: '❓ FAQ English', nav_plugin: '🔧 浏览器插件', nav_tutorial: '📖 教程', nav_survey: '📝 问卷教程', nav_contact: '📮 联系站长', typing_zh: '欢迎来到 MoonBazaar', intro_text: 'MoonBazaar 是一个<strong>积分任务平台</strong>，您可以通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，并用积分兑换 <strong>礼品卡、游戏内物品、Steam 余额、现金</strong> 等丰富奖励。', stat_users: '<i class="fas fa-users"></i> 注册用户', stat_gc: '<i class="fas fa-coins"></i> 已发放 GC', stat_rewards: '<i class="fas fa-gift"></i> 已兑换奖品', badge_weekly: '<i class="fas fa-trophy"></i> 周榜奖励 200 GC', badge_refer: '<i class="fas fa-star"></i> 推荐返利 5%', features_title: '<i class="fas fa-cogs" style="color:var(--gold);"></i> 核心机制', f1_title: '任务墙', f1_desc: '聚合多个任务提供商，点击即做，积分自动到账。', f2_title: '运气游戏', f2_desc: '多人幸运房间和单人命运转盘，刺激有趣。', f3_title: '排行榜', f3_desc: '周榜、累计榜、单次高额榜，每周前10名额外奖励 Gascoin。', f4_title: '推荐好友', f4_desc: '分享邀请链接，好友赚积分您得 5% 佣金。', f5_title: '活动中心', f5_desc: '限时活动，报名后完成任务可参与抽奖。', f6_title: '交易历史', f6_desc: '清晰记录每笔积分变动，提现记录可追溯。', exchange_title: '<i class="fas fa-exchange-alt" style="color:var(--green);"></i> 提现兑换品类', exchange_game: '🎮 游戏 & 娱乐', ex_item1: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft 正版激活码 / 披风 / 加速IP', ex_item2: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Steam 余额及游戏购物车', ex_item3: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox 礼品卡', ex_item4: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate', ex_item5: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro', exchange_life: '💳 生活 & 现金', ex_item6: '<i class="fas fa-check-circle" style="color:var(--green);"></i> 京东E卡', ex_item7: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bilibili 大会员', ex_item8: '<i class="fas fa-check-circle" style="color:var(--green);"></i> QQ音乐 / 网易云会员', ex_item9: '<i class="fas fa-check-circle" style="color:var(--green);"></i> PayPal / Zelle 现金', ex_item10: '<i class="fas fa-check-circle" style="color:var(--green);"></i> 比特币（BTC）', rank_title: '实时排行榜', live_label: '实时', rank_weekly: '🏆 周榜', rank_total: '📊 累计榜', rank_single: '🎯 单次高额', th_rank: '排名', th_user: '用户', th_weekly: '周赚取 (GC)', th_total: '累计 (GC)', th_single: '单次 (GC)', th_source: '任务商', th_time: '完成时间', update_label: '数据更新时间', feedback_title: '建议反馈', feedback_desc: '有建议或问题？欢迎发送邮件至 <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>', resources_title: '帮助与资源', res_email: '邮件模板收录', res_email_sub: '常见邮件模板', res_faq_zh: 'FAQ 中文', res_faq_zh_sub: '常见问题汇总', res_faq_en: 'FAQ English', res_faq_en_sub: 'Frequently Asked Questions', res_plugin: '浏览器插件', res_plugin_sub: '提取码 6666', res_tutorial: '教程文档', res_tutorial_sub: 'PC修复/浏览器加载', res_survey: '问卷教程', res_survey_sub: '做问卷详细指导', res_contact: '联系站长', res_contact_sub: 'admin@moonbazaar.de5.net', steps_title: '三步上手', step1_title: '注册', step1_desc: '用邮箱免费创建账户，无需钱包。', step2_title: '做任务', step2_desc: '在任务墙选择问卷或试玩，完成后积分自动到账。', step3_title: '兑换', step3_desc: '在提现页面选择心仪的商品，消耗积分即可。', btn_start: '开始赚取 Gascoin', footer_slogan: '硬核任务平台', footer_note: '本页面数据来自 MoonBazaar 官网，每 6 小时自动更新。' },
+        en: { tagline: 'Tasks · Points · Redeem', nav_email: '📧 Email', nav_faq_zh: '❓ FAQ CN', nav_faq_en: '❓ FAQ EN', nav_plugin: '🔧 Plugin', nav_tutorial: '📖 Tutorial', nav_survey: '📝 Survey Guide', nav_contact: '📮 Contact', typing_zh: 'Welcome to MoonBazaar', intro_text: 'MoonBazaar is a <strong>reward task platform</strong>. Earn <strong>Gascoin</strong> by completing surveys, redeem for <strong>gift cards, Steam balance, cash</strong>.', stat_users: '<i class="fas fa-users"></i> Users', stat_gc: '<i class="fas fa-coins"></i> GC Distributed', stat_rewards: '<i class="fas fa-gift"></i> Rewards Redeemed', badge_weekly: '<i class="fas fa-trophy"></i> Weekly Prize 200 GC', badge_refer: '<i class="fas fa-star"></i> Referral Bonus 5%', features_title: '<i class="fas fa-cogs" style="color:var(--gold);"></i> Core Features', f1_title: 'Task Wall', f1_desc: 'Aggregates multiple providers, click and earn.', f2_title: 'Luck Games', f2_desc: 'Multiplayer lucky rooms and single-player spin wheel.', f3_title: 'Leaderboards', f3_desc: 'Weekly, All-time, and Single-high-score boards.', f4_title: 'Referral', f4_desc: 'Share your invite link, earn 5% commission.', f5_title: 'Event Center', f5_desc: 'Time-limited events, join lucky draws.', f6_title: 'History', f6_desc: 'Track every point change and withdrawal record.', exchange_title: '<i class="fas fa-exchange-alt" style="color:var(--green);"></i> Redeemable Items', exchange_game: '🎮 Games & Entertainment', ex_item1: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft codes / Capes', ex_item2: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Steam Wallet & Game Cart', ex_item3: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox Gift Cards', ex_item4: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate', ex_item5: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro', exchange_life: '💳 Lifestyle & Cash', ex_item6: '<i class="fas fa-check-circle" style="color:var(--green);"></i> JD Card', ex_item7: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bilibili Premium', ex_item8: '<i class="fas fa-check-circle" style="color:var(--green);"></i> QQ Music / NetEase VIP', ex_item9: '<i class="fas fa-check-circle" style="color:var(--green);"></i> PayPal / Zelle Cash', ex_item10: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bitcoin (BTC)', rank_title: 'Live Leaderboard', live_label: 'Live', rank_weekly: '🏆 Weekly', rank_total: '📊 All-Time', rank_single: '🎯 Single High', th_rank: 'Rank', th_user: 'User', th_weekly: 'Weekly (GC)', th_total: 'Total (GC)', th_single: 'Single (GC)', th_source: 'Provider', th_time: 'Finish Time', update_label: 'Updated at', feedback_title: 'Feedback', feedback_desc: 'Have suggestions? Email us at <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>', resources_title: 'Help & Resources', res_email: 'Email Templates', res_email_sub: 'Common templates', res_faq_zh: 'FAQ Chinese', res_faq_zh_sub: 'Questions (CN)', res_faq_en: 'FAQ English', res_faq_en_sub: 'Questions (EN)', res_plugin: 'Browser Plugin', res_plugin_sub: 'Code 6666', res_tutorial: 'Tutorial', res_tutorial_sub: 'PC fix / browser', res_survey: 'Survey Guide', res_survey_sub: 'Detailed guide', res_contact: 'Contact Admin', res_contact_sub: 'admin@moonbazaar.de5.net', steps_title: 'Get Started in 3 Steps', step1_title: 'Sign Up', step1_desc: 'Create a free account with email.', step2_title: 'Do Tasks', step2_desc: 'Pick surveys, points credited automatically.', step3_title: 'Redeem', step3_desc: 'Choose item and spend your points.', btn_start: 'Start Earning Gascoin', footer_slogan: 'Hardcore Reward Platform', footer_note: 'Data updated every 6 hours from MoonBazaar official site.' }
     };
 
-    // ============================================================
-    // 语言切换
-    // ============================================================
     let currentLang = localStorage.getItem('moonLang') || 'zh';
-
     function applyLanguage(lang) {
         const trans = translations[lang];
-        if (!trans) return;
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (trans[key] !== undefined) {
-                if (trans[key].includes('<')) {
-                    el.innerHTML = trans[key];
-                } else {
-                    el.textContent = trans[key];
-                }
-            }
+            if (trans[key]) el.innerHTML = trans[key];
         });
-        window._typingTexts = lang === 'zh'
-            ? ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励']
-            : ['Welcome to MoonBazaar', 'Earn Gascoin', 'Redeem Rewards'];
-        if (window._typingTimer) {
-            clearTimeout(window._typingTimer);
-            window._typingTimer = null;
-        }
+        window._typingTexts = lang === 'zh' ? ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励'] : ['Welcome to MoonBazaar', 'Earn Gascoin', 'Redeem Rewards'];
+        if (window._typingTimer) clearTimeout(window._typingTimer);
         startTyping();
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.lang === lang);
-        });
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
         localStorage.setItem('moonLang', lang);
         currentLang = lang;
     }
-
     function startTyping() {
-        const el = document.getElementById('typing-title');
-        if (!el) return;
+        const el = document.getElementById('typing-title'); if (!el) return;
         const texts = window._typingTexts || ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励'];
         let idx = 0, charIdx = 0, isDeleting = false;
         function type() {
             const current = texts[idx];
             if (!isDeleting) {
-                el.textContent = current.substring(0, charIdx + 1);
-                charIdx++;
-                if (charIdx === current.length) {
-                    isDeleting = true;
-                    window._typingTimer = setTimeout(type, 2000);
-                    return;
-                }
+                el.textContent = current.substring(0, charIdx + 1); charIdx++;
+                if (charIdx === current.length) { isDeleting = true; window._typingTimer = setTimeout(type, 2000); return; }
                 window._typingTimer = setTimeout(type, 80);
             } else {
-                el.textContent = current.substring(0, charIdx - 1);
-                charIdx--;
-                if (charIdx === 0) {
-                    isDeleting = false;
-                    idx = (idx + 1) % texts.length;
-                    window._typingTimer = setTimeout(type, 500);
-                    return;
-                }
+                el.textContent = current.substring(0, charIdx - 1); charIdx--;
+                if (charIdx === 0) { isDeleting = false; idx = (idx + 1) % texts.length; window._typingTimer = setTimeout(type, 500); return; }
                 window._typingTimer = setTimeout(type, 40);
             }
         }
         type();
     }
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', function() { if (this.dataset.lang !== currentLang) applyLanguage(this.dataset.lang); }));
 
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const lang = this.dataset.lang;
-            if (lang !== currentLang) applyLanguage(lang);
-        });
-    });
-
-    // ============================================================
-    // 暗色主题
-    // ============================================================
+    // ===== 主题、数字滚动、Tab 切换 =====
     const themeToggle = document.getElementById('themeToggle');
     let currentTheme = localStorage.getItem('moonTheme') || 'light';
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
         themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        localStorage.setItem('moonTheme', theme);
-        currentTheme = theme;
+        localStorage.setItem('moonTheme', theme); currentTheme = theme;
     }
     applyTheme(currentTheme);
-    themeToggle.addEventListener('click', function() {
-        applyTheme(currentTheme === 'light' ? 'dark' : 'light');
-    });
+    themeToggle.addEventListener('click', () => applyTheme(currentTheme === 'light' ? 'dark' : 'light'));
 
-    // ============================================================
-    // 数字滚动
-    // ============================================================
-    function animateNumber(el, target, suffix = '') {
-        let current = 0;
-        const step = Math.ceil(target / 60);
-        const interval = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                current = target;
-                clearInterval(interval);
-            }
-            el.textContent = current.toLocaleString() + suffix;
-        }, 20);
-    }
+    function animateNumber(el, target) { let current = 0; const step = Math.ceil(target / 60); const interval = setInterval(() => { current += step; if (current >= target) { current = target; clearInterval(interval); } el.textContent = current.toLocaleString(); }, 20); }
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.id;
-                if (id === 'userCount') animateNumber(entry.target, 12480, '');
-                else if (id === 'gcCount') animateNumber(entry.target, 8765000, '');
-                else if (id === 'rewardCount') animateNumber(entry.target, 15230, '');
+                if (id === 'userCount') animateNumber(entry.target, 12480);
+                else if (id === 'gcCount') animateNumber(entry.target, 8765000);
+                else if (id === 'rewardCount') animateNumber(entry.target, 15230);
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.3 });
     document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
 
-    // ============================================================
-    // Tab 切换
-    // ============================================================
     const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = {
-        weekly: document.getElementById('tab-weekly'),
-        total: document.getElementById('tab-total'),
-        single: document.getElementById('tab-single')
-    };
+    const tabContents = { weekly: document.getElementById('tab-weekly'), total: document.getElementById('tab-total'), single: document.getElementById('tab-single') };
     tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            const tab = this.dataset.tab;
-            Object.keys(tabContents).forEach(key => {
-                tabContents[key].classList.toggle('active', key === tab);
-            });
+            tabBtns.forEach(b => b.classList.remove('active')); this.classList.add('active');
+            Object.keys(tabContents).forEach(key => tabContents[key].classList.toggle('active', key === this.dataset.tab));
         });
     });
 
-    // ============================================================
-    // 初始化
-    // ============================================================
-    renderLeaderboards();
-    applyLanguage(currentLang);
-    window._typingTexts = currentLang === 'zh'
-        ? ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励']
-        : ['Welcome to MoonBazaar', 'Earn Gascoin', 'Redeem Rewards'];
-    startTyping();
-</script>
+    // ===== 排行榜动态加载 =====
+    async function loadLeaderboard() {
+        try {
+            const response = await fetch('./leaderboard.json');
+            if (!response.ok) throw new Error('网络错误');
+            const data = await response.json();
+            renderLeaderboards(data);
+        } catch (error) {
+            console.error('加载排行榜失败:', error);
+            ['weekly-body', 'total-body', 'single-body'].forEach(id => {
+                document.getElementById(id).innerHTML = `<tr><td colspan="5" class="loading-text" style="color:var(--red);"><i class="fas fa-exclamation-triangle"></i> 数据加载失败，请稍后刷新</td></tr>`;
+            });
+        }
+    }
 
+    function renderLeaderboards(data) {
+        if (data.weekly && data.weekly.length > 0) {
+            document.getElementById('weekly-body').innerHTML = data.weekly.map(item => `<tr><td>${item.rank}</td><td>${item.user}</td><td>${item.amount.toLocaleString()}</td></tr>`).join('');
+        }
+        if (data.total && data.total.length > 0) {
+            document.getElementById('total-body').innerHTML = data.total.map(item => `<tr><td>${item.rank}</td><td>${item.user}</td><td>${item.amount.toLocaleString()}</td></tr>`).join('');
+        }
+        if (data.single && data.single.length > 0) {
+            document.getElementById('single-body').innerHTML = data.single.map(item => `<tr><td>${item.rank}</td><td>${item.user}</td><td>${item.amount.toLocaleString()}</td><td>${item.provider || ''}</td><td>${item.finish_time || ''}</td></tr>`).join('');
+        }
+        if (data.updatedAt) {
+            const updateTime = new Date(data.updatedAt);
+            document.getElementById('update-time-display').textContent = updateTime.toLocaleString('zh-CN', { hour12: false });
+        }
+    }
+
+    // ===== 启动 =====
+    applyLanguage(currentLang);
+    window._typingTexts = currentLang === 'zh' ? ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励'] : ['Welcome to MoonBazaar', 'Earn Gascoin', 'Redeem Rewards'];
+    startTyping();
+    loadLeaderboard();
+</script>
 </body>
 </html>
