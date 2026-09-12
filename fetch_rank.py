@@ -11,7 +11,8 @@ import re
 from datetime import datetime
 
 # ================= 配置区 =================
-COOKIE_STR = "last_login_user=eyJ1c2VycyI6WyJkZW1vIiwibmluZTEiXSwibGFzdF9sb2dpbiI6MTc4Nzg4ODcxNn0%3D; remember_me=3badafc508b7946079936867%3Aed5275f32faaf444424b69e214081733bb7c9efe72a9a2f92958bde21766e95b; PHPSESSID=5763tmuqcorr3hqotu02go5p9b"
+import os
+COOKIE_STR = os.environ.get("MOON_COOKIE", "")
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
