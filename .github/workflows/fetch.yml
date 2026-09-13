@@ -33,3 +33,6 @@ jobs:
           git add leaderboard.json
           git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update leaderboard $(date +'%Y-%m-%d %H:%M')"
           git push
+
+      - name: Trigger Cloudflare Deploy
+        run: curl -X POST "${{ secrets.CF_DEPLOY_HOOK }}"
