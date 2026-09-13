@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
-        /* ===== CSS Variables (Light & Dark) ===== */
         :root {
             --bg-light: #ffffff; --bg-subtle: #f0f8ff; --text-primary: #154963; --text-secondary: #595857;
             --accent-blue: #2993c7; --border-color: #154963; --shadow-color: #154963; --card-bg: #ffffff;
@@ -225,116 +224,10 @@
 </div>
 
 <script>
-    // ===== 翻译与初始化逻辑 =====
+    // ===== 翻译 =====
     const translations = {
         zh: { tagline: '任务 · 积分 · 兑换', nav_email: '📧 邮件模板', nav_faq_zh: '❓ FAQ 中文', nav_faq_en: '❓ FAQ English', nav_plugin: '🔧 浏览器插件', nav_tutorial: '📖 教程', nav_survey: '📝 问卷教程', nav_contact: '📮 联系站长', typing_zh: '欢迎来到 MoonBazaar', intro_text: 'MoonBazaar 是一个<strong>积分任务平台</strong>，您可以通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，并用积分兑换 <strong>礼品卡、游戏内物品、Steam 余额、现金</strong> 等丰富奖励。', stat_users: '<i class="fas fa-users"></i> 注册用户', stat_gc: '<i class="fas fa-coins"></i> 已发放 GC', stat_rewards: '<i class="fas fa-gift"></i> 已兑换奖品', badge_weekly: '<i class="fas fa-trophy"></i> 周榜奖励 200 GC', badge_refer: '<i class="fas fa-star"></i> 推荐返利 5%', features_title: '<i class="fas fa-cogs" style="color:var(--gold);"></i> 核心机制', f1_title: '任务墙', f1_desc: '聚合多个任务提供商，点击即做，积分自动到账。', f2_title: '运气游戏', f2_desc: '多人幸运房间和单人命运转盘，刺激有趣。', f3_title: '排行榜', f3_desc: '周榜、累计榜、单次高额榜，每周前10名额外奖励 Gascoin。', f4_title: '推荐好友', f4_desc: '分享邀请链接，好友赚积分您得 5% 佣金。', f5_title: '活动中心', f5_desc: '限时活动，报名后完成任务可参与抽奖。', f6_title: '交易历史', f6_desc: '清晰记录每笔积分变动，提现记录可追溯。', exchange_title: '<i class="fas fa-exchange-alt" style="color:var(--green);"></i> 提现兑换品类', exchange_game: '🎮 游戏 & 娱乐', ex_item1: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft 正版激活码 / 披风 / 加速IP', ex_item2: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Steam 余额及游戏购物车', ex_item3: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox 礼品卡', ex_item4: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate', ex_item5: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro', exchange_life: '💳 生活 & 现金', ex_item6: '<i class="fas fa-check-circle" style="color:var(--green);"></i> 京东E卡', ex_item7: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bilibili 大会员', ex_item8: '<i class="fas fa-check-circle" style="color:var(--green);"></i> QQ音乐 / 网易云会员', ex_item9: '<i class="fas fa-check-circle" style="color:var(--green);"></i> PayPal / Zelle 现金', ex_item10: '<i class="fas fa-check-circle" style="color:var(--green);"></i> 比特币（BTC）', rank_title: '实时排行榜', live_label: '实时', rank_weekly: '🏆 周榜', rank_total: '📊 累计榜', rank_single: '🎯 单次高额', th_rank: '排名', th_user: '用户', th_weekly: '周赚取 (GC)', th_total: '累计 (GC)', th_single: '单次 (GC)', th_source: '任务商', th_time: '完成时间', update_label: '数据更新时间', feedback_title: '建议反馈', feedback_desc: '有建议或问题？欢迎发送邮件至 <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>', resources_title: '帮助与资源', res_email: '邮件模板收录', res_email_sub: '常见邮件模板', res_faq_zh: 'FAQ 中文', res_faq_zh_sub: '常见问题汇总', res_faq_en: 'FAQ English', res_faq_en_sub: 'Frequently Asked Questions', res_plugin: '浏览器插件', res_plugin_sub: '提取码 6666', res_tutorial: '教程文档', res_tutorial_sub: 'PC修复/浏览器加载', res_survey: '问卷教程', res_survey_sub: '做问卷详细指导', res_contact: '联系站长', res_contact_sub: 'admin@moonbazaar.de5.net', steps_title: '三步上手', step1_title: '注册', step1_desc: '用邮箱免费创建账户，无需钱包。', step2_title: '做任务', step2_desc: '在任务墙选择问卷或试玩，完成后积分自动到账。', step3_title: '兑换', step3_desc: '在提现页面选择心仪的商品，消耗积分即可。', btn_start: '开始赚取 Gascoin', footer_slogan: '硬核任务平台', footer_note: '本页面数据来自 MoonBazaar 官网，每 6 小时自动更新。' },
         en: { tagline: 'Tasks · Points · Redeem', nav_email: '📧 Email', nav_faq_zh: '❓ FAQ CN', nav_faq_en: '❓ FAQ EN', nav_plugin: '🔧 Plugin', nav_tutorial: '📖 Tutorial', nav_survey: '📝 Survey Guide', nav_contact: '📮 Contact', typing_zh: 'Welcome to MoonBazaar', intro_text: 'MoonBazaar is a <strong>reward task platform</strong>. Earn <strong>Gascoin</strong> by completing surveys, redeem for <strong>gift cards, Steam balance, cash</strong>.', stat_users: '<i class="fas fa-users"></i> Users', stat_gc: '<i class="fas fa-coins"></i> GC Distributed', stat_rewards: '<i class="fas fa-gift"></i> Rewards Redeemed', badge_weekly: '<i class="fas fa-trophy"></i> Weekly Prize 200 GC', badge_refer: '<i class="fas fa-star"></i> Referral Bonus 5%', features_title: '<i class="fas fa-cogs" style="color:var(--gold);"></i> Core Features', f1_title: 'Task Wall', f1_desc: 'Aggregates multiple providers, click and earn.', f2_title: 'Luck Games', f2_desc: 'Multiplayer lucky rooms and single-player spin wheel.', f3_title: 'Leaderboards', f3_desc: 'Weekly, All-time, and Single-high-score boards.', f4_title: 'Referral', f4_desc: 'Share your invite link, earn 5% commission.', f5_title: 'Event Center', f5_desc: 'Time-limited events, join lucky draws.', f6_title: 'History', f6_desc: 'Track every point change and withdrawal record.', exchange_title: '<i class="fas fa-exchange-alt" style="color:var(--green);"></i> Redeemable Items', exchange_game: '🎮 Games & Entertainment', ex_item1: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Minecraft codes / Capes', ex_item2: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Steam Wallet & Game Cart', ex_item3: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Roblox Gift Cards', ex_item4: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Xbox Game Pass Ultimate', ex_item5: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Discord Nitro', exchange_life: '💳 Lifestyle & Cash', ex_item6: '<i class="fas fa-check-circle" style="color:var(--green);"></i> JD Card', ex_item7: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bilibili Premium', ex_item8: '<i class="fas fa-check-circle" style="color:var(--green);"></i> QQ Music / NetEase VIP', ex_item9: '<i class="fas fa-check-circle" style="color:var(--green);"></i> PayPal / Zelle Cash', ex_item10: '<i class="fas fa-check-circle" style="color:var(--green);"></i> Bitcoin (BTC)', rank_title: 'Live Leaderboard', live_label: 'Live', rank_weekly: '🏆 Weekly', rank_total: '📊 All-Time', rank_single: '🎯 Single High', th_rank: 'Rank', th_user: 'User', th_weekly: 'Weekly (GC)', th_total: 'Total (GC)', th_single: 'Single (GC)', th_source: 'Provider', th_time: 'Finish Time', update_label: 'Updated at', feedback_title: 'Feedback', feedback_desc: 'Have suggestions? Email us at <a href="mailto:admin@moonbazaar.de5.net">admin@moonbazaar.de5.net</a>', resources_title: 'Help & Resources', res_email: 'Email Templates', res_email_sub: 'Common templates', res_faq_zh: 'FAQ Chinese', res_faq_zh_sub: 'Questions (CN)', res_faq_en: 'FAQ English', res_faq_en_sub: 'Questions (EN)', res_plugin: 'Browser Plugin', res_plugin_sub: 'Code 6666', res_tutorial: 'Tutorial', res_tutorial_sub: 'PC fix / browser', res_survey: 'Survey Guide', res_survey_sub: 'Detailed guide', res_contact: 'Contact Admin', res_contact_sub: 'admin@moonbazaar.de5.net', steps_title: 'Get Started in 3 Steps', step1_title: 'Sign Up', step1_desc: 'Create a free account with email.', step2_title: 'Do Tasks', step2_desc: 'Pick surveys, points credited automatically.', step3_title: 'Redeem', step3_desc: 'Choose item and spend your points.', btn_start: 'Start Earning Gascoin', footer_slogan: 'Hardcore Reward Platform', footer_note: 'Data updated every 6 hours from MoonBazaar official site.' }
     };
 
-    let currentLang = localStorage.getItem('moonLang') || 'zh';
-    function applyLanguage(lang) {
-        const trans = translations[lang];
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (trans[key]) el.innerHTML = trans[key];
-        });
-        window._typingTexts = lang === 'zh' ? ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励'] : ['Welcome to MoonBazaar', 'Earn Gascoin', 'Redeem Rewards'];
-        if (window._typingTimer) clearTimeout(window._typingTimer);
-        startTyping();
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-        localStorage.setItem('moonLang', lang);
-        currentLang = lang;
-    }
-    function startTyping() {
-        const el = document.getElementById('typing-title'); if (!el) return;
-        const texts = window._typingTexts || ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励'];
-        let idx = 0, charIdx = 0, isDeleting = false;
-        function type() {
-            const current = texts[idx];
-            if (!isDeleting) {
-                el.textContent = current.substring(0, charIdx + 1); charIdx++;
-                if (charIdx === current.length) { isDeleting = true; window._typingTimer = setTimeout(type, 2000); return; }
-                window._typingTimer = setTimeout(type, 80);
-            } else {
-                el.textContent = current.substring(0, charIdx - 1); charIdx--;
-                if (charIdx === 0) { isDeleting = false; idx = (idx + 1) % texts.length; window._typingTimer = setTimeout(type, 500); return; }
-                window._typingTimer = setTimeout(type, 40);
-            }
-        }
-        type();
-    }
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', function() { if (this.dataset.lang !== currentLang) applyLanguage(this.dataset.lang); }));
-
-    // ===== 主题、数字滚动、Tab 切换 =====
-    const themeToggle = document.getElementById('themeToggle');
-    let currentTheme = localStorage.getItem('moonTheme') || 'light';
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
-        themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        localStorage.setItem('moonTheme', theme); currentTheme = theme;
-    }
-    applyTheme(currentTheme);
-    themeToggle.addEventListener('click', () => applyTheme(currentTheme === 'light' ? 'dark' : 'light'));
-
-    function animateNumber(el, target) { let current = 0; const step = Math.ceil(target / 60); const interval = setInterval(() => { current += step; if (current >= target) { current = target; clearInterval(interval); } el.textContent = current.toLocaleString(); }, 20); }
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.id;
-                if (id === 'userCount') animateNumber(entry.target, 12480);
-                else if (id === 'gcCount') animateNumber(entry.target, 8765000);
-                else if (id === 'rewardCount') animateNumber(entry.target, 15230);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.3 });
-    document.querySelectorAll('.stat-number').forEach(el => observer.observe(el));
-
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = { weekly: document.getElementById('tab-weekly'), total: document.getElementById('tab-total'), single: document.getElementById('tab-single') };
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            tabBtns.forEach(b => b.classList.remove('active')); this.classList.add('active');
-            Object.keys(tabContents).forEach(key => tabContents[key].classList.toggle('active', key === this.dataset.tab));
-        });
-    });
-
-    // ===== 排行榜动态加载 =====
-    async function loadLeaderboard() {
-        try {
-            const response = await fetch('./leaderboard.json');
-            if (!response.ok) throw new Error('网络错误');
-            const data = await response.json();
-            renderLeaderboards(data);
-        } catch (error) {
-            console.error('加载排行榜失败:', error);
-            ['weekly-body', 'total-body', 'single-body'].forEach(id => {
-                document.getElementById(id).innerHTML = `<tr><td colspan="5" class="loading-text" style="color:var(--red);"><i class="fas fa-exclamation-triangle"></i> 数据加载失败，请稍后刷新</td></tr>`;
-            });
-        }
-    }
-
-    function renderLeaderboards(data) {
-        if (data.weekly && data.weekly.length > 0) {
-            document.getElementById('weekly-body').innerHTML = data.weekly.map(item => `<tr><td>${item.rank}</td><td>${item.user}</td><td>${item.amount.toLocaleString()}</td></tr>`).join('');
-        }
-        if (data.total && data.total.length > 0) {
-            document.getElementById('total-body').innerHTML = data.total.map(item => `<tr><td>${item.rank}</td><td>${item.user}</td><td>${item.amount.toLocaleString()}</td></tr>`).join('');
-        }
-        if (data.single && data.single.length > 0) {
-            document.getElementById('single-body').innerHTML = data.single.map(item => `<tr><td>${item.rank}</td><td>${item.user}</td><td>${item.amount.toLocaleString()}</td><td>${item.provider || ''}</td><td>${item.finish_time || ''}</td></tr>`).join('');
-        }
-        if (data.updatedAt) {
-            const updateTime = new Date(data.updatedAt);
-            document.getElementById('update-time-display').textContent = updateTime.toLocaleString('zh-CN', { hour12: false });
-        }
-    }
-
-    // ===== 启动 =====
-    applyLanguage(currentLang);
-    window._typingTexts = currentLang === 'zh' ? ['欢迎来到 MoonBazaar', '赚取 Gascoin', '兑换丰厚奖励'] : ['Welcome to MoonBazaar', 'Earn Gascoin', 'Redeem Rewards'];
-    startTyping();
-    loadLeaderboard();
-</script>
-</body>
-</html>
+    let currentLang = localStorage.getItem('moonLang')
