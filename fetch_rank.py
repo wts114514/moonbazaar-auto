@@ -1,149 +1,27 @@
 #!/usr/bin/env python3
 """
-MoonBazaar 排行榜抓取工具 (自动登录版)
-用 Playwright 自动登录，绕过 Cookie 过期问题
+MoonBazaar 排行榜抓取工具 (自动续期版)
+用 Session 保持会话，服务器会自动刷新 PHPSESSID，实现滚动续期
 """
 
 import os
 import re
 import json
-import time
+import base64
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone, timedelta
 
 # ================= 配置 =================
-USERNAME = os.environ.get("MOON_USERNAME", "")
-PASSWORD = os.environ.get("MOON_PASSWORD", "")
-FALLBACK_COOKIE = os.environ.get("MOON_COOKIE", "")
-TARGET_URL = "https://moonbazaar.xyz/home/toplist"
-LOGIN_URL = "https://moonbazaar.xyz/login"
+COOKIE_STR = os.environ.get("MOON_COOKIE", "")
+GH_PAT = os.environ.get("GH_PAT", "")
+GH_REPO = os.environ.get("GITHUB_REPOSITORY", "")
+BASE_URL = "https://moonbazaar.xyz"
+TARGET_URL = f"{BASE_URL}/home/toplist"
 
-HEADERS_TEMPLATE = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-}
-
-
-# ================= 自动登录 =================
-def auto_login():
-    """用 Playwright 自动登录，返回 Cookie 字符串"""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("[错误] Playwright 未安装")
-        return None
-
-    print("[登录] 启动无头浏览器...")
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=[
-            '--disable-blink-features=AutomationControlled',
-            '--no-sandbox',
-        ])
-        context = browser.new_context(
-            user_agent=HEADERS_TEMPLATE["User-Agent"],
-            viewport={'width': 1280, 'height': 900},
-            locale='zh-CN',
-        )
-        # 反自动化检测
-        context.add_init_script("""
-            Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
-            window.chrome = {runtime: {}};
-            Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]});
-        """)
-
-        page = context.new_page()
-
-        try:
-            print(f"[登录] 访问 {LOGIN_URL}")
-            page.goto(LOGIN_URL, timeout=30000)
-            page.wait_for_load_state('networkidle', timeout=15000)
-            time.sleep(2)
-
-            # 填写账号密码（尝试多种选择器）
-            filled = False
-            for user_sel in ['input[name="email"]', 'input[name="username"]', 'input[type="email"]', 'input[type="text"]']:
-                try:
-                    if page.locator(user_sel).count() > 0:
-                        page.fill(user_sel, USERNAME)
-                        print(f"[登录] 已填写用户名 ({user_sel})")
-                        filled = True
-                        break
-                except Exception:
-                    continue
-
-            if not filled:
-                print("[登录] 未找到用户名输入框")
-                browser.close()
-                return None
-
-            for pass_sel in ['input[name="password"]', 'input[type="password"]']:
-                try:
-                    if page.locator(pass_sel).count() > 0:
-                        page.fill(pass_sel, PASSWORD)
-                        print(f"[登录] 已填写密码")
-                        break
-                except Exception:
-                    continue
-
-            time.sleep(1)
-
-            # 处理 hCaptcha：点击复选框
-            try:
-                print("[登录] 尝试处理 hCaptcha...")
-                hcaptcha_frame = page.frame_locator('iframe[src*="hcaptcha"]').first
-                checkbox = hcaptcha_frame.locator('#checkbox')
-                if checkbox.count() > 0:
-                    checkbox.click()
-                    print("[登录] 已点击 hCaptcha 复选框")
-                    time.sleep(5)  # 等待验证完成
-                else:
-                    print("[登录] hCaptcha 复选框未找到")
-            except Exception as e:
-                print(f"[登录] hCaptcha 处理异常: {e}")
-
-            # 提交
-            time.sleep(1)
-            submitted = False
-            for btn_sel in ['button[type="submit"]', 'button:has-text("登录")', 'button:has-text("Login")', 'input[type="submit"]']:
-                try:
-                    if page.locator(btn_sel).count() > 0:
-                        page.click(btn_sel)
-                        print(f"[登录] 已点击登录按钮")
-                        submitted = True
-                        break
-                except Exception:
-                    continue
-
-            if not submitted:
-                print("[登录] 未找到登录按钮")
-                browser.close()
-                return None
-
-            # 等待跳转
-            time.sleep(5)
-            current_url = page.url
-            print(f"[登录] 当前 URL: {current_url}")
-
-            if "/login" in current_url:
-                print("[登录] ❌ 登录失败，可能 hCaptcha 未通过或账号密码错误")
-                browser.close()
-                return None
-
-            # 提取 cookie
-            cookies = context.cookies()
-            cookie_str = "; ".join([f"{c['name']}={c['value']}" for c in cookies])
-            print(f"[登录] ✅ 登录成功，获取 Cookie 长度: {len(cookie_str)}")
-
-            browser.close()
-            return cookie_str
-
-        except Exception as e:
-            print(f"[登录] 异常: {e}")
-            browser.close()
-            return None
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+      "AppleWebKit/537.36 (KHTML, like Gecko) "
+      "Chrome/126.0.0.0 Safari/537.36")
 
 
 # ================= 解析函数 =================
@@ -153,8 +31,7 @@ def parse_html(html, panel_key):
     if not panel:
         return []
     data = []
-    rows = panel.select(".leader-row")
-    for row in rows:
+    for row in panel.select(".leader-row"):
         rank_el = row.select_one(".rank")
         user_el = row.select_one(".who")
         amount_el = row.select_one(".amount")
@@ -170,14 +47,14 @@ def parse_html(html, panel_key):
             user_text = parts[0].strip()
             rest = parts[1] if len(parts) > 1 else ""
             if "完成时间" in rest:
-                sub_parts = re.split(r'完成时间[:：]\s*', rest)
-                provider = sub_parts[0].replace("•", "").strip()
-                finish_time = sub_parts[1].strip() if len(sub_parts) > 1 else ""
+                sub = re.split(r'完成时间[:：]\s*', rest)
+                provider = sub[0].replace("•", "").strip()
+                finish_time = sub[1].strip() if len(sub) > 1 else ""
             else:
                 provider = rest.replace("•", "").strip()
-        amount_text = amount_el.get_text(strip=True).replace(",", "").replace("GC", "").strip()
+        amt_text = amount_el.get_text(strip=True).replace(",", "").replace("GC", "").strip()
         try:
-            amount = float(amount_text)
+            amount = float(amt_text)
         except ValueError:
             amount = 0.0
         item = {"rank": rank_el.get_text(strip=True) if rank_el else "", "user": user_text, "amount": amount}
@@ -189,45 +66,132 @@ def parse_html(html, panel_key):
     return data
 
 
+# ================= Cookie 处理 =================
+def parse_cookie_str(cookie_str):
+    result = {}
+    if not cookie_str:
+        return result
+    if cookie_str.strip().startswith("["):
+        try:
+            arr = json.loads(cookie_str)
+            for item in arr:
+                if "name" in item and "value" in item:
+                    result[item["name"]] = item["value"]
+            return result
+        except Exception:
+            pass
+    for pair in cookie_str.split(";"):
+        if "=" in pair:
+            k, v = pair.split("=", 1)
+            result[k.strip()] = v.strip()
+    return result
+
+
+def dict_to_cookie_str(d):
+    return "; ".join([f"{k}={v}" for k, v in d.items()])
+
+
+# ================= GitHub Secret 更新 =================
+def update_github_secret(secret_name, secret_value):
+    if not GH_PAT or not GH_REPO:
+        print("[GitHub] 跳过（缺少 GH_PAT 或仓库信息）")
+        return False
+    try:
+        from nacl import encoding, public as nacl_public
+    except ImportError:
+        print("[GitHub] 未安装 PyNaCl，跳过")
+        return False
+
+    headers = {
+        "Authorization": f"Bearer {GH_PAT}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    try:
+        url = f"https://api.github.com/repos/{GH_REPO}/actions/secrets/public-key"
+        r = requests.get(url, headers=headers, timeout=15)
+        r.raise_for_status()
+        key_data = r.json()
+        key_id = key_data["key_id"]
+        pub_key = nacl_public.PublicKey(key_data["key"].encode(), encoding.Base64Encoder())
+        sealed = nacl_public.SealedBox(pub_key)
+        enc = base64.b64encode(sealed.encrypt(secret_value.encode())).decode()
+
+        url = f"https://api.github.com/repos/{GH_REPO}/actions/secrets/{secret_name}"
+        r = requests.put(url, headers=headers, json={"encrypted_value": enc, "key_id": key_id}, timeout=15)
+        r.raise_for_status()
+        print(f"[GitHub] ✅ Secret {secret_name} 已更新")
+        return True
+    except Exception as e:
+        print(f"[GitHub] ❌ Secret 更新失败: {e}")
+        return False
+
+
 # ================= 主流程 =================
 def main():
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 开始抓取 MoonBazaar...")
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 开始抓取...")
 
-    # 策略 1：自动登录
-    cookie_str = None
-    if USERNAME and PASSWORD:
-        print("[策略] 尝试自动登录...")
-        cookie_str = auto_login()
+    old_cookies = parse_cookie_str(COOKIE_STR)
+    print(f"[信息] 原 Cookie 字段数: {len(old_cookies)}")
+    has_remember = "remember_me" in old_cookies
+    print(f"[信息] 含 remember_me: {has_remember}")
 
-    # 策略 2：用备用 Cookie
-    if not cookie_str:
-        print("[策略] 自动登录失败，使用备用 Cookie...")
-        cookie_str = FALLBACK_COOKIE
-        # 解析 JSON 格式
-        if cookie_str.strip().startswith("["):
-            try:
-                data = json.loads(cookie_str)
-                cookie_str = "; ".join([f"{c['name']}={c['value']}" for c in data])
-            except Exception:
-                pass
+    # 建立 Session，加载所有 Cookie
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": UA,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    })
+    for k, v in old_cookies.items():
+        session.cookies.set(k, v, domain="moonbazaar.xyz", path="/")
 
-    if not cookie_str:
-        print("[错误] 没有可用的 Cookie")
-        return
-
-    headers = {**HEADERS_TEMPLATE, "Cookie": cookie_str}
-
-    # 请求页面
+    # ===== 第一步：访问首页，让服务器自动续期 PHPSESSID =====
+    print(f"[1/2] 访问首页，尝试自动续期...")
     try:
-        response = requests.get(TARGET_URL, headers=headers, timeout=20)
-        response.raise_for_status()
+        r = session.get(f"{BASE_URL}/home", timeout=20, allow_redirects=True)
+        print(f"[信息] 响应 URL: {r.url}, 状态码: {r.status_code}")
+
+        # 如果被重定向到 /login，说明 remember_me 也失效了
+        if "/login" in r.url:
+            print("[警告] 被重定向到登录页，remember_me 可能已失效")
     except Exception as e:
-        print(f"[错误] 请求失败: {e}")
+        print(f"[错误] 访问首页失败: {e}")
         return
 
-    html = response.text
-    print(f"[成功] 获取 HTML，长度: {len(html)}")
+    # ===== 第二步：访问排行榜页面 =====
+    print(f"[2/2] 访问排行榜页面...")
+    try:
+        r = session.get(TARGET_URL, timeout=20)
+        r.raise_for_status()
+    except Exception as e:
+        print(f"[错误] 请求排行榜失败: {e}")
+        return
 
+    html = r.text
+    print(f"[成功] HTML 长度: {len(html)}")
+
+    # ===== 提取新 Cookie 并自续期 =====
+    new_cookies = {c.name: c.value for c in session.cookies}
+    print(f"[信息] 当前 Session Cookie 字段数: {len(new_cookies)}")
+
+    # 找出变更
+    changed_fields = []
+    for k, v in new_cookies.items():
+        if old_cookies.get(k) != v:
+            changed_fields.append(k)
+    # 合并（新的为主，旧的补）
+    merged = dict(old_cookies)
+    merged.update(new_cookies)
+
+    if changed_fields:
+        print(f"[Cookie] 变化字段: {', '.join(changed_fields)}")
+        new_cookie_str = dict_to_cookie_str(merged)
+        update_github_secret("MOON_COOKIE", new_cookie_str)
+    else:
+        print("[Cookie] 无变化")
+
+    # ===== 判断数据 =====
     if "jiajunba" not in html and "leader-row" not in html:
         print("[警告] 页面中没有排行榜数据，Cookie 可能已失效")
         return
@@ -237,14 +201,13 @@ def main():
         "total": parse_html(html, "total"),
         "single": parse_html(html, "single"),
     }
-
     bj_time = datetime.now(timezone.utc) + timedelta(hours=8)
     result["updatedAt"] = bj_time.strftime("%Y-%m-%d %H:%M:%S")
 
     with open("leaderboard.json", "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
-    print(f"[完成] 周榜 {len(result['weekly'])} 条 | 累计榜 {len(result['total'])} 条 | 单次榜 {len(result['single'])} 条")
+    print(f"[完成] 周榜 {len(result['weekly'])} | 累计榜 {len(result['total'])} | 单次榜 {len(result['single'])}")
     print(f"[完成] 更新时间: {result['updatedAt']}")
 
 
