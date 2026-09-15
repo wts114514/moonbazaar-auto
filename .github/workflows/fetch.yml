@@ -2,7 +2,8 @@ name: Fetch MoonBazaar Leaderboard
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    # 每小时整点运行
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -18,15 +19,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4 playwright
-          playwright install chromium --with-deps
+        run: pip install requests beautifulsoup4 pynacl
 
       - name: Run fetch script
         env:
-          MOON_USERNAME: ${{ secrets.MOON_USERNAME }}
-          MOON_PASSWORD: ${{ secrets.MOON_PASSWORD }}
           MOON_COOKIE: ${{ secrets.MOON_COOKIE }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: python fetch_rank.py
 
       - name: Commit and push if changed
