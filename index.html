@@ -10,74 +10,92 @@
 :root{--bg:#f0f8ff;--bgc:#fff;--txt:#154963;--txt2:#595857;--acc:#2993c7;--bd:#154963;--sh:#154963;--red:#dc3545;--green:#28a745;--gold:#f1c40f;--gold-bg:#fffbe6;--silver-bg:#f4f6f8;--bronze-bg:#fdf1e6;--orange:#ff8a3d}
 [data-theme="dark"]{--bg:#151e2a;--bgc:#1e2a3a;--txt:#c8d6e5;--txt2:#a0b4c8;--acc:#4dabf7;--bd:#4dabf7;--sh:#4dabf7;--gold-bg:#3d3416;--silver-bg:#2a3542;--bronze-bg:#3a2c1c}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);padding:15px;transition:.3s;background-image:radial-gradient(circle at 10% 20%,rgba(41,147,199,.06),transparent 40%),radial-gradient(circle at 90% 80%,rgba(241,196,15,.06),transparent 40%)}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);padding:15px;transition:background .4s,color .4s;background-image:radial-gradient(circle at 10% 20%,rgba(41,147,199,.06),transparent 40%),radial-gradient(circle at 90% 80%,rgba(241,196,15,.06),transparent 40%);background-attachment:fixed}
 .c{max-width:1000px;margin:0 auto}
-.hd{background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);padding:1.2rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;position:sticky;top:10px;z-index:100;border-radius:4px}
-.lg{font-family:'Orbitron';font-size:1.8rem;color:var(--txt);letter-spacing:1px}.lg span{color:var(--acc);text-shadow:0 0 8px rgba(41,147,199,.4)}
+.hd{background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);padding:1.2rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;position:sticky;top:10px;z-index:100;border-radius:4px;backdrop-filter:blur(10px)}
+.lg{font-family:'Orbitron';font-size:1.8rem;color:var(--txt);letter-spacing:1px}.lg span{color:var(--acc);text-shadow:0 0 10px rgba(41,147,199,.5)}
 .nav{display:flex;gap:.5rem .8rem;flex-wrap:wrap;align-items:center}
-.nav a{color:var(--txt);text-decoration:none;font-weight:700;font-size:.8rem;padding:4px 8px;border-radius:3px;transition:.2s}
+.nav a{color:var(--txt);text-decoration:none;font-weight:700;font-size:.8rem;padding:4px 8px;border-radius:3px;transition:.2s;position:relative}
+.nav a::after{content:"";position:absolute;bottom:0;left:50%;width:0;height:2px;background:var(--acc);transition:.3s;transform:translateX(-50%)}
 .nav a:hover{background:var(--acc);color:#fff}
+.nav a:hover::after{width:0}
 .btn-t{border:2px solid var(--bd);background:var(--bgc);padding:5px 9px;cursor:pointer;color:var(--txt);font-weight:700;font-size:.85rem;transition:.2s;border-radius:3px}
-.btn-t:hover{background:var(--txt);color:var(--bgc)}
-.card{background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);padding:1.5rem;margin-bottom:1.5rem;border-radius:4px;transition:.2s;position:relative;overflow:hidden}
-.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--acc),var(--gold))}
+.btn-t:hover{background:var(--txt);color:var(--bgc);transform:translateY(-1px)}
+.card{background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);padding:1.5rem;margin-bottom:1.5rem;border-radius:4px;position:relative;overflow:hidden;animation:fadeUp .6s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--acc),var(--gold),var(--acc));background-size:200% 100%;animation:slide 6s linear infinite}
+@keyframes slide{0%{background-position:0% 0}100%{background-position:200% 0}}
 .ct{font-family:'Orbitron';font-size:1.3rem;color:var(--txt);border-bottom:2px solid var(--bd);padding-bottom:.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ct i{transition:transform .3s}
+.card:hover .ct i{transform:rotate(-10deg) scale(1.1)}
 .tabs{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
-.tb{padding:.5rem 1.1rem;background:var(--bgc);border:2px solid var(--bd);font-family:'Orbitron';font-weight:700;cursor:pointer;color:var(--txt);box-shadow:2px 2px 0 var(--sh);font-size:.85rem;transition:.15s;border-radius:3px}
-.tb:hover{transform:translate(-1px,-1px)}
-.tb.on{background:var(--txt);color:var(--bgc)}
-.tc{display:none}.tc.on{display:block}
+.tb{padding:.5rem 1.1rem;background:var(--bgc);border:2px solid var(--bd);font-family:'Orbitron';font-weight:700;cursor:pointer;color:var(--txt);box-shadow:2px 2px 0 var(--sh);font-size:.85rem;transition:.15s;border-radius:3px;position:relative}
+.tb:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--sh)}
+.tb.on{background:var(--txt);color:var(--bgc);box-shadow:2px 2px 0 var(--acc)}
+.tc{display:none}.tc.on{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .search{margin-bottom:1rem;position:relative}
-.search input{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:2px solid var(--bd);background:var(--bgc);color:var(--txt);font-size:.95rem;font-weight:600;font-family:inherit;border-radius:3px}
-.search input:focus{outline:none;box-shadow:3px 3px 0 var(--acc)}
-.search i{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--txt2)}
+.search input{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:2px solid var(--bd);background:var(--bgc);color:var(--txt);font-size:.95rem;font-weight:600;font-family:inherit;border-radius:3px;transition:.2s}
+.search input:focus{outline:none;box-shadow:3px 3px 0 var(--acc);transform:translate(-1px,-1px)}
+.search i{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--txt2);transition:.2s}
+.search input:focus + i,.search:focus-within i{color:var(--acc)}
 .tw{overflow-x:auto;max-height:520px;border-radius:3px}
 table{width:100%;border-collapse:collapse;background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);border-radius:3px}
-th,td{padding:.7rem .9rem;text-align:left;border-bottom:2px solid #eee}
+th,td{padding:.7rem .9rem;text-align:left;border-bottom:2px solid #eee;transition:background .2s}
 th{background:var(--txt);color:var(--bgc);font-family:'Orbitron';font-weight:700;position:sticky;top:0;z-index:5;font-size:.85rem}
-tr.top1{background:var(--gold-bg)!important;font-weight:700}
-tr.top2{background:var(--silver-bg)!important}
-tr.top3{background:var(--bronze-bg)!important}
+tr.top1{background:linear-gradient(90deg,var(--gold-bg),transparent)!important;font-weight:700}
+tr.top2{background:linear-gradient(90deg,var(--silver-bg),transparent)!important}
+tr.top3{background:linear-gradient(90deg,var(--bronze-bg),transparent)!important}
 tr:hover{background:var(--bg)!important}
-.medal{display:inline-block;font-size:1.2rem}
+.medal{display:inline-block;font-size:1.2rem;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 .ld{text-align:center;padding:2rem;font-weight:600;color:var(--txt2)}
 .sk{display:inline-block;width:100%;height:14px;background:linear-gradient(90deg,var(--bg)25%,var(--bd)50%,var(--bg)75%);background-size:200%100%;animation:sk 1.5s infinite;border-radius:4px}
 @keyframes sk{0%{background-position:200%0}100%{background-position:-200%0}}
-.live{background:var(--red);color:#fff;padding:.2rem .7rem;font-size:.72rem;border-radius:20px;font-weight:700;margin-left:auto;animation:p 1.5s infinite}
-@keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
+.live{background:var(--red);color:#fff;padding:.2rem .7rem;font-size:.72rem;border-radius:20px;font-weight:700;margin-left:auto;animation:p 1.5s infinite;display:inline-flex;align-items:center;gap:4px}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.5}}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem}
-.ri{background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);transition:.15s;display:block;border-radius:3px}
+.ri{background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);transition:.2s;display:block;border-radius:3px;position:relative;overflow:hidden}
+.ri::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(41,147,199,.1),transparent);transition:.5s}
+.ri:hover::before{left:100%}
 .ri:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--sh);background:var(--bg)}
-.ri i{font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)}
+.ri i{font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc);transition:.3s}
+.ri:hover i{transform:scale(1.2) rotate(-10deg)}
 .ri .sub{font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem}
-.ref{background:linear-gradient(135deg,var(--gold-bg),var(--bgc));border:2px solid var(--gold);box-shadow:4px 4px 0 var(--gold);padding:1.5rem;text-align:center;margin-bottom:1.5rem;border-radius:4px}
+.ref{background:linear-gradient(135deg,var(--gold-bg),var(--bgc));border:2px solid var(--gold);box-shadow:4px 4px 0 var(--gold);padding:1.5rem;text-align:center;margin-bottom:1.5rem;border-radius:4px;position:relative;overflow:hidden}
+.ref::before{content:"⭐";position:absolute;top:-20px;right:-20px;font-size:80px;opacity:.1;transform:rotate(15deg)}
 .ref h3{font-family:'Orbitron';color:var(--txt);margin-bottom:.5rem}
-.ref .link{background:var(--bgc);border:2px solid var(--bd);padding:.6rem;margin:1rem 0;font-family:monospace;font-size:.9rem;word-break:break-all;border-radius:3px}
-.ref button{background:var(--acc);color:#fff;border:2px solid #000;box-shadow:3px 3px 0 #000;padding:.6rem 1.5rem;font-weight:700;cursor:pointer;font-family:'Orbitron';font-size:.85rem;border-radius:3px}
-.ref button:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 #000}
+.ref .link{background:var(--bgc);border:2px solid var(--bd);padding:.6rem;margin:1rem 0;font-family:monospace;font-size:.9rem;word-break:break-all;border-radius:3px;font-weight:700;color:var(--acc)}
+.ref button{background:var(--acc);color:#fff;border:2px solid #000;box-shadow:3px 3px 0 #000;padding:.6rem 1.5rem;font-weight:700;cursor:pointer;font-family:'Orbitron';font-size:.85rem;border-radius:3px;transition:.15s}
+.ref button:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 #000;background:#1f7aab}
+.ref button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000}
 
-/* 保证不撤单 & 聊天室 特色卡片 */
+/* 保证不撤单 */
 .special{border:2px solid var(--orange);box-shadow:4px 4px 0 var(--orange);background:linear-gradient(135deg,#fff5eb,var(--bgc))}
-.special::before{background:linear-gradient(90deg,var(--orange),var(--gold))}
+.special::before{background:linear-gradient(90deg,var(--orange),var(--gold),var(--orange));background-size:200% 100%}
 .special .ct{border-bottom-color:var(--orange)}
-.badge-hot{display:inline-block;background:var(--red);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:700;animation:p 1.5s infinite;margin-left:6px}
+.badge-hot{display:inline-block;background:var(--red);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:700;animation:p 1.5s infinite;margin-left:6px;vertical-align:middle}
 .feature-list{list-style:none;padding-left:0}
 .feature-list li{padding:.5rem 0;font-weight:600;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
-.feature-list i{color:var(--green);margin-top:3px}
+.feature-list i{color:var(--green);margin-top:3px;flex-shrink:0}
 .feature-list .warn{color:var(--orange)}
 
-/* 聊天室卡片 */
+/* 聊天室 */
 .chat-card{border:2px solid var(--acc);box-shadow:4px 4px 0 var(--acc);background:linear-gradient(135deg,#e8f4fa,var(--bgc));text-align:center}
-.chat-card::before{background:linear-gradient(90deg,var(--acc),var(--green))}
-.chat-btn{display:inline-block;background:var(--acc);color:#fff;padding:.8rem 2rem;border:2px solid #000;box-shadow:4px 4px 0 #000;font-family:'Orbitron';font-weight:700;text-decoration:none;border-radius:3px;transition:.15s;margin-top:1rem;font-size:.95rem}
+.chat-card::before{background:linear-gradient(90deg,var(--acc),var(--green),var(--acc));background-size:200% 100%}
+.chat-btn{display:inline-block;background:var(--acc);color:#fff;padding:.8rem 2rem;border:2px solid #000;box-shadow:4px 4px 0 #000;font-family:'Orbitron';font-weight:700;text-decoration:none;border-radius:3px;transition:.15s;margin-top:1rem;font-size:.95rem;position:relative;overflow:hidden}
+.chat-btn::after{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:.5s}
+.chat-btn:hover::after{left:100%}
 .chat-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;background:#1f7aab}
 
-.top-btn{position:fixed;bottom:20px;right:20px;background:var(--txt);color:var(--bgc);border:2px solid #000;box-shadow:4px 4px 0 #000;width:44px;height:44px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:1.1rem;z-index:200}
-.top-btn:hover{background:var(--acc)}
-.top-btn.show{display:flex}
+.top-btn{position:fixed;bottom:20px;right:20px;background:var(--txt);color:var(--bgc);border:2px solid #000;box-shadow:4px 4px 0 #000;width:44px;height:44px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:1.1rem;z-index:200;transition:.2s}
+.top-btn:hover{background:var(--acc);transform:translateY(-3px)}
+.top-btn.show{display:flex;animation:fadeIn .3s}
 .ft{margin-top:2rem;text-align:center;border-top:2px solid var(--bd);padding-top:1.5rem;font-weight:600}
-.ft a{color:var(--acc);text-decoration:none;font-weight:700}
-@media(max-width:768px){.hd{flex-direction:column;text-align:center;position:static}.lg{font-size:1.4rem}.tw{max-height:380px}th,td{padding:.55rem .6rem;font-size:.85rem}.ct{font-size:1.1rem}.nav a{font-size:.75rem;padding:3px 6px}}
+.ft a{color:var(--acc);text-decoration:none;font-weight:700;transition:.2s}
+.ft a:hover{text-decoration:underline}
+@media(max-width:768px){.hd{flex-direction:column;text-align:center;position:static}.lg{font-size:1.4rem}.tw{max-height:380px}th,td{padding:.55rem .6rem;font-size:.85rem}.ct{font-size:1.1rem}.nav a{font-size:.75rem;padding:3px 6px}.card{padding:1.2rem}}
 </style>
 </head>
 <body>
@@ -105,7 +123,6 @@ tr:hover{background:var(--bg)!important}
 </div>
 </section>
 
-<!-- 保证不撤单 -->
 <section class="card special">
 <h2 class="ct"><i class="fas fa-shield-alt" style="color:var(--orange)"></i> <span data-i18n="guarTitle">保证不撤单</span><span class="badge-hot">NEW</span></h2>
 <p style="font-weight:600;margin-bottom:.8rem;color:var(--txt)" data-i18n="guarIntro">勾选后，本订单在商品原价 GC 的基础上额外收取 20% 溢价。优惠券只抵扣商品基础价格，不减免这笔溢价。</p>
@@ -120,7 +137,6 @@ tr:hover{background:var(--bg)!important}
 </div>
 </section>
 
-<!-- 聊天室 -->
 <section class="card chat-card">
 <h2 class="ct"><i class="fas fa-comments" style="color:var(--acc)"></i> <span data-i18n="chatTitle">加入我们的聊天室</span></h2>
 <p style="font-weight:600;color:var(--txt);font-size:1.05rem" data-i18n="chatDesc">与其他用户交流经验、分享技巧、获取最新活动信息</p>
@@ -128,7 +144,6 @@ tr:hover{background:var(--bg)!important}
 <a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" class="chat-btn"><i class="fas fa-comment-dots"></i> <span data-i18n="chatBtn">进入聊天室</span></a>
 </section>
 
-<!-- 排行榜 -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-crown" style="color:#f1c40f"></i> <span data-i18n="rank">实时排行榜</span> <span class="live"><i class="fas fa-circle"></i> <span data-i18n="live">实时</span></span></h2>
 <div class="tabs">
@@ -146,7 +161,6 @@ tr:hover{background:var(--bg)!important}
 <p style="margin-top:1rem;font-weight:600;font-size:.88rem;color:var(--txt2)"><i class="fas fa-clock"></i> <span data-i18n="update">数据更新时间</span>: <span id="ut">—</span></p>
 </section>
 
-<!-- 推荐好友 -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-star" style="color:var(--gold)"></i> <span data-i18n="refTitle">推荐好友 · 赚取佣金</span></h2>
 <div class="ref">
@@ -157,7 +171,6 @@ tr:hover{background:var(--bg)!important}
 </div>
 </section>
 
-<!-- 资源中心 -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-life-ring" style="color:var(--acc)"></i> <span data-i18n="resTitle">帮助与资源</span></h2>
 <div class="grid">
@@ -172,22 +185,21 @@ tr:hover{background:var(--bg)!important}
 </div>
 </section>
 
-<!-- 三步上手 -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-play-circle" style="color:var(--acc)"></i> <span data-i18n="stepTitle">三步上手</span></h2>
 <div style="display:flex;gap:1rem;flex-wrap:wrap">
-<div style="flex:1;min-width:140px;background:var(--bgc);border:2px solid var(--bd);padding:1.2rem;text-align:center;box-shadow:3px 3px 0 var(--sh);border-radius:3px">
+<div style="flex:1;min-width:140px;background:var(--bgc);border:2px solid var(--bd);padding:1.2rem;text-align:center;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s">
 <span style="font-family:'Orbitron';font-size:2rem;color:var(--acc);display:block">1</span><strong style="color:var(--txt)" data-i18n="s1">注册</strong><p style="font-size:.85rem" data-i18n="s1d">邮箱免费创建账户</p>
 </div>
-<div style="flex:1;min-width:140px;background:var(--bgc);border:2px solid var(--bd);padding:1.2rem;text-align:center;box-shadow:3px 3px 0 var(--sh);border-radius:3px">
+<div style="flex:1;min-width:140px;background:var(--bgc);border:2px solid var(--bd);padding:1.2rem;text-align:center;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s">
 <span style="font-family:'Orbitron';font-size:2rem;color:var(--acc);display:block">2</span><strong style="color:var(--txt)" data-i18n="s2">做任务</strong><p style="font-size:.85rem" data-i18n="s2d">完成问卷积分到账</p>
 </div>
-<div style="flex:1;min-width:140px;background:var(--bgc);border:2px solid var(--bd);padding:1.2rem;text-align:center;box-shadow:3px 3px 0 var(--sh);border-radius:3px">
+<div style="flex:1;min-width:140px;background:var(--bgc);border:2px solid var(--bd);padding:1.2rem;text-align:center;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s">
 <span style="font-family:'Orbitron';font-size:2rem;color:var(--acc);display:block">3</span><strong style="color:var(--txt)" data-i18n="s3">兑换</strong><p style="font-size:.85rem" data-i18n="s3d">消耗积分换礼品</p>
 </div>
 </div>
 <div style="text-align:center;margin-top:1.5rem">
-<a href="https://mnb.ee?ar=signup" target="_blank" style="display:inline-block;padding:.85rem 2rem;background:linear-gradient(135deg,var(--txt),var(--acc));color:#fff;border:2px solid #000;box-shadow:4px 4px 0 #000;font-family:'Orbitron';font-weight:700;text-decoration:none;border-radius:3px;transition:.15s;font-size:1rem">
+<a href="https://mnb.ee?ar=signup" target="_blank" style="display:inline-block;padding:.85rem 2rem;background:linear-gradient(135deg,var(--txt),var(--acc));color:#fff;border:2px solid #000;box-shadow:4px 4px 0 #000;font-family:'Orbitron';font-weight:700;text-decoration:none;border-radius:3px;transition:.15s;font-size:1rem;position:relative;overflow:hidden">
 <i class="fas fa-arrow-right"></i> <span data-i18n="start">开始赚取 Gascoin</span></a>
 </div>
 </section>
@@ -202,7 +214,6 @@ tr:hover{background:var(--bg)!important}
 <button class="top-btn" id="topBtn"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-// ===== 多语言 =====
 const T={
 zh:{nav1:'📧 邮件模板',nav2:'❓ FAQ中文',nav4:'🔧 插件',nav5:'📖 教程',nav6:'📮 联系',nav7:'💬 聊天室',welcome:'欢迎来到 MoonBazaar',intro:'MoonBazaar 是一个<strong>积分任务平台</strong>，通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，可兑换礼品卡、游戏物品、Steam 余额、现金等丰富奖励。',badge1:'🏆 周榜奖励 200 GC',badge2:'⭐ 推荐返利 5%',guarTitle:'保证不撤单',guarIntro:'勾选后，本订单在商品原价 GC 的基础上额外收取 20% 溢价。优惠券只抵扣商品基础价格，不减免这笔溢价。',guar1:'<strong>订单成功提交后</strong>，除非账户余额为负数，否则不会拒绝本次提现（包括账户被封禁、质量分不足、任务撤销等情况）。',guar2:'保证只针对<strong>本订单</strong>，不解除账户封禁，也不保证即时到账；收款资料错误时仍可能需要补充或更正资料。',guar3:'提交前仍需满足邮箱验证、商品购买条件及原有提现要求。',guar4:'如果余额为负导致拒单，退回本订单已扣 GC（<strong>包含溢价</strong>）。',guarTip:'💰 建议：大额提现时勾选此选项，防止任务被撤销导致损失',chatTitle:'加入我们的聊天室',chatDesc:'与其他用户交流经验、分享技巧、获取最新活动信息',chatSub:'👥 实时聊天 · 官方客服 · 互助答疑',chatBtn:'进入聊天室',rank:'实时排行榜',live:'实时',tab1:'🏆 周榜',tab2:'📊 累计榜',tab3:'🎯 单次高额',searchPh:'搜索用户名...',th1:'排名',th2:'用户',th3:'周赚取 (GC)',th4:'累计 (GC)',th5:'单次 (GC)',th6:'任务商',th7:'完成时间',update:'数据更新时间',refTitle:'推荐好友 · 赚取佣金',refSub:'分享你的专属邀请链接',refDesc:'好友赚积分，你获得 5% 佣金。受邀者额外获得 5% 加成。',copyBtn:'复制链接',resTitle:'帮助与资源',r1:'邮件模板',r2:'FAQ 中文',r3:'浏览器插件',r4:'教程文档',r5:'问卷教程',r6:'联系站长',r7:'聊天室',stepTitle:'三步上手',s1:'注册',s1d:'邮箱免费创建账户',s2:'做任务',s2d:'完成问卷积分到账',s3:'兑换',s3d:'消耗积分换礼品',start:'开始赚取 Gascoin',ftTitle:'硬核任务平台',ftNote:'数据来自 MoonBazaar 官网，每小时自动更新'},
 en:{nav1:'📧 Emails',nav2:'❓ FAQ CN',nav4:'🔧 Plugin',nav5:'📖 Tutorial',nav6:'📮 Contact',nav7:'💬 Chat',welcome:'Welcome to MoonBazaar',intro:'MoonBazaar is a <strong>reward task platform</strong>. Earn <strong>Gascoin</strong> by completing surveys, redeem for gift cards, Steam balance, cash and more.',badge1:'🏆 Weekly Prize 200 GC',badge2:'⭐ Referral Bonus 5%',guarTitle:'No-Rejection Guarantee',guarIntro:'When checked, this order charges an extra 20% premium on the original GC price. Coupons only apply to the base price.',guar1:'<strong>After successful submission</strong>, the withdrawal will not be rejected unless your balance is negative (including account ban, low quality score, task reversal, etc.).',guar2:'The guarantee applies <strong>only to this order</strong>. It does not lift account bans or guarantee instant delivery. Incorrect payment details may require correction.',guar3:'Email verification, purchase conditions, and existing withdrawal requirements must still be met.',guar4:'If the order is rejected due to negative balance, the deducted GC (<strong>including premium</strong>) will be refunded.',guarTip:'💰 Tip: Enable this for large withdrawals to protect against task reversals',chatTitle:'Join Our Chatroom',chatDesc:'Chat with other users, share tips, and get the latest event info',chatSub:'👥 Live Chat · Support · Q&A',chatBtn:'Enter Chatroom',rank:'Live Leaderboard',live:'LIVE',tab1:'🏆 Weekly',tab2:'📊 All-Time',tab3:'🎯 Single High',searchPh:'Search user...',th1:'Rank',th2:'User',th3:'Weekly (GC)',th4:'Total (GC)',th5:'Single (GC)',th6:'Provider',th7:'Finish Time',update:'Updated at',refTitle:'Refer Friends · Earn Commission',refSub:'Share your invite link',refDesc:'Friends earn, you get 5% commission. Invitees get 5% bonus.',copyBtn:'Copy Link',resTitle:'Help & Resources',r1:'Email Templates',r2:'FAQ Chinese',r3:'Browser Plugin',r4:'Tutorial',r5:'Survey Guide',r6:'Contact Admin',r7:'Chatroom',stepTitle:'Get Started in 3 Steps',s1:'Sign Up',s1d:'Create free account',s2:'Do Tasks',s2d:'Points credited automatically',s3:'Redeem',s3d:'Spend points on items',start:'Start Earning Gascoin',ftTitle:'Hardcore Task Platform',ftNote:'Data from MoonBazaar official site, auto-updated hourly'}};
@@ -216,17 +227,14 @@ localStorage.setItem('moonLang',lang);L=lang;
 setLang(L);
 document.getElementById('langBtn').onclick=()=>setLang(L==='zh'?'en':'zh');
 
-// ===== 主题 =====
 const tb=document.getElementById('themeBtn');
 let th=localStorage.getItem('moonTheme')||'light';
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);tb.textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('moonTheme',t);th=t;}
 setTheme(th);
 tb.onclick=()=>setTheme(th==='light'?'dark':'light');
 
-// ===== Tab =====
 document.querySelectorAll('.tb').forEach(b=>{b.onclick=function(){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));this.classList.add('on');document.querySelectorAll('.tc').forEach(x=>x.classList.remove('on'));document.getElementById('t-'+this.dataset.t).classList.add('on');}});
 
-// ===== 搜索 =====
 document.getElementById('searchInput').addEventListener('input',function(){
 const q=this.value.toLowerCase().trim();
 document.querySelectorAll('tbody tr').forEach(tr=>{
@@ -235,15 +243,12 @@ tr.style.display=u.includes(q)?'':'none';
 });
 });
 
-// ===== 复制邀请链接 =====
 function copyRef(){const t=document.getElementById('refLink').textContent;navigator.clipboard.writeText(t).then(()=>{alert(L==='zh'?'已复制邀请链接！':'Copied!');});}
 
-// ===== 回到顶部 =====
 const topBtn=document.getElementById('topBtn');
 window.addEventListener('scroll',()=>{topBtn.classList.toggle('show',window.scrollY>300);});
 topBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 
-// ===== 排行榜 =====
 let rawData={weekly:[],total:[],single:[]};
 function rankIcon(r){return r.includes('🥇')?'<span class="medal">🥇</span>':r.includes('🥈')?'<span class="medal">🥈</span>':r.includes('🥉')?'<span class="medal">🥉</span>':r;}
 function rowClass(idx){return idx===0?'top1':idx===1?'top2':idx===2?'top3':'';}
