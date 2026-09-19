@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonBazaar 后台管理</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+  .card { transition: all 0.2s; }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .tab-active { background: linear-gradient(135deg, #2993c7, #154963); color: #fff; }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+
+<!-- 登录页 -->
+<div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
+    <div class="text-center mb-6">
+      <div class="text-4xl mb-2">👑</div>
+      <h1 class="text-2xl font-black text-slate-900">MoonBazaar 后台管理</h1>
+      <p class="text-sm text-slate-500 mt-1">请输入管理员 Token</p>
+    </div>
+    <input type="password" id="tokenInput" class="w-full border-2 border-slate-300 rounded-lg px-4 py-3 text-sm mb-4" placeholder="管理员 Token">
+    <button id="loginBtn" class="w-full bg-gradient-to-r from-sky-500 to-blue-700 text-white font-bold py-3 rounded-lg hover:shadow-lg transition">
+      <i class="fas fa-sign-in-alt mr-2"></i>登录
+    </button>
+    <div id="loginError" class="text-sm text-red-500 text-center mt-3"></div>
+  </div>
+</div>
+
+<!-- 管理面板 -->
+<div id="dashboard" class="hidden">
+  <!-- 顶栏 -->
+  <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
+    <div class="flex items-center gap-3">
+      <div class="text-xl font-black text-slate-900">👑 MoonBazaar 后台</div>
+    </div>
+    <div class="flex items-center gap-4">
+      <button id="refreshBtn" class="text-sm text-slate-600 hover:text-sky-500">
+        <i class="fas fa-sync-alt mr-1"></i>刷新
+      </button>
+      <button id="logoutBtn" class="text-sm text-red-500 hover:text-red-700">
+        <i class="fas fa-sign-out-alt mr-1"></i>退出
+      </button>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto p-6">
+
+    <!-- 统计卡片 -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-xl p-5 card">
+        <div class="text-sm text-slate-500">总卡密数</div>
+        <div id="statTotal" class="text-3xl font-black text-slate-900 mt-1">-</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 card">
+        <div class="text-sm text-slate-500">已激活</div>
+        <div id="statActivated" class="text-3xl font-black text-green-600 mt-1">-</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 card">
+        <div class="text-sm text-slate-500">待处理举报</div>
+        <div id="statReports" class="text-3xl font-black text-red-600 mt-1">-</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 card">
+        <div class="text-sm text-slate-500">回声洞留言</div>
+        <div id="statEcho" class="text-3xl font-black text-purple-600 mt-1">-</div>
+      </div>
+    </div>
+
+    <!-- Tab 切换 -->
+    <div class="flex gap-2 mb-6 overflow-x-auto">
+      <button data-tab="reports" class="tab-btn tab-active whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-flag mr-1"></i>举报处理
+      </button>
+      <button data-tab="licenses" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-key mr-1"></i>卡密管理
+      </button>
+      <button data-tab="echo" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-comment-dots mr-1"></i>回声洞管理
+      </button>
+      <button data-tab="kickouts" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-skull-crossbones mr-1"></i>被踢记录
+      </button>
+      <button data-tab="surveys" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-bookmark mr-1"></i>问卷记录
+      </button>
+    </div>
+
+    <!-- 内容区 -->
+    <div id="content" class="bg-white rounded-xl shadow-sm p-6">
+      <div class="text-center py-12 text-slate-400">
+        <i class="fas fa-spinner fa-spin text-3xl mb-3"></i>
+        <div>加载中...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ===== 配置 =====
+const API_BASE = 'https://api.moonbazaar.de5.net';
+let adminToken = localStorage.getItem('admin_token') || '';
+let currentTab = 'reports';
+
+// ===== 登录 =====
+document.getElementById('loginBtn').onclick = async () => {
+  const token = document.getElementById('tokenInput').value.trim();
+  if (!token) return;
+  const errorEl = document.getElementById('loginError');
+  errorEl.textContent = '验证中...';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/reports?token=${encodeURIComponent(token)}`);
+    const data = await res.json();
+    if (data.error === '无权限') {
+      errorEl.textContent = 'Token 错误';
+      return;
+    }
+    adminToken = token;
+    localStorage.setItem('admin_token', token);
+    showDashboard();
+  } catch (e) {
+    errorEl.textContent = '网络错误：' + e.message;
+  }
+};
+
+document.getElementById('tokenInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+});
+
+document.getElementById('logoutBtn').onclick = () => {
+  localStorage.removeItem('admin_token');
+  location.reload();
+};
+
+document.getElementById('refreshBtn').onclick = () => loadTab(currentTab);
+
+// ===== 显示面板 =====
+function showDashboard() {
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  loadStats();
+  loadTab('reports');
+}
+
+// ===== Tab 切换 =====
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('tab-active');
+      b.classList.add('border-slate-300');
+    });
+    btn.classList.add('tab-active');
+    btn.classList.remove('border-slate-300');
+    currentTab = btn.dataset.tab;
+    loadTab(currentTab);
+  };
+});
+
+// ===== 加载统计 =====
+async function loadStats() {
+  try {
+    const [licRes, repRes, echoRes] = await Promise.all([
+      fetch(`${API_BASE}/api/admin/licenses?token=${adminToken}`),
+      fetch(`${API_BASE}/api/admin/reports?token=${adminToken}`),
+      fetch(`${API_BASE}/api/echo/list?limit=100`),
+    ]);
+    const licData = await licRes.json();
+    const repData = await repRes.json();
+    const echoData = await echoRes.json();
+
+    const licenses = licData.licenses || [];
+    const reports = repData.reports || [];
+    const echos = echoData.messages || [];
+
+    document.getElementById('statTotal').textContent = licenses.length;
+    document.getElementById('statActivated').textContent = licenses.filter(l => l.activated).length;
+    document.getElementById('statReports').textContent = reports.filter(r => r.status === 'pending').length;
+    document.getElementById('statEcho').textContent = echos.length;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// ===== 加载 Tab 内容 =====
+async function loadTab(tab) {
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fas fa-spinner fa-spin text-3xl mb-3"></i><div>加载中...</div></div>';
+
+  if (tab === 'reports') await loadReports(content);
+  else if (tab === 'licenses') await loadLicenses(content);
+  else if (tab === 'echo') await loadEcho(content);
+  else if (tab === 'kickouts') await loadKickouts(content);
+  else if (tab === 'surveys') await loadSurveys(content);
+}
+
+// ===== 举报列表 =====
+async function loadReports(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/reports?token=${adminToken}`);
+    const data = await res.json();
+    const reports = data.reports || [];
+
+    if (reports.length === 0) {
+      content.innerHTML = '<div class="text-center py-12 text-slate-400">暂无举报</div>';
+      return;
+    }
+
+    content.innerHTML = `
+      <table class="w-full">
+        <thead>
+          <tr class="border-b-2 border-slate-200">
+            <th class="text-left py-3 text-sm font-bold text-slate-700">类型</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">目标ID</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">原因</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">时间</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">状态</th>
+            <th class="text-right py-3 text-sm font-bold text-slate-700">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${reports.map(r => `
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+              <td class="py-3 text-sm">${r.target_type}</td>
+              <td class="py-3 text-sm font-mono">${r.target_id}</td>
+              <td class="py-3 text-sm text-slate-600 max-w-md truncate">${escapeHtml(r.reason)}</td>
+              <td class="py-3 text-sm text-slate-500">${formatTime(r.created_at)}</td>
+              <td class="py-3 text-sm">
+                <span class="px-2 py-1 rounded text-xs font-bold ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}">${r.status}</span>
+              </td>
+              <td class="py-3 text-right">
+                <button onclick="deleteTarget('${r.target_type}', ${r.target_id})" class="text-red-500 hover:text-red-700 text-sm mr-2">
+                  <i class="fas fa-trash"></i> 删除内容
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+  }
+}
+
+// ===== 卡密列表 =====
+async function loadLicenses(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/licenses?token=${adminToken}`);
+    const data = await res.json();
+    const licenses = data.licenses || [];
+
+    content.innerHTML = `
+      <div class="flex gap-3 mb-6 p-4 bg-slate-50 rounded-lg">
+        <div class="flex-1">
+          <label class="text-sm font-bold mb-2 block">档位</label>
+          <select id="genLevel" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+            <option value="try">尝鲜版 (¥6.66)</option>
+            <option value="theme">主题档 (¥12.34)</option>
+            <option value="echo">回声档 (¥23.33)</option>
+            <option value="pro" selected>全套档 (¥54.32)</option>
+            <option value="king">王者档 (¥98.76)</option>
+          </select>
+        </div>
+        <div class="flex-1">
+          <label class="text-sm font-bold mb-2 block">数量</label>
+          <input type="number" id="genCount" value="10" min="1" max="100" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+        </div>
+        <div class="flex items-end">
+          <button onclick="generateLicenses()" class="bg-gradient-to-r from-sky-500 to-blue-700 text-white font-bold px-6 py-2 rounded-lg hover:shadow-lg transition">
+            <i class="fas fa-plus mr-1"></i>批量生成
+          </button>
+        </div>
+      </div>
+
+      <div id="generatedResult" class="hidden mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div class="font-bold mb-2">✅ 生成成功！复制下面的卡密：</div>
+        <textarea id="generatedCodes" rows="6" class="w-full border border-green-300 rounded p-3 font-mono text-xs" readonly></textarea>
+        <button onclick="copyCodes()" class="mt-2 text-sm text-sky-600 hover:underline">
+          <i class="fas fa-copy"></i> 一键复制
+        </button>
+      </div>
+
+      <div class="text-sm text-slate-500 mb-3">共 ${licenses.length} 个卡密</div>
+
+      <table class="w-full">
+        <thead>
+          <tr class="border-b-2 border-slate-200">
+            <th class="text-left py-3 text-sm font-bold text-slate-700">卡密</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">档位</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">状态</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">使用者</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">激活时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${licenses.map(l => `
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+              <td class="py-3 text-sm font-mono">${l.code}</td>
+              <td class="py-3 text-sm"><span class="px-2 py-1 rounded text-xs font-bold bg-sky-100 text-sky-700">${l.level || 'basic'}</span></td>
+              <td class="py-3 text-sm">
+                ${l.activated 
+                  ? '<span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">已激活</span>' 
+                  : '<span class="px-2 py-1 rounded text-xs font-bold bg-slate-100 text-slate-500">未使用</span>'}
+              </td>
+              <td class="py-3 text-sm font-mono text-xs text-slate-500">${l.used_by || '-'}</td>
+              <td class="py-3 text-sm text-slate-500">${l.used_at ? formatTime(l.used_at) : '-'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+  }
+}
+
+// ===== 回声洞管理 =====
+async function loadEcho(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/echo/list?limit=100`);
+    const data = await res.json();
+    const list = data.messages || [];
+
+    if (list.length === 0) {
+      content.innerHTML = '<div class="text-center py-12 text-slate-400">暂无留言</div>';
+      return;
+    }
+
+    content.innerHTML = list.map(m => `
+      <div class="border border-slate-200 rounded-lg p-4 mb-3">
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <span class="font-bold text-sm">${escapeHtml(m.nickname)}</span>
+            <span class="text-xs text-slate-400 ml-2">#${m.id} · ${formatTime(m.created_at)}</span>
+          </div>
+          <button onclick="deleteEcho(${m.id})" class="text-red-500 hover:text-red-700 text-sm">
+            <i class="fas fa-trash"></i> 删除
+          </button>
+        </div>
+        <div class="text-sm text-slate-700 whitespace-pre-wrap">${escapeHtml(m.content)}</div>
+        <div class="text-xs text-slate-400 mt-2">
+          <i class="fas fa-thumbs-up"></i> ${m.likes || 0}
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+  }
+}
+
+// ===== 被踢记录管理 =====
+async function loadKickouts(content) {
+  content.innerHTML = `
+    <div class="flex gap-2 mb-4">
+      <input id="kickFilter" type="text" placeholder="输入问卷编号筛选" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm">
+      <button onclick="filterKickouts()" class="bg-sky-500 text-white font-bold px-6 py-2 rounded-lg">
+        <i class="fas fa-search mr-1"></i>查询
+      </button>
+    </div>
+    <div id="kickListContent" class="text-center py-12 text-slate-400">输入问卷编号查询</div>
+  `;
+}
+
+async function filterKickouts() {
+  const code = document.getElementById('kickFilter').value.trim();
+  if (!code) return;
+  const content = document.getElementById('kickListContent');
+  content.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/survey/kickout-list?code=${encodeURIComponent(code)}`);
+    const data = await res.json();
+    const list = data.kickouts || [];
+
+    if (list.length === 0) {
+      content.innerHTML = '暂无记录';
+      return;
+    }
+
+    content.innerHTML = list.map(k => `
+      <div class="border border-red-200 bg-red-50 rounded-lg p-4 mb-3">
+        <div class="flex justify-between items-start">
+          <div class="flex-1">
+            <div class="font-bold text-sm text-red-700">${escapeHtml(k.position)}</div>
+            <div class="text-xs text-slate-500 mt-1">${formatTime(k.created_at)}</div>
+          </div>
+          <button onclick="deleteRecord('kickout', ${k.id})" class="text-red-500 hover:text-red-700 text-sm">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    content.innerHTML = `加载失败：${e.message}`;
+  }
+}
+
+// ===== 问卷记录管理 =====
+async function loadSurveys(content) {
+  content.innerHTML = `
+    <div class="flex gap-2 mb-4">
+      <input id="surveyFilter" type="text" placeholder="输入问卷编号筛选" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm">
+      <button onclick="filterSurveys()" class="bg-sky-500 text-white font-bold px-6 py-2 rounded-lg">
+        <i class="fas fa-search mr-1"></i>查询
+      </button>
+    </div>
+    <div id="surveyListContent" class="text-center py-12 text-slate-400">输入问卷编号查询</div>
+  `;
+}
+
+async function filterSurveys() {
+  const code = document.getElementById('surveyFilter').value.trim();
+  if (!code) return;
+  const content = document.getElementById('surveyListContent');
+  content.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/survey/lookup?code=${encodeURIComponent(code)}`);
+    const data = await res.json();
+    const list = data.records || [];
+
+    if (list.length === 0) {
+      content.innerHTML = '暂无记录';
+      return;
+    }
+
+    content.innerHTML = list.map(r => `
+      <div class="border border-slate-200 rounded-lg p-4 mb-3">
+        <div class="flex justify-between items-start mb-2">
+          <div class="text-xs text-slate-400">#${r.id} · ${formatTime(r.created_at)}</div>
+          <button onclick="deleteRecord('survey', ${r.id})" class="text-red-500 hover:text-red-700 text-sm">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="text-sm font-mono text-slate-600 whitespace-pre-wrap break-all">${escapeHtml(r.answers.slice(0, 300))}...</div>
+      </div>
+    `).join('');
+  } catch (e) {
+    content.innerHTML = `加载失败：${e.message}`;
+  }
+}
+
+// ===== 操作函数 =====
+async function deleteTarget(type, id) {
+  if (!confirm(`确定删除 ${type} #${id} 吗？`)) return;
+  await deleteRecord(type, id);
+}
+
+async function deleteRecord(type, id) {
+  if (!confirm(`确定删除 #${id} 吗？`)) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/delete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: adminToken, targetType: type, targetId: id }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert('✅ 已删除');
+      loadTab(currentTab);
+      loadStats();
+    } else {
+      alert('❌ ' + data.error);
+    }
+  } catch (e) {
+    alert('网络错误：' + e.message);
+  }
+}
+
+async function deleteEcho(id) {
+  if (!confirm(`确定删除留言 #${id} 吗？`)) return;
+  await deleteRecord('echo', id);
+}
+
+async function generateLicenses() {
+  const level = document.getElementById('genLevel').value;
+  const count = parseInt(document.getElementById('genCount').value) || 10;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: adminToken, count, level }),
+    });
+    const data = await res.json();
+    if (data.codes) {
+      document.getElementById('generatedResult').classList.remove('hidden');
+      document.getElementById('generatedCodes').value = data.codes.join('\n');
+      loadStats();
+      loadTab('licenses');
+    } else {
+      alert('❌ ' + (data.error || '生成失败'));
+    }
+  } catch (e) {
+    alert('网络错误：' + e.message);
+  }
+}
+
+function copyCodes() {
+  const textarea = document.getElementById('generatedCodes');
+  navigator.clipboard.writeText(textarea.value);
+  alert('✅ 已复制 ' + textarea.value.split('\n').length + ' 个卡密');
+}
+
+// ===== 工具 =====
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function formatTime(t) {
+  if (!t) return '-';
+  try {
+    const d = new Date(t.includes('T') ? t : t.replace(' ', 'T') + 'Z');
+    return d.toLocaleString('zh-CN', { hour12: false });
+  } catch { return t; }
+}
+
+// ===== 自动登录 =====
+if (adminToken) {
+  showDashboard();
+}
+</script>
+
+</body>
+</html>
