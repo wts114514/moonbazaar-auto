@@ -1,56 +1,5 @@
 {
-  "weekly": [
-    {
-      "rank": "🥇",
-      "user": "GRIMGIN",
-      "amount": 5170.47
-    },
-    {
-      "rank": "🥈",
-      "user": "mincearft",
-      "amount": 2835.35
-    },
-    {
-      "rank": "🥉",
-      "user": "aiqiliang",
-      "amount": 1986.9
-    },
-    {
-      "rank": "#4",
-      "user": "mr_maes",
-      "amount": 1856.6
-    },
-    {
-      "rank": "#5",
-      "user": "MIANQWE",
-      "amount": 1650.0
-    },
-    {
-      "rank": "#6",
-      "user": "114514www0721",
-      "amount": 1569.6
-    },
-    {
-      "rank": "#7",
-      "user": "DJSRYHM",
-      "amount": 1266.2
-    },
-    {
-      "rank": "#8",
-      "user": "46550177",
-      "amount": 1225.49
-    },
-    {
-      "rank": "#9",
-      "user": "chengfayunsuan",
-      "amount": 1050.0
-    },
-    {
-      "rank": "#10",
-      "user": "xilin21543",
-      "amount": 1049.35
-    }
-  ],
+  "weekly": [],
   "total": [
     {
       "rank": "#1",
@@ -1255,5 +1204,5 @@
       "finish_time": "2026-01-23 05:42"
     }
   ],
-  "updatedAt": "2026-09-20 22:32:54"
+  "updatedAt": "2026-09-21 02:01:18"
 }
