@@ -1,5 +1,56 @@
 {
-  "weekly": [],
+  "weekly": [
+    {
+      "rank": "🥇",
+      "user": "ASDWIDAW",
+      "amount": 408.0
+    },
+    {
+      "rank": "🥈",
+      "user": "scorchingyang",
+      "amount": 183.0
+    },
+    {
+      "rank": "🥉",
+      "user": "woaonia",
+      "amount": 65.87
+    },
+    {
+      "rank": "#4",
+      "user": "ccbg",
+      "amount": 37.0
+    },
+    {
+      "rank": "#5",
+      "user": "wupinmtr",
+      "amount": 30.8
+    },
+    {
+      "rank": "#6",
+      "user": "无不滑稽",
+      "amount": 18.0
+    },
+    {
+      "rank": "#7",
+      "user": "asdfghjk123q",
+      "amount": 8.75
+    },
+    {
+      "rank": "#8",
+      "user": "xiaoyi4684685",
+      "amount": 8.7
+    },
+    {
+      "rank": "#9",
+      "user": "土崩瓦解",
+      "amount": 8.0
+    },
+    {
+      "rank": "#10",
+      "user": "ggfd",
+      "amount": 5.88
+    }
+  ],
   "total": [
     {
       "rank": "#1",
@@ -1204,5 +1255,5 @@
       "finish_time": "2026-01-23 05:42"
     }
   ],
-  "updatedAt": "2026-09-21 07:53:41"
+  "updatedAt": "2026-09-21 11:42:17"
 }
