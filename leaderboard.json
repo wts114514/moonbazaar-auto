@@ -12,18 +12,18 @@
     },
     {
       "rank": "🥉",
+      "user": "xilin21543",
+      "amount": 434.3
+    },
+    {
+      "rank": "#4",
       "user": "Raptor",
       "amount": 409.0
     },
     {
-      "rank": "#4",
-      "user": "xilin21543",
-      "amount": 347.5
-    },
-    {
       "rank": "#5",
       "user": "inak",
-      "amount": 338.0
+      "amount": 400.0
     },
     {
       "rank": "#6",
@@ -1255,5 +1255,5 @@
       "finish_time": "2025-12-24 12:50"
     }
   ],
-  "updatedAt": "2026-09-22 04:49:05"
+  "updatedAt": "2026-09-22 07:51:45"
 }
