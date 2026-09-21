@@ -2,53 +2,53 @@
   "weekly": [
     {
       "rank": "🥇",
+      "user": "woaonia",
+      "amount": 460.37
+    },
+    {
+      "rank": "🥈",
       "user": "GRIMGIN",
       "amount": 451.0
     },
     {
-      "rank": "🥈",
+      "rank": "🥉",
       "user": "Raptor",
       "amount": 409.0
     },
     {
-      "rank": "🥉",
+      "rank": "#4",
       "user": "xilin21543",
       "amount": 347.5
     },
     {
-      "rank": "#4",
+      "rank": "#5",
       "user": "inak",
       "amount": 338.0
     },
     {
-      "rank": "#5",
-      "user": "woaonia",
-      "amount": 310.57
-    },
-    {
       "rank": "#6",
-      "user": "wdsjzbzh114",
-      "amount": 245.1
+      "user": "aaze",
+      "amount": 289.7
     },
     {
       "rank": "#7",
-      "user": "aaze",
-      "amount": 240.0
+      "user": "wdsjzbzh114",
+      "amount": 287.8
     },
     {
       "rank": "#8",
-      "user": "zhoudekuai",
-      "amount": 213.0
+      "user": "vi九",
+      "amount": 272.5
     },
     {
       "rank": "#9",
-      "user": "ColorOS",
-      "amount": 211.3
+      "user": "zhoudekuai",
+      "amount": 216.0
     },
     {
       "rank": "#10",
-      "user": "和一位",
-      "amount": 195.0
+      "user": "ColorOS",
+      "amount": 211.3
     }
   ],
   "total": [
@@ -1255,5 +1255,5 @@
       "finish_time": "2025-12-24 12:50"
     }
   ],
-  "updatedAt": "2026-09-22 00:15:56"
+  "updatedAt": "2026-09-22 04:49:05"
 }
