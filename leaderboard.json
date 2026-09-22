@@ -3,7 +3,7 @@
     {
       "rank": "🥇",
       "user": "woaonia",
-      "amount": 460.37
+      "amount": 540.17
     },
     {
       "rank": "🥈",
@@ -27,28 +27,28 @@
     },
     {
       "rank": "#6",
-      "user": "aaze",
-      "amount": 289.7
+      "user": "scorchingyang",
+      "amount": 350.0
     },
     {
       "rank": "#7",
-      "user": "wdsjzbzh114",
-      "amount": 287.8
+      "user": "chengfayunsuan",
+      "amount": 339.0
     },
     {
       "rank": "#8",
-      "user": "vi九",
-      "amount": 272.5
+      "user": "aaze",
+      "amount": 331.7
     },
     {
       "rank": "#9",
-      "user": "zhoudekuai",
-      "amount": 216.0
+      "user": "wdsjzbzh114",
+      "amount": 288.5
     },
     {
       "rank": "#10",
-      "user": "ColorOS",
-      "amount": 211.3
+      "user": "vi九",
+      "amount": 273.5
     }
   ],
   "total": [
@@ -1255,5 +1255,5 @@
       "finish_time": "2025-12-24 12:50"
     }
   ],
-  "updatedAt": "2026-09-22 07:51:45"
+  "updatedAt": "2026-09-22 11:40:37"
 }
