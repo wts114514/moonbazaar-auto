@@ -2,53 +2,53 @@
   "weekly": [
     {
       "rank": "🥇",
-      "user": "GRIMGIN",
-      "amount": 908.0
+      "user": "chengfayunsuan",
+      "amount": 3184.2
     },
     {
       "rank": "🥈",
-      "user": "woaonia",
-      "amount": 892.8
+      "user": "auroray9225",
+      "amount": 2844.4
     },
     {
       "rank": "🥉",
-      "user": "chengfayunsuan",
-      "amount": 861.2
+      "user": "GRIMGIN",
+      "amount": 2028.0
     },
     {
       "rank": "#4",
-      "user": "aaze",
-      "amount": 698.0
+      "user": "chufayunsuan",
+      "amount": 1120.0
     },
     {
       "rank": "#5",
-      "user": "auroray9225",
-      "amount": 645.7
+      "user": "woaonia",
+      "amount": 927.4
     },
     {
       "rank": "#6",
+      "user": "aaze",
+      "amount": 843.0
+    },
+    {
+      "rank": "#7",
+      "user": "JGJJGG",
+      "amount": 760.2
+    },
+    {
+      "rank": "#8",
       "user": "inak",
       "amount": 599.0
     },
     {
-      "rank": "#7",
-      "user": "2230165797",
-      "amount": 525.0
-    },
-    {
-      "rank": "#8",
-      "user": "i28krqet",
-      "amount": 499.5
-    },
-    {
       "rank": "#9",
-      "user": "xilin21543",
-      "amount": 452.9
+      "user": "2230165797",
+      "amount": 530.6
     },
     {
       "rank": "#10",
-      "user": "dongguamine2026",
-      "amount": 423.0
+      "user": "i28krqet",
+      "amount": 499.5
     }
   ],
   "total": [
@@ -1255,5 +1255,5 @@
       "finish_time": "2026-01-03 04:58"
     }
   ],
-  "updatedAt": "2026-09-23 23:19:59"
+  "updatedAt": "2026-09-24 03:29:46"
 }
