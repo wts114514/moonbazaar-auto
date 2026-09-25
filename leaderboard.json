@@ -3,12 +3,12 @@
     {
       "rank": "🥇",
       "user": "chengfayunsuan",
-      "amount": 6546.2
+      "amount": 6597.2
     },
     {
       "rank": "🥈",
       "user": "auroray9225",
-      "amount": 5522.3
+      "amount": 5676.6
     },
     {
       "rank": "🥉",
@@ -18,17 +18,17 @@
     {
       "rank": "#4",
       "user": "Qwevcb6",
-      "amount": 1671.0
+      "amount": 1743.0
     },
     {
       "rank": "#5",
-      "user": "woaonia",
-      "amount": 1251.5
+      "user": "i28krqet",
+      "amount": 1267.8
     },
     {
       "rank": "#6",
-      "user": "i28krqet",
-      "amount": 1154.7
+      "user": "woaonia",
+      "amount": 1251.5
     },
     {
       "rank": "#7",
@@ -47,8 +47,8 @@
     },
     {
       "rank": "#10",
-      "user": "Rushime",
-      "amount": 1017.0
+      "user": "mincearft",
+      "amount": 1037.6
     }
   ],
   "total": [
@@ -1255,5 +1255,5 @@
       "finish_time": "2026-01-28 05:37"
     }
   ],
-  "updatedAt": "2026-09-25 09:10:50"
+  "updatedAt": "2026-09-25 15:12:30"
 }
