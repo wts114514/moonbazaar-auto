@@ -11,6 +11,8 @@
   .card { transition: all 0.2s; }
   .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
   .tab-active { background: linear-gradient(135deg, #2993c7, #154963); color: #fff; }
+  pre.stack { white-space: pre-wrap; word-break: break-all; font-size: 11px; line-height: 1.5; }
+  .bar { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #2993c7, #154963); }
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -33,7 +35,6 @@
 
 <!-- 管理面板 -->
 <div id="dashboard" class="hidden">
-  <!-- 顶栏 -->
   <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
     <div class="flex items-center gap-3">
       <div class="text-xl font-black text-slate-900">👑 MoonBazaar 后台</div>
@@ -51,7 +52,7 @@
   <div class="max-w-6xl mx-auto p-6">
 
     <!-- 统计卡片 -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
       <div class="bg-white rounded-xl p-5 card">
         <div class="text-sm text-slate-500">总卡密数</div>
         <div id="statTotal" class="text-3xl font-black text-slate-900 mt-1">-</div>
@@ -67,6 +68,14 @@
       <div class="bg-white rounded-xl p-5 card">
         <div class="text-sm text-slate-500">回声洞留言</div>
         <div id="statEcho" class="text-3xl font-black text-purple-600 mt-1">-</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 card">
+        <div class="text-sm text-slate-500">累计用户</div>
+        <div id="statUsers" class="text-3xl font-black text-sky-600 mt-1">-</div>
+      </div>
+      <div class="bg-white rounded-xl p-5 card">
+        <div class="text-sm text-slate-500">7 日活跃</div>
+        <div id="statActiveWeek" class="text-3xl font-black text-emerald-600 mt-1">-</div>
       </div>
     </div>
 
@@ -86,6 +95,15 @@
       </button>
       <button data-tab="surveys" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
         <i class="fas fa-bookmark mr-1"></i>问卷记录
+      </button>
+      <button data-tab="users" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-users mr-1"></i>用户统计
+      </button>
+      <button data-tab="crashes" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-bug mr-1"></i>崩溃日志
+      </button>
+      <button data-tab="config" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-cloud mr-1"></i>云端配置
       </button>
     </div>
 
@@ -137,7 +155,7 @@ document.getElementById('logoutBtn').onclick = () => {
   location.reload();
 };
 
-document.getElementById('refreshBtn').onclick = () => loadTab(currentTab);
+document.getElementById('refreshBtn').onclick = () => { loadStats(); loadTab(currentTab); };
 
 // ===== 显示面板 =====
 function showDashboard() {
@@ -164,14 +182,16 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // ===== 加载统计 =====
 async function loadStats() {
   try {
-    const [licRes, repRes, echoRes] = await Promise.all([
+    const [licRes, repRes, echoRes, statsRes] = await Promise.all([
       fetch(`${API_BASE}/api/admin/licenses?token=${adminToken}`),
       fetch(`${API_BASE}/api/admin/reports?token=${adminToken}`),
       fetch(`${API_BASE}/api/echo/list?limit=100`),
+      fetch(`${API_BASE}/api/admin/stats?token=${adminToken}`),
     ]);
     const licData = await licRes.json();
     const repData = await repRes.json();
     const echoData = await echoRes.json();
+    const statsData = await statsRes.json();
 
     const licenses = licData.licenses || [];
     const reports = repData.reports || [];
@@ -181,6 +201,8 @@ async function loadStats() {
     document.getElementById('statActivated').textContent = licenses.filter(l => l.activated).length;
     document.getElementById('statReports').textContent = reports.filter(r => r.status === 'pending').length;
     document.getElementById('statEcho').textContent = echos.length;
+    document.getElementById('statUsers').textContent = statsData.total ?? '-';
+    document.getElementById('statActiveWeek').textContent = statsData.activeWeek ?? '-';
   } catch (e) {
     console.error(e);
   }
@@ -196,6 +218,9 @@ async function loadTab(tab) {
   else if (tab === 'echo') await loadEcho(content);
   else if (tab === 'kickouts') await loadKickouts(content);
   else if (tab === 'surveys') await loadSurveys(content);
+  else if (tab === 'users') await loadUsers(content);
+  else if (tab === 'crashes') await loadCrashes(content);
+  else if (tab === 'config') await loadConfig(content);
 }
 
 // ===== 举报列表 =====
@@ -303,8 +328,8 @@ async function loadLicenses(content) {
               <td class="py-3 text-sm font-mono">${l.code}</td>
               <td class="py-3 text-sm"><span class="px-2 py-1 rounded text-xs font-bold bg-sky-100 text-sky-700">${l.level || 'basic'}</span></td>
               <td class="py-3 text-sm">
-                ${l.activated 
-                  ? '<span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">已激活</span>' 
+                ${l.activated
+                  ? '<span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">已激活</span>'
                   : '<span class="px-2 py-1 rounded text-xs font-bold bg-slate-100 text-slate-500">未使用</span>'}
               </td>
               <td class="py-3 text-sm font-mono text-xs text-slate-500">${l.used_by || '-'}</td>
@@ -353,7 +378,7 @@ async function loadEcho(content) {
   }
 }
 
-// ===== 被踢记录管理 =====
+// ===== 被踢记录 =====
 async function loadKickouts(content) {
   content.innerHTML = `
     <div class="flex gap-2 mb-4">
@@ -400,7 +425,7 @@ async function filterKickouts() {
   }
 }
 
-// ===== 问卷记录管理 =====
+// ===== 问卷记录 =====
 async function loadSurveys(content) {
   content.innerHTML = `
     <div class="flex gap-2 mb-4">
@@ -443,6 +468,328 @@ async function filterSurveys() {
   } catch (e) {
     content.innerHTML = `加载失败：${e.message}`;
   }
+}
+
+// ============================================================
+// 用户统计
+// ============================================================
+async function loadUsers(content) {
+  try {
+    const [statsRes, usersRes] = await Promise.all([
+      fetch(`${API_BASE}/api/admin/stats?token=${adminToken}`),
+      fetch(`${API_BASE}/api/admin/users?token=${adminToken}`),
+    ]);
+    const stats = await statsRes.json();
+    const userData = await usersRes.json();
+    const users = userData.users || [];
+
+    // 版本分布
+    const maxVerCount = Math.max(1, ...(stats.versions || []).map(v => v.n));
+    const versionsHtml = (stats.versions || []).map(v => `
+      <div class="mb-2">
+        <div class="flex justify-between text-xs mb-1">
+          <span class="font-mono font-bold">v${escapeHtml(v.app_version || '未知')}</span>
+          <span class="text-slate-500">${v.n} 人</span>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full overflow-hidden" style="height:8px;">
+          <div class="bar" style="width:${(v.n / maxVerCount) * 100}%"></div>
+        </div>
+      </div>
+    `).join('') || '<div class="text-slate-400 text-sm">暂无数据</div>';
+
+    // 平台分布
+    const platformsHtml = (stats.platforms || []).map(p => `
+      <div class="flex justify-between text-sm py-1">
+        <span>${escapeHtml(p.platform || '未知')}</span>
+        <span class="font-bold">${p.n}</span>
+      </div>
+    `).join('') || '<div class="text-slate-400 text-sm">暂无数据</div>';
+
+    // 每日新增
+    const maxDayCount = Math.max(1, ...(stats.daily || []).map(d => d.n));
+    const dailyHtml = (stats.daily || []).map(d => `
+      <div class="flex items-center gap-3 mb-1">
+        <span class="text-xs font-mono w-24">${escapeHtml(d.day)}</span>
+        <div class="flex-1 bg-slate-100 rounded-full overflow-hidden" style="height:16px;">
+          <div class="bar" style="width:${(d.n / maxDayCount) * 100}%; height:16px;"></div>
+        </div>
+        <span class="text-xs font-bold w-8 text-right">${d.n}</span>
+      </div>
+    `).join('') || '<div class="text-slate-400 text-sm">暂无数据</div>';
+
+    content.innerHTML = `
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="bg-sky-50 p-4 rounded-lg">
+          <div class="text-xs text-slate-500">累计用户</div>
+          <div class="text-3xl font-black text-sky-600 mt-1">${stats.total ?? 0}</div>
+        </div>
+        <div class="bg-orange-50 p-4 rounded-lg">
+          <div class="text-xs text-slate-500">今日活跃</div>
+          <div class="text-3xl font-black text-orange-600 mt-1">${stats.activeDay ?? 0}</div>
+        </div>
+        <div class="bg-emerald-50 p-4 rounded-lg">
+          <div class="text-xs text-slate-500">7 日活跃</div>
+          <div class="text-3xl font-black text-emerald-600 mt-1">${stats.activeWeek ?? 0}</div>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-lg">
+          <div class="text-xs text-slate-500">30 日活跃</div>
+          <div class="text-3xl font-black text-purple-600 mt-1">${stats.activeMonth ?? 0}</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-50 p-5 rounded-lg">
+          <h3 class="font-bold text-sm mb-4">📊 版本分布</h3>
+          ${versionsHtml}
+        </div>
+        <div class="bg-slate-50 p-5 rounded-lg">
+          <h3 class="font-bold text-sm mb-4">💻 平台分布</h3>
+          ${platformsHtml}
+        </div>
+      </div>
+
+      <div class="bg-slate-50 p-5 rounded-lg mb-6">
+        <h3 class="font-bold text-sm mb-4">📈 近 7 天新增</h3>
+        ${dailyHtml}
+      </div>
+
+      <h3 class="font-bold text-sm mb-3">👥 用户列表（最近 200 个）</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b-2 border-slate-200">
+              <th class="text-left py-2 font-bold">设备 ID</th>
+              <th class="text-left py-2 font-bold">版本</th>
+              <th class="text-left py-2 font-bold">平台</th>
+              <th class="text-left py-2 font-bold">首次使用</th>
+              <th class="text-left py-2 font-bold">最后活跃</th>
+              <th class="text-right py-2 font-bold">次数</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(u => `
+              <tr class="border-b border-slate-100 hover:bg-white">
+                <td class="py-2 font-mono text-xs">${escapeHtml(u.device_id).slice(0, 20)}...</td>
+                <td class="py-2">${u.app_version ? 'v' + escapeHtml(u.app_version) : '-'}</td>
+                <td class="py-2">${escapeHtml(u.platform || '-')}</td>
+                <td class="py-2 text-xs text-slate-500">${formatTime(u.first_seen)}</td>
+                <td class="py-2 text-xs text-slate-500">${formatTime(u.last_seen)}</td>
+                <td class="py-2 text-right font-bold">${u.count || 0}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+  }
+}
+
+// ============================================================
+// 崩溃日志
+// ============================================================
+async function loadCrashes(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/crashes?token=${adminToken}`);
+    const data = await res.json();
+    const crashes = data.crashes || [];
+
+    if (crashes.length === 0) {
+      content.innerHTML = '<div class="text-center py-12 text-slate-400">🎉 暂无崩溃日志</div>';
+      return;
+    }
+
+    content.innerHTML = `
+      <div class="text-sm text-slate-500 mb-4">共 ${crashes.length} 条崩溃记录（最近 100 条）</div>
+      ${crashes.map(c => `
+        <details class="border border-red-200 bg-red-50 rounded-lg mb-3">
+          <summary class="cursor-pointer p-4 hover:bg-red-100 rounded-lg">
+            <div class="flex justify-between items-center">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="px-2 py-0.5 bg-red-600 text-white text-xs rounded font-bold">${escapeHtml(c.error_type || 'unknown')}</span>
+                  <span class="text-xs text-slate-500">v${escapeHtml(c.app_version || '?')}</span>
+                  <span class="text-xs text-slate-500">${escapeHtml(c.platform || '')}</span>
+                </div>
+                <div class="text-sm text-red-800 font-bold truncate">${escapeHtml(c.message || '(无消息)')}</div>
+              </div>
+              <div class="text-xs text-slate-500 ml-4 whitespace-nowrap">${formatTime(c.created_at)}</div>
+            </div>
+          </summary>
+          <div class="p-4 border-t border-red-200 bg-white">
+            <div class="mb-3">
+              <div class="text-xs font-bold text-slate-500 mb-1">设备 ID</div>
+              <div class="font-mono text-xs text-slate-600">${escapeHtml(c.device_id || '-')}</div>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-slate-500 mb-1">错误堆栈</div>
+              <pre class="stack bg-slate-900 text-green-300 p-3 rounded overflow-x-auto">${escapeHtml(c.stack || '(无堆栈)')}</pre>
+            </div>
+            <button onclick="deleteRecord('crash', ${c.id})" class="mt-3 text-red-500 hover:text-red-700 text-sm">
+              <i class="fas fa-trash"></i> 删除此记录
+            </button>
+          </div>
+        </details>
+      `).join('')}
+    `;
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+  }
+}
+
+// ============================================================
+// 云端配置
+// ============================================================
+async function loadConfig(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/config`);
+    const data = await res.json();
+    const config = data.config || {};
+
+    const announcement = config.announcement || {};
+    const sponsors = Array.isArray(config.sponsorList) ? config.sponsorList : [];
+
+    content.innerHTML = `
+      <div class="space-y-6">
+
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-5">
+          <h3 class="font-bold text-sm mb-1">💡 说明</h3>
+          <div class="text-xs text-slate-600 leading-relaxed">
+            这里修改的内容会通过云端 <code class="bg-white px-1 rounded">/api/config</code> 接口推送给所有客户端，
+            <strong>不需要发新版本</strong>。用户在软件启动或点"设置 → 云端同步"时会拉取最新配置。
+          </div>
+        </div>
+
+        <!-- 公告 -->
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="font-bold text-base mb-4"><i class="fas fa-bullhorn text-sky-500 mr-2"></i>顶部公告条</h3>
+          <div class="space-y-3">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="annEnabled" ${announcement.enabled !== false ? 'checked' : ''} class="w-4 h-4">
+              <span class="text-sm">启用公告条</span>
+            </label>
+            <textarea id="annText" rows="3" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" placeholder="公告内容...">${escapeHtml(announcement.text || '')}</textarea>
+            <button onclick="saveAnnouncement()" class="bg-sky-500 text-white font-bold px-5 py-2 rounded-lg text-sm hover:bg-sky-600">
+              <i class="fas fa-save mr-1"></i>保存公告
+            </button>
+          </div>
+        </div>
+
+        <!-- 赞助者 -->
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="font-bold text-base mb-4"><i class="fas fa-heart text-pink-500 mr-2"></i>赞助者名单</h3>
+          <div class="text-xs text-slate-500 mb-3">每行一个，格式：<code class="bg-slate-100 px-1 rounded">名字|等级</code>，等级可选 gold / silver / bronze</div>
+          <textarea id="sponsorText" rows="6" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono" placeholder="张三|gold&#10;李四|silver">${sponsors.map(s => `${s.name}|${s.level}`).join('\n')}</textarea>
+          <button onclick="saveSponsors()" class="mt-3 bg-pink-500 text-white font-bold px-5 py-2 rounded-lg text-sm hover:bg-pink-600">
+            <i class="fas fa-save mr-1"></i>保存赞助者
+          </button>
+        </div>
+
+        <!-- 功能开关 -->
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="font-bold text-base mb-4"><i class="fas fa-toggle-on text-green-500 mr-2"></i>功能开关</h3>
+          <div class="text-xs text-slate-500 mb-3">用于灰度发布或紧急关闭某些功能</div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center py-2 border-b border-slate-100">
+              <div>
+                <div class="text-sm font-bold">高价值问卷监控</div>
+                <div class="text-xs text-slate-500">关闭后所有客户端停止定时扫描</div>
+              </div>
+              <input type="checkbox" id="flagMonitor" ${config.featureFlags?.highValueMonitor !== false ? 'checked' : ''} class="w-5 h-5">
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-slate-100">
+              <div>
+                <div class="text-sm font-bold">自动答案上传</div>
+                <div class="text-xs text-slate-500">全局开关，客户端仍可本地关闭</div>
+              </div>
+              <input type="checkbox" id="flagUpload" ${config.featureFlags?.autoUpload !== false ? 'checked' : ''} class="w-5 h-5">
+            </div>
+          </div>
+          <button onclick="saveFeatureFlags()" class="mt-3 bg-green-500 text-white font-bold px-5 py-2 rounded-lg text-sm hover:bg-green-600">
+            <i class="fas fa-save mr-1"></i>保存开关
+          </button>
+        </div>
+
+        <!-- 手动设置任意 key -->
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="font-bold text-base mb-4"><i class="fas fa-cog text-slate-500 mr-2"></i>高级：直接编辑配置</h3>
+          <div class="text-xs text-slate-500 mb-3">key 是配置名，value 是 JSON 或字符串</div>
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <input type="text" id="cfgKey" placeholder="key，例如 announcement" class="border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono">
+            <input type="text" id="cfgValue" placeholder='value，例如 {"enabled":true,"text":"hi"}' class="border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono">
+          </div>
+          <button onclick="saveRawConfig()" class="bg-slate-700 text-white font-bold px-5 py-2 rounded-lg text-sm hover:bg-slate-800">
+            <i class="fas fa-save mr-1"></i>保存
+          </button>
+        </div>
+
+        <!-- 当前配置预览 -->
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="font-bold text-base mb-4"><i class="fas fa-eye text-slate-500 mr-2"></i>当前配置预览</h3>
+          <pre class="bg-slate-900 text-green-300 p-4 rounded-lg text-xs overflow-x-auto">${escapeHtml(JSON.stringify(config, null, 2))}</pre>
+        </div>
+
+      </div>
+    `;
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+  }
+}
+
+// ===== 云端配置保存 =====
+async function saveCloudConfig(key, value) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/set-config`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: adminToken, key, value }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert('✅ 已保存并推送给所有客户端');
+      loadConfig(document.getElementById('content'));
+    } else {
+      alert('❌ ' + (data.error || '保存失败'));
+    }
+  } catch (e) {
+    alert('网络错误：' + e.message);
+  }
+}
+
+function saveAnnouncement() {
+  const enabled = document.getElementById('annEnabled').checked;
+  const text = document.getElementById('annText').value.trim();
+  saveCloudConfig('announcement', { enabled, text });
+}
+
+function saveSponsors() {
+  const raw = document.getElementById('sponsorText').value.trim();
+  const list = raw.split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      const [name, level = 'bronze'] = line.split('|').map(s => s.trim());
+      return { name, level: ['gold', 'silver', 'bronze'].includes(level) ? level : 'bronze' };
+    });
+  saveCloudConfig('sponsorList', list);
+}
+
+function saveFeatureFlags() {
+  const flags = {
+    highValueMonitor: document.getElementById('flagMonitor').checked,
+    autoUpload: document.getElementById('flagUpload').checked,
+  };
+  saveCloudConfig('featureFlags', flags);
+}
+
+function saveRawConfig() {
+  const key = document.getElementById('cfgKey').value.trim();
+  const valStr = document.getElementById('cfgValue').value.trim();
+  if (!key) return alert('请填 key');
+  let value;
+  try { value = JSON.parse(valStr); } catch { value = valStr; }
+  saveCloudConfig(key, value);
 }
 
 // ===== 操作函数 =====
@@ -509,7 +856,7 @@ function copyCodes() {
 
 // ===== 工具 =====
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
 }
