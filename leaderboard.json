@@ -37,17 +37,17 @@
     },
     {
       "rank": "#8",
-      "user": "chufayunsuan",
-      "amount": 1120.0
+      "user": "MrGu",
+      "amount": 1123.19
     },
     {
       "rank": "#9",
-      "user": "MortIsntCoder",
+      "user": "zhuang",
       "amount": 1120.0
     },
     {
       "rank": "#10",
-      "user": "zhuang",
+      "user": "MortIsntCoder",
       "amount": 1120.0
     }
   ],
@@ -1255,5 +1255,5 @@
       "finish_time": "2026-01-03 04:58"
     }
   ],
-  "updatedAt": "2026-09-27 08:18:26"
+  "updatedAt": "2026-09-27 14:19:57"
 }
