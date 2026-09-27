@@ -1,56 +1,5 @@
 {
-  "weekly": [
-    {
-      "rank": "🥇",
-      "user": "chengfayunsuan",
-      "amount": 6601.2
-    },
-    {
-      "rank": "🥈",
-      "user": "auroray9225",
-      "amount": 6084.3
-    },
-    {
-      "rank": "🥉",
-      "user": "Wangxiansen2",
-      "amount": 2240.0
-    },
-    {
-      "rank": "#4",
-      "user": "maz",
-      "amount": 2180.0
-    },
-    {
-      "rank": "#5",
-      "user": "lin456258",
-      "amount": 2104.8
-    },
-    {
-      "rank": "#6",
-      "user": "i28krqet",
-      "amount": 1625.93
-    },
-    {
-      "rank": "#7",
-      "user": "mincearft",
-      "amount": 1385.3
-    },
-    {
-      "rank": "#8",
-      "user": "MrGu",
-      "amount": 1126.69
-    },
-    {
-      "rank": "#9",
-      "user": "zhuang",
-      "amount": 1120.0
-    },
-    {
-      "rank": "#10",
-      "user": "MortIsntCoder",
-      "amount": 1120.0
-    }
-  ],
+  "weekly": [],
   "total": [
     {
       "rank": "#1",
@@ -1255,5 +1204,5 @@
       "finish_time": "2026-01-27 12:56"
     }
   ],
-  "updatedAt": "2026-09-27 20:49:41"
+  "updatedAt": "2026-09-28 01:33:33"
 }
