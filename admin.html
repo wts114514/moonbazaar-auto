@@ -102,8 +102,14 @@
       <button data-tab="crashes" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
         <i class="fas fa-bug mr-1"></i>崩溃日志
       </button>
+      <button data-tab="feedback" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-comment-medical mr-1"></i>用户反馈
+      </button>
       <button data-tab="config" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
         <i class="fas fa-cloud mr-1"></i>云端配置
+      </button>
+      <button data-tab="ai-stats" class="tab-btn whitespace-nowrap px-5 py-2 rounded-lg font-bold text-sm border-2 border-slate-300 transition">
+        <i class="fas fa-robot mr-1"></i>AI 用量
       </button>
     </div>
 
@@ -157,7 +163,6 @@ document.getElementById('logoutBtn').onclick = () => {
 
 document.getElementById('refreshBtn').onclick = () => { loadStats(); loadTab(currentTab); };
 
-// ===== 显示面板 =====
 function showDashboard() {
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
@@ -165,7 +170,6 @@ function showDashboard() {
   loadTab('reports');
 }
 
-// ===== Tab 切换 =====
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.tab-btn').forEach(b => {
@@ -220,7 +224,9 @@ async function loadTab(tab) {
   else if (tab === 'surveys') await loadSurveys(content);
   else if (tab === 'users') await loadUsers(content);
   else if (tab === 'crashes') await loadCrashes(content);
+  else if (tab === 'feedback') await loadFeedback(content);
   else if (tab === 'config') await loadConfig(content);
+  else if (tab === 'ai-stats') await loadAiStats(content);
 }
 
 // ===== 举报列表 =====
@@ -250,12 +256,12 @@ async function loadReports(content) {
         <tbody>
           ${reports.map(r => `
             <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="py-3 text-sm">${r.target_type}</td>
+              <td class="py-3 text-sm">${escapeHtml(r.target_type)}</td>
               <td class="py-3 text-sm font-mono">${r.target_id}</td>
               <td class="py-3 text-sm text-slate-600 max-w-md truncate">${escapeHtml(r.reason)}</td>
               <td class="py-3 text-sm text-slate-500">${formatTime(r.created_at)}</td>
               <td class="py-3 text-sm">
-                <span class="px-2 py-1 rounded text-xs font-bold ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}">${r.status}</span>
+                <span class="px-2 py-1 rounded text-xs font-bold ${r.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}">${escapeHtml(r.status)}</span>
               </td>
               <td class="py-3 text-right">
                 <button onclick="deleteTarget('${r.target_type}', ${r.target_id})" class="text-red-500 hover:text-red-700 text-sm mr-2">
@@ -268,11 +274,11 @@ async function loadReports(content) {
       </table>
     `;
   } catch (e) {
-    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
   }
 }
 
-// ===== 卡密列表 =====
+// ===== 卡密管理 =====
 async function loadLicenses(content) {
   try {
     const res = await fetch(`${API_BASE}/api/admin/licenses?token=${adminToken}`);
@@ -310,7 +316,10 @@ async function loadLicenses(content) {
         </button>
       </div>
 
-      <div class="text-sm text-slate-500 mb-3">共 ${licenses.length} 个卡密</div>
+      <div class="flex justify-between items-center mb-3">
+        <div class="text-sm text-slate-500">共 ${licenses.length} 个卡密</div>
+        <div class="text-xs text-slate-400"><i class="fas fa-info-circle mr-1"></i>每张卡密最多绑定 2 台设备，可点"解绑"移除</div>
+      </div>
 
       <table class="w-full">
         <thead>
@@ -318,33 +327,69 @@ async function loadLicenses(content) {
             <th class="text-left py-3 text-sm font-bold text-slate-700">卡密</th>
             <th class="text-left py-3 text-sm font-bold text-slate-700">档位</th>
             <th class="text-left py-3 text-sm font-bold text-slate-700">状态</th>
-            <th class="text-left py-3 text-sm font-bold text-slate-700">使用者</th>
+            <th class="text-left py-3 text-sm font-bold text-slate-700">绑定设备</th>
             <th class="text-left py-3 text-sm font-bold text-slate-700">激活时间</th>
           </tr>
         </thead>
         <tbody>
-          ${licenses.map(l => `
-            <tr class="border-b border-slate-100 hover:bg-slate-50">
-              <td class="py-3 text-sm font-mono">${l.code}</td>
-              <td class="py-3 text-sm"><span class="px-2 py-1 rounded text-xs font-bold bg-sky-100 text-sky-700">${l.level || 'basic'}</span></td>
-              <td class="py-3 text-sm">
-                ${l.activated
-                  ? '<span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">已激活</span>'
-                  : '<span class="px-2 py-1 rounded text-xs font-bold bg-slate-100 text-slate-500">未使用</span>'}
-              </td>
-              <td class="py-3 text-sm font-mono text-xs text-slate-500">${l.used_by || '-'}</td>
-              <td class="py-3 text-sm text-slate-500">${l.used_at ? formatTime(l.used_at) : '-'}</td>
-            </tr>
-          `).join('')}
+          ${licenses.map(l => {
+            const usedList = (l.used_by || '').split(',').filter(Boolean);
+            const deviceHtml = usedList.length > 0
+              ? usedList.map(d => `
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="font-mono text-xs text-slate-600">${escapeHtml(d.slice(0, 18))}...</span>
+                    <button onclick="unbindDevice('${escapeHtml(l.code)}', '${escapeHtml(d)}')" class="text-red-500 hover:text-red-700 text-xs">
+                      <i class="fas fa-unlink"></i>
+                    </button>
+                  </div>
+                `).join('')
+              : '<span class="text-slate-400 text-xs">-</span>';
+
+            return `
+              <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="py-3 text-sm font-mono">${escapeHtml(l.code)}</td>
+                <td class="py-3 text-sm"><span class="px-2 py-1 rounded text-xs font-bold bg-sky-100 text-sky-700">${escapeHtml(l.level || 'basic')}</span></td>
+                <td class="py-3 text-sm">
+                  ${l.activated
+                    ? `<span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700">已激活 (${usedList.length}/2)</span>`
+                    : '<span class="px-2 py-1 rounded text-xs font-bold bg-slate-100 text-slate-500">未使用</span>'}
+                </td>
+                <td class="py-3 text-sm">${deviceHtml}</td>
+                <td class="py-3 text-sm text-slate-500">${l.used_at ? formatTime(l.used_at) : '-'}</td>
+              </tr>
+            `;
+          }).join('')}
         </tbody>
       </table>
     `;
   } catch (e) {
-    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
   }
 }
 
-// ===== 回声洞管理 =====
+async function unbindDevice(code, deviceId) {
+  const shortId = deviceId.slice(0, 18);
+  if (!confirm(`确定解绑卡密 ${code} 上的设备 ${shortId}... 吗？\n\n解绑后该设备会失去激活状态。`)) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/unbind-device`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: adminToken, code, deviceId }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(`✅ 已解绑。该卡密剩余绑定 ${data.remaining} 台设备。`);
+      loadTab('licenses');
+      loadStats();
+    } else {
+      alert('❌ ' + (data.error || '解绑失败'));
+    }
+  } catch (e) {
+    alert('网络错误：' + e.message);
+  }
+}
+
+// ===== 回声洞 =====
 async function loadEcho(content) {
   try {
     const res = await fetch(`${API_BASE}/api/echo/list?limit=100`);
@@ -374,7 +419,7 @@ async function loadEcho(content) {
       </div>
     `).join('');
   } catch (e) {
-    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
   }
 }
 
@@ -421,7 +466,7 @@ async function filterKickouts() {
       </div>
     `).join('');
   } catch (e) {
-    content.innerHTML = `加载失败：${e.message}`;
+    content.innerHTML = `加载失败：${escapeHtml(e.message)}`;
   }
 }
 
@@ -462,11 +507,11 @@ async function filterSurveys() {
             <i class="fas fa-trash"></i>
           </button>
         </div>
-        <div class="text-sm font-mono text-slate-600 whitespace-pre-wrap break-all">${escapeHtml(r.answers.slice(0, 300))}...</div>
+        <div class="text-sm font-mono text-slate-600 whitespace-pre-wrap break-all">${escapeHtml((r.answers || '').slice(0, 300))}...</div>
       </div>
     `).join('');
   } catch (e) {
-    content.innerHTML = `加载失败：${e.message}`;
+    content.innerHTML = `加载失败：${escapeHtml(e.message)}`;
   }
 }
 
@@ -483,7 +528,6 @@ async function loadUsers(content) {
     const userData = await usersRes.json();
     const users = userData.users || [];
 
-    // 版本分布
     const maxVerCount = Math.max(1, ...(stats.versions || []).map(v => v.n));
     const versionsHtml = (stats.versions || []).map(v => `
       <div class="mb-2">
@@ -497,7 +541,6 @@ async function loadUsers(content) {
       </div>
     `).join('') || '<div class="text-slate-400 text-sm">暂无数据</div>';
 
-    // 平台分布
     const platformsHtml = (stats.platforms || []).map(p => `
       <div class="flex justify-between text-sm py-1">
         <span>${escapeHtml(p.platform || '未知')}</span>
@@ -505,7 +548,6 @@ async function loadUsers(content) {
       </div>
     `).join('') || '<div class="text-slate-400 text-sm">暂无数据</div>';
 
-    // 每日新增
     const maxDayCount = Math.max(1, ...(stats.daily || []).map(d => d.n));
     const dailyHtml = (stats.daily || []).map(d => `
       <div class="flex items-center gap-3 mb-1">
@@ -582,7 +624,7 @@ async function loadUsers(content) {
       </div>
     `;
   } catch (e) {
-    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
   }
 }
 
@@ -634,7 +676,87 @@ async function loadCrashes(content) {
       `).join('')}
     `;
   } catch (e) {
-    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
+  }
+}
+
+// ============================================================
+// 用户反馈
+// ============================================================
+async function loadFeedback(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/feedback?token=${adminToken}`);
+    const data = await res.json();
+    const list = data.feedback || [];
+
+    if (list.length === 0) {
+      content.innerHTML = '<div class="text-center py-12 text-slate-400">暂无反馈</div>';
+      return;
+    }
+
+    const typeMap = {
+      bug: { text: '🐞 Bug', color: 'bg-red-100 text-red-700' },
+      feature: { text: '✨ 功能建议', color: 'bg-purple-100 text-purple-700' },
+      experience: { text: '🎨 体验', color: 'bg-orange-100 text-orange-700' },
+      other: { text: '📝 其他', color: 'bg-slate-100 text-slate-600' },
+    };
+
+    content.innerHTML = list.map(f => {
+      const t = typeMap[f.type] || typeMap.other;
+      const statusMap = {
+        pending: { text: '待处理', color: 'bg-yellow-100 text-yellow-700' },
+        done: { text: '已处理', color: 'bg-green-100 text-green-700' },
+        rejected: { text: '已忽略', color: 'bg-slate-100 text-slate-500' },
+      };
+      const st = statusMap[f.status] || statusMap.pending;
+
+      return `
+        <div class="border border-slate-200 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-1 rounded text-xs font-bold ${t.color}">${t.text}</span>
+              <span class="px-2 py-1 rounded text-xs font-bold ${st.color}">${st.text}</span>
+              <span class="text-xs text-slate-400">#${f.id}</span>
+            </div>
+            <div class="text-xs text-slate-400">${formatTime(f.created_at)}</div>
+          </div>
+          <div class="text-sm text-slate-700 whitespace-pre-wrap mb-2">${escapeHtml(f.content)}</div>
+          ${f.contact ? `<div class="text-xs text-slate-500 mb-2"><i class="fas fa-phone mr-1"></i>联系方式：${escapeHtml(f.contact)}</div>` : ''}
+          <div class="text-xs text-slate-400 mb-2 font-mono">设备：${escapeHtml((f.device_id || '').slice(0, 24))}...</div>
+          <div class="flex gap-2 pt-2 border-t border-slate-100">
+            <button onclick="updateFeedback(${f.id}, 'done')" class="text-xs text-green-600 hover:text-green-800 font-bold">
+              <i class="fas fa-check"></i> 标记已处理
+            </button>
+            <button onclick="updateFeedback(${f.id}, 'rejected')" class="text-xs text-slate-500 hover:text-slate-700 font-bold">
+              <i class="fas fa-times"></i> 忽略
+            </button>
+            <button onclick="deleteRecord('feedback', ${f.id})" class="text-xs text-red-500 hover:text-red-700 font-bold ml-auto">
+              <i class="fas fa-trash"></i> 删除
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
+  }
+}
+
+async function updateFeedback(id, status) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/feedback-update`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: adminToken, id, status }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      loadTab('feedback');
+    } else {
+      alert('❌ ' + (data.error || '更新失败'));
+    }
+  } catch (e) {
+    alert('网络错误：' + e.message);
   }
 }
 
@@ -661,7 +783,6 @@ async function loadConfig(content) {
           </div>
         </div>
 
-        <!-- 公告 -->
         <div class="border border-slate-200 rounded-lg p-5">
           <h3 class="font-bold text-base mb-4"><i class="fas fa-bullhorn text-sky-500 mr-2"></i>顶部公告条</h3>
           <div class="space-y-3">
@@ -676,7 +797,6 @@ async function loadConfig(content) {
           </div>
         </div>
 
-        <!-- 赞助者 -->
         <div class="border border-slate-200 rounded-lg p-5">
           <h3 class="font-bold text-base mb-4"><i class="fas fa-heart text-pink-500 mr-2"></i>赞助者名单</h3>
           <div class="text-xs text-slate-500 mb-3">每行一个，格式：<code class="bg-slate-100 px-1 rounded">名字|等级</code>，等级可选 gold / silver / bronze</div>
@@ -686,7 +806,6 @@ async function loadConfig(content) {
           </button>
         </div>
 
-        <!-- 功能开关 -->
         <div class="border border-slate-200 rounded-lg p-5">
           <h3 class="font-bold text-base mb-4"><i class="fas fa-toggle-on text-green-500 mr-2"></i>功能开关</h3>
           <div class="text-xs text-slate-500 mb-3">用于灰度发布或紧急关闭某些功能</div>
@@ -711,7 +830,17 @@ async function loadConfig(content) {
           </button>
         </div>
 
-        <!-- 手动设置任意 key -->
+        <div class="border border-slate-200 rounded-lg p-5">
+          <h3 class="font-bold text-base mb-4"><i class="fas fa-code-branch text-orange-500 mr-2"></i>最低版本要求</h3>
+          <div class="text-xs text-slate-500 mb-3">低于此版本的客户端会强制弹窗更新</div>
+          <div class="flex gap-2">
+            <input type="text" id="minVerInput" value="${escapeHtml(config.minVersion || '1.0.0')}" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm font-mono">
+            <button onclick="saveMinVersion()" class="bg-orange-500 text-white font-bold px-5 py-2 rounded-lg text-sm hover:bg-orange-600">
+              <i class="fas fa-save mr-1"></i>保存
+            </button>
+          </div>
+        </div>
+
         <div class="border border-slate-200 rounded-lg p-5">
           <h3 class="font-bold text-base mb-4"><i class="fas fa-cog text-slate-500 mr-2"></i>高级：直接编辑配置</h3>
           <div class="text-xs text-slate-500 mb-3">key 是配置名，value 是 JSON 或字符串</div>
@@ -724,7 +853,6 @@ async function loadConfig(content) {
           </button>
         </div>
 
-        <!-- 当前配置预览 -->
         <div class="border border-slate-200 rounded-lg p-5">
           <h3 class="font-bold text-base mb-4"><i class="fas fa-eye text-slate-500 mr-2"></i>当前配置预览</h3>
           <pre class="bg-slate-900 text-green-300 p-4 rounded-lg text-xs overflow-x-auto">${escapeHtml(JSON.stringify(config, null, 2))}</pre>
@@ -733,11 +861,10 @@ async function loadConfig(content) {
       </div>
     `;
   } catch (e) {
-    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${e.message}</div>`;
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
   }
 }
 
-// ===== 云端配置保存 =====
 async function saveCloudConfig(key, value) {
   try {
     const res = await fetch(`${API_BASE}/api/admin/set-config`, {
@@ -783,6 +910,12 @@ function saveFeatureFlags() {
   saveCloudConfig('featureFlags', flags);
 }
 
+function saveMinVersion() {
+  const v = document.getElementById('minVerInput').value.trim();
+  if (!/^\d+\.\d+\.\d+$/.test(v)) return alert('格式应为 x.y.z，例如 1.0.0');
+  saveCloudConfig('minVersion', v);
+}
+
 function saveRawConfig() {
   const key = document.getElementById('cfgKey').value.trim();
   const valStr = document.getElementById('cfgValue').value.trim();
@@ -792,7 +925,106 @@ function saveRawConfig() {
   saveCloudConfig(key, value);
 }
 
-// ===== 操作函数 =====
+// ============================================================
+// AI 用量统计
+// ============================================================
+async function loadAiStats(content) {
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/ai-stats?token=${adminToken}`);
+    const data = await res.json();
+
+    if (data.error) {
+      content.innerHTML = `<div class="text-center py-12 text-red-500">${escapeHtml(data.error)}</div>`;
+      return;
+    }
+
+    const today = data.today || { users: 0, total: 0 };
+    const weekly = data.weekly || [];
+    const topUsers = data.topUsers || [];
+    const byProvider = data.byProvider || [];
+    const providerNames = data.providerNames || {};
+
+    const maxDayTotal = Math.max(1, ...weekly.map(d => d.total || 0));
+    const maxProviderTotal = Math.max(1, ...byProvider.map(p => p.total || 0));
+
+    const providerHtml = byProvider.length === 0
+      ? '<div class="text-slate-400 text-sm">暂无数据</div>'
+      : byProvider.map(p => {
+          const name = providerNames[p.provider] || p.provider || '未知';
+          return `
+            <div class="mb-3">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="font-bold">${escapeHtml(name)}</span>
+                <span class="text-slate-500">${p.total} 次 / ${p.requests} 用户</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full overflow-hidden" style="height:10px;">
+                <div class="bar" style="width:${(p.total / maxProviderTotal) * 100}%; height:10px;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+    const weeklyHtml = weekly.length === 0
+      ? '<div class="text-slate-400 text-sm">暂无数据</div>'
+      : weekly.map(d => `
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-xs font-mono w-24">${escapeHtml(d.date)}</span>
+            <div class="flex-1 bg-white rounded-full overflow-hidden" style="height:20px;">
+              <div class="bar" style="width:${(d.total / maxDayTotal) * 100}%; height:20px;"></div>
+            </div>
+            <span class="text-xs font-bold w-12 text-right">${d.total}</span>
+          </div>
+        `).join('');
+
+    content.innerHTML = `
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-sky-50 p-5 rounded-lg">
+          <div class="text-sm text-slate-500">今日用户数</div>
+          <div class="text-3xl font-black text-sky-600 mt-1">${today.users || 0}</div>
+        </div>
+        <div class="bg-purple-50 p-5 rounded-lg">
+          <div class="text-sm text-slate-500">今日总调用</div>
+          <div class="text-3xl font-black text-purple-600 mt-1">${today.total || 0}</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-50 p-5 rounded-lg">
+          <h3 class="font-bold text-sm mb-4">📊 近 7 天调用量</h3>
+          ${weeklyHtml}
+        </div>
+        <div class="bg-slate-50 p-5 rounded-lg">
+          <h3 class="font-bold text-sm mb-4">🤖 按提供商分布</h3>
+          ${providerHtml}
+        </div>
+      </div>
+
+      <h3 class="font-bold text-sm mb-3">🔥 Top 20 用户</h3>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b-2 border-slate-200">
+            <th class="text-left py-2 font-bold">设备 ID</th>
+            <th class="text-right py-2 font-bold">调用次数</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${topUsers.length === 0 ? '<tr><td colspan="2" class="text-center py-4 text-slate-400">暂无数据</td></tr>' :
+            topUsers.map(u => `
+              <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="py-2 font-mono text-xs">${escapeHtml(u.device_id).slice(0, 24)}...</td>
+                <td class="py-2 text-right font-bold">${u.total}</td>
+              </tr>
+            `).join('')
+          }
+        </tbody>
+      </table>
+    `;
+  } catch (e) {
+    content.innerHTML = `<div class="text-center py-12 text-red-500">加载失败：${escapeHtml(e.message)}</div>`;
+  }
+}
+
+// ===== 操作 =====
 async function deleteTarget(type, id) {
   if (!confirm(`确定删除 ${type} #${id} 吗？`)) return;
   await deleteRecord(type, id);
