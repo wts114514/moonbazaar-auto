@@ -33,40 +33,6 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 .ct{font-family:'Orbitron';font-size:1.3rem;color:var(--txt);border-bottom:2px solid var(--bd);padding-bottom:.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .ct i{transition:transform .3s}
 .card:hover .ct i{transform:rotate(-10deg) scale(1.1)}
-.tabs{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
-.tb{padding:.5rem 1.1rem;background:var(--bgc);border:2px solid var(--bd);font-family:'Orbitron';font-weight:700;cursor:pointer;color:var(--txt);box-shadow:2px 2px 0 var(--sh);font-size:.85rem;transition:.15s;border-radius:3px;position:relative}
-.tb:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--sh)}
-.tb.on{background:var(--txt);color:var(--bgc);box-shadow:2px 2px 0 var(--acc)}
-.tc{display:none}.tc.on{display:block;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.search{margin-bottom:1rem;position:relative}
-.search input{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:2px solid var(--bd);background:var(--bgc);color:var(--txt);font-size:.95rem;font-weight:600;font-family:inherit;border-radius:3px;transition:.2s}
-.search input:focus{outline:none;box-shadow:3px 3px 0 var(--acc);transform:translate(-1px,-1px)}
-.search i{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--txt2);transition:.2s}
-.search input:focus + i,.search:focus-within i{color:var(--acc)}
-.tw{overflow-x:auto;max-height:520px;border-radius:3px}
-table{width:100%;border-collapse:collapse;background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);border-radius:3px}
-th,td{padding:.7rem .9rem;text-align:left;border-bottom:2px solid #eee;transition:background .2s}
-th{background:var(--txt);color:var(--bgc);font-family:'Orbitron';font-weight:700;position:sticky;top:0;z-index:5;font-size:.85rem}
-tr.top1{background:linear-gradient(90deg,var(--gold-bg),transparent)!important;font-weight:700}
-tr.top2{background:linear-gradient(90deg,var(--silver-bg),transparent)!important}
-tr.top3{background:linear-gradient(90deg,var(--bronze-bg),transparent)!important}
-tr:hover{background:var(--bg)!important}
-.medal{display:inline-block;font-size:1.2rem;animation:bounce 2s infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.ld{text-align:center;padding:2rem;font-weight:600;color:var(--txt2)}
-.sk{display:inline-block;width:100%;height:14px;background:linear-gradient(90deg,var(--bg)25%,var(--bd)50%,var(--bg)75%);background-size:200%100%;animation:sk 1.5s infinite;border-radius:4px}
-@keyframes sk{0%{background-position:200%0}100%{background-position:-200%0}}
-.live{background:var(--red);color:#fff;padding:.2rem .7rem;font-size:.72rem;border-radius:20px;font-weight:700;margin-left:auto;animation:p 1.5s infinite;display:inline-flex;align-items:center;gap:4px}
-@keyframes p{0%,100%{opacity:1}50%{opacity:.5}}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem}
-.ri{background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);transition:.2s;display:block;border-radius:3px;position:relative;overflow:hidden}
-.ri::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(41,147,199,.1),transparent);transition:.5s}
-.ri:hover::before{left:100%}
-.ri:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--sh);background:var(--bg)}
-.ri i{font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc);transition:.3s}
-.ri:hover i{transform:scale(1.2) rotate(-10deg)}
-.ri .sub{font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem}
 .ref{background:linear-gradient(135deg,var(--gold-bg),var(--bgc));border:2px solid var(--gold);box-shadow:4px 4px 0 var(--gold);padding:1.5rem;text-align:center;margin-bottom:1.5rem;border-radius:4px;position:relative;overflow:hidden}
 .ref::before{content:"⭐";position:absolute;top:-20px;right:-20px;font-size:80px;opacity:.1;transform:rotate(15deg)}
 .ref h3{font-family:'Orbitron';color:var(--txt);margin-bottom:.5rem}
@@ -318,6 +284,89 @@ tr:hover{background:var(--bg)!important}
   70%{box-shadow:0 0 0 14px rgba(34,197,94,0)}
   100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
 }
+
+.stock-mode-opt{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:1rem 1.2rem;
+  background:var(--bgc);
+  border:2px solid var(--bd);
+  border-radius:4px;
+  margin-bottom:.8rem;
+  box-shadow:3px 3px 0 var(--sh);
+  transition:.2s;
+}
+.stock-mode-opt:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--sh)}
+.stock-mode-opt .mode-radio{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--txt);
+  background:var(--bgc);
+  flex-shrink:0;
+  margin-top:3px;
+  position:relative;
+  transition:.2s;
+}
+.stock-mode-opt .mode-radio.on{
+  border-color:var(--acc);
+}
+.stock-mode-opt .mode-radio.on::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:50%;
+  background:var(--acc);
+}
+.stock-mode-opt .mode-title{
+  font-family:'Orbitron';
+  font-weight:700;
+  color:var(--txt);
+  font-size:1rem;
+  margin-bottom:.3rem;
+}
+.stock-mode-opt .mode-desc{
+  font-size:.85rem;
+  color:var(--txt2);
+  font-weight:500;
+  line-height:1.5;
+}
+.stock-rules{
+  margin-top:1.2rem;
+  padding:1rem 1.2rem;
+  background:var(--bgc);
+  border:2px dashed var(--green);
+  border-radius:4px;
+}
+.stock-rules .rules-title{
+  font-family:'Orbitron';
+  font-weight:700;
+  color:var(--green);
+  margin-bottom:.6rem;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:.95rem;
+}
+.stock-rules ul{
+  list-style:none;
+  padding-left:0;
+  margin:0;
+}
+.stock-rules li{
+  padding:.4rem 0 .4rem 1.2rem;
+  font-size:.85rem;
+  color:var(--txt2);
+  font-weight:600;
+  line-height:1.6;
+  position:relative;
+}
+.stock-rules li::before{
+  content:"•";
+  position:absolute;
+  left:.3rem;
+  color:var(--green);
+  font-weight:900;
+}
 .stock-tips{
   margin-top:1rem;
   display:grid;
@@ -339,6 +388,52 @@ tr:hover{background:var(--bg)!important}
 }
 .stock-tip i{color:var(--green);font-size:1.1rem;flex-shrink:0}
 
+/* ============ FAQ ============ */
+.faq-list{display:flex;flex-direction:column;gap:.6rem}
+.faq-item{
+  background:var(--bgc);
+  border:2px solid var(--bd);
+  border-radius:4px;
+  box-shadow:3px 3px 0 var(--sh);
+  overflow:hidden;
+  transition:.2s;
+}
+.faq-item:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--sh)}
+.faq-item[open]{background:linear-gradient(135deg,#e8f4fa,var(--bgc))}
+.faq-item summary{
+  padding:.9rem 1.2rem;
+  cursor:pointer;
+  font-family:'Orbitron';
+  font-weight:700;
+  color:var(--txt);
+  font-size:.95rem;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:.2s;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{
+  content:"+";
+  font-size:1.3rem;
+  color:var(--acc);
+  font-weight:900;
+  transition:.2s;
+}
+.faq-item[open] summary::after{
+  content:"−";
+  transform:rotate(180deg);
+}
+.faq-item summary:hover{color:var(--acc)}
+.faq-item p{
+  padding:0 1.2rem 1rem 1.2rem;
+  font-size:.88rem;
+  color:var(--txt2);
+  font-weight:500;
+  line-height:1.7;
+}
+
 /* 聊天室 */
 .chat-card{border:2px solid var(--acc);box-shadow:4px 4px 0 var(--acc);background:linear-gradient(135deg,#e8f4fa,var(--bgc));text-align:center}
 .chat-card::before{background:linear-gradient(90deg,var(--acc),var(--green),var(--acc));background-size:200% 100%}
@@ -350,10 +445,11 @@ tr:hover{background:var(--bg)!important}
 .top-btn{position:fixed;bottom:20px;right:20px;background:var(--txt);color:var(--bgc);border:2px solid #000;box-shadow:4px 4px 0 #000;width:44px;height:44px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:1.1rem;z-index:200;transition:.2s}
 .top-btn:hover{background:var(--acc);transform:translateY(-3px)}
 .top-btn.show{display:flex;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .ft{margin-top:2rem;text-align:center;border-top:2px solid var(--bd);padding-top:1.5rem;font-weight:600}
 .ft a{color:var(--acc);text-decoration:none;font-weight:700;transition:.2s}
 .ft a:hover{text-decoration:underline}
-@media(max-width:768px){.hd{flex-direction:column;text-align:center;position:static}.lg{font-size:1.4rem}.tw{max-height:380px}th,td{padding:.55rem .6rem;font-size:.85rem}.ct{font-size:1.1rem}.nav a{font-size:.75rem;padding:3px 6px}.card{padding:1.2rem}.helper-card .ct{font-size:1.2rem}.helper-features{grid-template-columns:1fr}.hdl-btn{width:100%;justify-content:center}.stock-tips{grid-template-columns:1fr}}
+@media(max-width:768px){.hd{flex-direction:column;text-align:center;position:static}.lg{font-size:1.4rem}.ct{font-size:1.1rem}.nav a{font-size:.75rem;padding:3px 6px}.card{padding:1.2rem}.helper-card .ct{font-size:1.2rem}.helper-features{grid-template-columns:1fr}.hdl-btn{width:100%;justify-content:center}.stock-tips{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -385,7 +481,7 @@ tr:hover{background:var(--bg)!important}
 
 <!-- ============ Helper 宣传卡 ============ -->
 <section class="card helper-card">
-<h2 class="ct"><i class="fas fa-magic" style="color:var(--purple)"></i> <span data-i18n="helperTitle">MoonBazaar Helper 桌面助手</span><span class="helper-badge" id="helperVersion">v1.0.4</span></h2>
+<h2 class="ct"><i class="fas fa-magic" style="color:var(--purple)"></i> <span data-i18n="helperTitle">MoonBazaar Helper 桌面助手</span><span class="helper-badge" id="helperVersion">v1.0.5</span></h2>
 <p class="helper-sub" data-i18n="helperSub">🎯 让你的问卷效率翻倍，答题更智能，收益更高</p>
 
 <div class="helper-features">
@@ -448,6 +544,39 @@ tr:hover{background:var(--bg)!important}
   <span class="pulse-dot"></span>
   <span data-i18n="stockDesc">绿点表示该商品或分类下有库存，支持秒发。</span>
 </div>
+
+<div style="margin-top:1.2rem">
+  <h3 style="font-family:'Orbitron';color:var(--green);margin-bottom:.8rem;font-size:1.05rem" data-i18n="stockModeTitle">选择秒发方式</h3>
+  <p style="font-weight:600;color:var(--txt);margin-bottom:1rem" data-i18n="stockModeDesc">直接使用普通 GC，不需要独立秒发余额，也不收取 16% 兑换手续费。</p>
+
+  <div class="stock-mode-opt">
+    <div class="mode-radio on"></div>
+    <div>
+      <div class="mode-title" data-i18n="stockOpt1Title">锁定余额 · 500 GC</div>
+      <div class="mode-desc" data-i18n="stockOpt1Desc">额外锁定固定 500 GC，30 天后将剩余锁款释放回普通余额。</div>
+    </div>
+  </div>
+
+  <div class="stock-mode-opt">
+    <div class="mode-radio"></div>
+    <div>
+      <div class="mode-title" data-i18n="stockOpt2Title">保证金 · 300 GC</div>
+      <div class="mode-desc" data-i18n="stockOpt2Desc">额外支付固定 300 GC，成功发货后不退还。</div>
+    </div>
+  </div>
+
+  <div class="stock-rules">
+    <div class="rules-title"><i class="fas fa-info-circle"></i> <span data-i18n="stockRulesTitle">规则说明</span></div>
+    <ul>
+      <li data-i18n="stockRule1">优惠码只抵扣商品本金；额外锁款和保证金按上方显示的固定 GC 金额或商品原价比例计算。</li>
+      <li data-i18n="stockRule2">仍有未到期锁款时，任务撤单整笔加收 8%，优先扣锁定余额，再扣普通余额。</li>
+      <li data-i18n="stockRule3">已发货订单不可取消。</li>
+      <li data-i18n="stockRule4">提交时若售罄，则转为普通提现，不锁款、不收保证金。</li>
+      <li data-i18n="stockRule5">普通提现的 20% 保证不撤单选项不与秒发叠加。</li>
+    </ul>
+  </div>
+</div>
+
 <div class="stock-tips">
   <div class="stock-tip"><i class="fas fa-check-circle"></i> <span data-i18n="st1">全品类实时库存展示</span></div>
   <div class="stock-tip"><i class="fas fa-bolt"></i> <span data-i18n="st2">有货直接秒发，无需等待</span></div>
@@ -482,28 +611,46 @@ tr:hover{background:var(--bg)!important}
 </div>
 </section>
 
+<!-- ============ 常见问题 FAQ ============ -->
+<section class="card">
+<h2 class="ct"><i class="fas fa-question-circle" style="color:var(--acc)"></i> <span data-i18n="faqTitle">常见问题</span></h2>
+<div class="faq-list">
+  <details class="faq-item">
+    <summary><span data-i18n="faq1q">卡密怎么激活？</span></summary>
+    <p data-i18n="faq1a">打开软件 → 侧边栏"激活 PRO" → 输入卡密 → 点激活即可。支持向上升级，不支持降级。</p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-i18n="faq2q">AI 答题收费吗？</span></summary>
+    <p data-i18n="faq2a">内置 AI 免费用户每天 3 次，PRO 用户每天 100 次。也可以自备 API Key 无限使用，完全免费。</p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-i18n="faq3q">支持哪些系统？</span></summary>
+    <p data-i18n="faq3a">目前只支持 Windows 10 / 11 (x64)，Mac 和 Linux 版本暂未发布。</p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-i18n="faq4q">数据会上传服务器吗？</span></summary>
+    <p data-i18n="faq4a">问卷答案、被踢记录等可选上传用于共享。AI Key、人设等敏感内容全部本地存储，不上传服务器。</p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-i18n="faq5q">被误封了怎么办？</span></summary>
+    <p data-i18n="faq5a">使用软件内置的"邮件助手"生成申诉邮件，通过内置浏览器登录后发送给官方客服，配合 FAQ 文档的模板效果更好。</p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-i18n="faq6q">怎么反馈 Bug 或建议？</span></summary>
+    <p data-i18n="faq6a">打开软件 → 侧边栏"用户反馈" → 跳转 GitHub Issues 提交，也可以在投票榜给其他建议点 👍。提交后会自动收到通知。</p>
+  </details>
+  <details class="faq-item">
+    <summary><span data-i18n="faq7q">换电脑后卡密能转移吗？</span></summary>
+    <p data-i18n="faq7a">每张卡密最多绑定 2 台设备，换设备请联系 admin@moonbazaar.de5.net 申请解绑。</p>
+  </details>
+</div>
+</section>
+
 <section class="card chat-card">
 <h2 class="ct"><i class="fas fa-comments" style="color:var(--acc)"></i> <span data-i18n="chatTitle">加入我们的聊天室</span></h2>
 <p style="font-weight:600;color:var(--txt);font-size:1.05rem" data-i18n="chatDesc">与其他用户交流经验、分享技巧、获取最新活动信息</p>
 <p style="margin-top:.6rem;font-weight:600" data-i18n="chatSub">👥 实时聊天 · 官方客服 · 互助答疑</p>
 <a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" class="chat-btn"><i class="fas fa-comment-dots"></i> <span data-i18n="chatBtn">进入聊天室</span></a>
-</section>
-
-<section class="card">
-<h2 class="ct"><i class="fas fa-crown" style="color:#f1c40f"></i> <span data-i18n="rank">实时排行榜</span> <span class="live"><i class="fas fa-circle"></i> <span data-i18n="live">实时</span></span></h2>
-<div class="tabs">
-<button class="tb on" data-t="weekly" data-i18n="tab1">🏆 周榜</button>
-<button class="tb" data-t="total" data-i18n="tab2">📊 累计榜</button>
-<button class="tb" data-t="single" data-i18n="tab3">🎯 单次高额</button>
-</div>
-<div class="search">
-<i class="fas fa-search"></i>
-<input type="text" id="searchInput" placeholder="搜索用户名..." data-i18n="searchPh">
-</div>
-<div class="tc on" id="t-weekly"><div class="tw"><table><thead><tr><th data-i18n="th1">排名</th><th data-i18n="th2">用户</th><th data-i18n="th3">周赚取 (GC)</th></tr></thead><tbody id="b-weekly"><tr><td colspan="3" class="ld"><span class="sk"></span></td></tr></tbody></table></div></div>
-<div class="tc" id="t-total"><div class="tw"><table><thead><tr><th data-i18n="th1">排名</th><th data-i18n="th2">用户</th><th data-i18n="th4">累计 (GC)</th></tr></thead><tbody id="b-total"><tr><td colspan="3" class="ld"><span class="sk"></span></td></tr></tbody></table></div></div>
-<div class="tc" id="t-single"><div class="tw"><table><thead><tr><th data-i18n="th1">排名</th><th data-i18n="th2">用户</th><th data-i18n="th5">单次 (GC)</th><th data-i18n="th6">任务商</th><th data-i18n="th7">完成时间</th></tr></thead><tbody id="b-single"><tr><td colspan="5" class="ld"><span class="sk"></span></td></tr></tbody></table></div></div>
-<p style="margin-top:1rem;font-weight:600;font-size:.88rem;color:var(--txt2)"><i class="fas fa-clock"></i> <span data-i18n="update">数据更新时间</span>: <span id="ut">—</span></p>
 </section>
 
 <section class="card">
@@ -518,17 +665,17 @@ tr:hover{background:var(--bg)!important}
 
 <section class="card">
 <h2 class="ct"><i class="fas fa-life-ring" style="color:var(--acc)"></i> <span data-i18n="resTitle">帮助与资源</span></h2>
-<div class="grid">
-<a href="https://docs.qq.com/doc/DRnFQTW13S25OS0tO" target="_blank" class="ri"><i class="fas fa-envelope"></i><span data-i18n="r1">邮件模板</span><span class="sub">Email Templates</span></a>
-<a href="https://docs.qq.com/doc/DRkdjcmJIVk1UUFZh" target="_blank" class="ri"><i class="fas fa-question-circle"></i><span data-i18n="r2">FAQ 中文</span><span class="sub">常见问题汇总</span></a>
-<a href="https://docs.qq.com/doc/DRmxyVWxHZ0hyb2hy" target="_blank" class="ri"><i class="fas fa-question-circle"></i><span>FAQ EN</span><span class="sub">Frequently Asked</span></a>
-<a href="https://wwbma.lanzoue.com/b01d70j0if" target="_blank" class="ri"><i class="fas fa-download"></i><span data-i18n="r3">浏览器插件</span><span class="sub">提取码 6666</span></a>
-<a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" class="ri"><i class="fas fa-book"></i><span data-i18n="r4">教程文档</span><span class="sub">PC修复/加载</span></a>
-<a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" class="ri"><i class="fas fa-clipboard-list"></i><span data-i18n="r5">问卷教程</span><span class="sub">详细指导</span></a>
-<a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" class="ri"><i class="fas fa-comments"></i><span data-i18n="r7">聊天室</span><span class="sub">Minnit Chat</span></a>
-<a href="https://pan.moonbazaar.de5.net" target="_blank" class="ri"><i class="fas fa-cloud"></i><span data-i18n="r9">国内网盘</span><span class="sub">pan.moonbazaar.de5.net</span></a>
-<a href="https://github.com/wts114514/moonbazaar-auto" target="_blank" class="ri"><i class="fas fa-magic" style="color:var(--purple)"></i><span data-i18n="r8">Helper 下载</span><span class="sub">GitHub Release</span></a>
-<a href="mailto:admin@moonbazaar.de5.net" class="ri"><i class="fas fa-paper-plane"></i><span data-i18n="r6">联系站长</span><span class="sub">admin@moonbazaar.de5.net</span></a>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem">
+<a href="https://docs.qq.com/doc/DRnFQTW13S25OS0tO" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-envelope" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r1">邮件模板</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Email Templates</span></a>
+<a href="https://docs.qq.com/doc/DRkdjcmJIVk1UUFZh" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-question-circle" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r2">FAQ 中文</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">常见问题汇总</span></a>
+<a href="https://docs.qq.com/doc/DRmxyVWxHZ0hyb2hy" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-question-circle" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span>FAQ EN</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Frequently Asked</span></a>
+<a href="https://wwbma.lanzoue.com/b01d70j0if" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-download" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r3">浏览器插件</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">提取码 6666</span></a>
+<a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-book" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r4">教程文档</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">PC修复/加载</span></a>
+<a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-clipboard-list" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r5">问卷教程</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">详细指导</span></a>
+<a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-comments" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r7">聊天室</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Minnit Chat</span></a>
+<a href="https://pan.moonbazaar.de5.net" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-cloud" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r9">国内网盘</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">pan.moonbazaar.de5.net</span></a>
+<a href="https://github.com/wts114514/moonbazaar-auto" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-magic" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--purple)"></i><span data-i18n="r8">Helper 下载</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">GitHub Release</span></a>
+<a href="mailto:admin@moonbazaar.de5.net" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-paper-plane" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r6">联系站长</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">admin@moonbazaar.de5.net</span></a>
 </div>
 </section>
 
@@ -562,7 +709,13 @@ tr:hover{background:var(--bg)!important}
 
 <script>
 const T={
-zh:{nav1:'📧 邮件模板',nav2:'❓ FAQ中文',nav4:'🔧 插件',nav5:'📖 教程',nav6:'📮 联系',nav7:'💬 聊天室',nav8:'📥 下载 Helper',nav9:'📦 网盘',welcome:'欢迎来到 MoonBazaar',intro:'MoonBazaar 是一个<strong>积分任务平台</strong>，通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，可兑换礼品卡、游戏物品、Steam 余额、现金等丰富奖励。',badge1:'🏆 周榜奖励 200 GC',badge2:'⭐ 推荐返利 5%',guarTitle:'保证不撤单',guarIntro:'勾选后，本订单在商品原价 GC 的基础上额外收取 20% 溢价。优惠券只抵扣商品基础价格，不减免这笔溢价。',guar1:'<strong>订单成功提交后</strong>，除非账户余额为负数，否则不会拒绝本次提现（包括账户被封禁、质量分不足、任务撤销等情况）。',guar2:'保证只针对<strong>本订单</strong>，不解除账户封禁，也不保证即时到账；收款资料错误时仍可能需要补充或更正资料。',guar3:'提交前仍需满足邮箱验证、商品购买条件及原有提现要求。',guar4:'如果余额为负导致拒单，退回本订单已扣 GC（<strong>包含溢价</strong>）。',guarTip:'💰 建议：大额提现时勾选此选项，防止任务被撤销导致损失',chatTitle:'加入我们的聊天室',chatDesc:'与其他用户交流经验、分享技巧、获取最新活动信息',chatSub:'👥 实时聊天 · 官方客服 · 互助答疑',chatBtn:'进入聊天室',rank:'实时排行榜',live:'实时',tab1:'🏆 周榜',tab2:'📊 累计榜',tab3:'🎯 单次高额',searchPh:'搜索用户名...',th1:'排名',th2:'用户',th3:'周赚取 (GC)',th4:'累计 (GC)',th5:'单次 (GC)',th6:'任务商',th7:'完成时间',update:'数据更新时间',refTitle:'推荐好友 · 赚取佣金',refSub:'分享你的专属邀请链接',refDesc:'好友赚积分，你获得 5% 佣金。受邀者额外获得 5% 加成。',copyBtn:'复制链接',resTitle:'帮助与资源',r1:'邮件模板',r2:'FAQ 中文',r3:'浏览器插件',r4:'教程文档',r5:'问卷教程',r6:'联系站长',r7:'聊天室',r8:'Helper 下载',r9:'国内网盘',stepTitle:'三步上手',s1:'注册',s1d:'邮箱免费创建账户',s2:'做任务',s2d:'完成问卷积分到账',s3:'兑换',s3d:'消耗积分换礼品',start:'开始赚取 Gascoin',ftTitle:'硬核任务平台',ftNote:'数据来自 MoonBazaar 官网，每小时自动更新',
+zh:{nav1:'📧 邮件模板',nav2:'❓ FAQ中文',nav4:'🔧 插件',nav5:'📖 教程',nav6:'📮 联系',nav7:'💬 聊天室',nav8:'📥 下载 Helper',nav9:'📦 网盘',
+welcome:'欢迎来到 MoonBazaar',intro:'MoonBazaar 是一个<strong>积分任务平台</strong>，通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，可兑换礼品卡、游戏物品、Steam 余额、现金等丰富奖励。',badge1:'🏆 周榜奖励 200 GC',badge2:'⭐ 推荐返利 5%',
+guarTitle:'保证不撤单',guarIntro:'勾选后，本订单在商品原价 GC 的基础上额外收取 20% 溢价。优惠券只抵扣商品基础价格，不减免这笔溢价。',guar1:'<strong>订单成功提交后</strong>，除非账户余额为负数，否则不会拒绝本次提现（包括账户被封禁、质量分不足、任务撤销等情况）。',guar2:'保证只针对<strong>本订单</strong>，不解除账户封禁，也不保证即时到账；收款资料错误时仍可能需要补充或更正资料。',guar3:'提交前仍需满足邮箱验证、商品购买条件及原有提现要求。',guar4:'如果余额为负导致拒单，退回本订单已扣 GC（<strong>包含溢价</strong>）。',guarTip:'💰 建议：大额提现时勾选此选项，防止任务被撤销导致损失',
+chatTitle:'加入我们的聊天室',chatDesc:'与其他用户交流经验、分享技巧、获取最新活动信息',chatSub:'👥 实时聊天 · 官方客服 · 互助答疑',chatBtn:'进入聊天室',
+refTitle:'推荐好友 · 赚取佣金',refSub:'分享你的专属邀请链接',refDesc:'好友赚积分，你获得 5% 佣金。受邀者额外获得 5% 加成。',copyBtn:'复制链接',
+resTitle:'帮助与资源',r1:'邮件模板',r2:'FAQ 中文',r3:'浏览器插件',r4:'教程文档',r5:'问卷教程',r6:'联系站长',r7:'聊天室',r8:'Helper 下载',r9:'国内网盘',
+stepTitle:'三步上手',s1:'注册',s1d:'邮箱免费创建账户',s2:'做任务',s2d:'完成问卷积分到账',s3:'兑换',s3d:'消耗积分换礼品',start:'开始赚取 Gascoin',ftTitle:'硬核任务平台',ftNote:'数据来自 MoonBazaar 官网，每小时自动更新',
 helperTitle:'MoonBazaar Helper 桌面助手',helperSub:'🎯 让你的问卷效率翻倍，答题更智能，收益更高',helperDownload:'立即下载（Windows 安装版）',helperPortable:'绿色版（免安装）',helperPan:'国内镜像（网盘）',hm1:'Windows 10 / 11 (x64)',hm2:'约 75 MB',hm3:'完全免费，可选 PRO 卡密',hm4:'卡密 1 台设备绑定，可申请换绑',
 hf1:'AI 智能答题',hf1d:'选中题目文字，一键生成参考答案，自动插入输入框。支持 8 家主流 AI（智谱、DeepSeek、OpenAI、Groq 等），可自备 API Key 无限使用。',
 hf2:'被踢概率预测',hf2d:'基于其他用户的真实数据，告诉你某个问卷的<strong>高危题号</strong>和整体风险等级，避免做一半被踢。',
@@ -571,8 +724,32 @@ hf4:'成就系统',hf4d:'完成问卷、赚取 GC、连续使用都能解锁成�
 hf5:'多标签浏览器',hf5d:'内置多标签浏览器，支持分屏。左边做问卷，右边查资料，效率翻倍。',
 hf6:'防封号细节',hf6d:'隐藏运气游戏、代理检测、请求签名校验，减少被风控识别的风险。',
 stockTitle:'提现有货秒发',stockDesc:'绿点表示该商品或分类下有库存，支持秒发。',st1:'全品类实时库存展示',st2:'有货直接秒发，无需等待',st3:'7×24 自动处理提现',st4:'支持「保证不撤单」加成',
-srvTitle:'我的世界服务器',srvConnTitle:'连接方式：',srvConn:'域名 <code>mc.moonbazaar.xyz</code> 或 <code>mc.mnb.ee</code>，IP 直连 <code>45.78.68.99</code>（需加 mc.）',srvVerTitle:'游戏版本：',srvVer:'1.21.11，正版与离线均可登录',srvPvpTitle:'PvP 规则：',srvPvp:'采用 1.8 战斗机制，默认开启，无区域保护',srvFeatTitle:'辅助功能：',srvFeat:'无 tpa，无传送，无领地保护，纯生存',srvWelcome:'欢迎各位前来游玩'},
-en:{nav1:'📧 Emails',nav2:'❓ FAQ CN',nav4:'🔧 Plugin',nav5:'📖 Tutorial',nav6:'📮 Contact',nav7:'💬 Chat',nav8:'📥 Download',nav9:'📦 Pan',welcome:'Welcome to MoonBazaar',intro:'MoonBazaar is a <strong>reward task platform</strong>. Earn <strong>Gascoin</strong> by completing surveys, redeem for gift cards, Steam balance, cash and more.',badge1:'🏆 Weekly Prize 200 GC',badge2:'⭐ Referral Bonus 5%',guarTitle:'No-Rejection Guarantee',guarIntro:'When checked, this order charges an extra 20% premium on the original GC price. Coupons only apply to the base price.',guar1:'<strong>After successful submission</strong>, the withdrawal will not be rejected unless your balance is negative (including account ban, low quality score, task reversal, etc.).',guar2:'The guarantee applies <strong>only to this order</strong>. It does not lift account bans or guarantee instant delivery. Incorrect payment details may require correction.',guar3:'Email verification, purchase conditions, and existing withdrawal requirements must still be met.',guar4:'If the order is rejected due to negative balance, the deducted GC (<strong>including premium</strong>) will be refunded.',guarTip:'💰 Tip: Enable this for large withdrawals to protect against task reversals',chatTitle:'Join Our Chatroom',chatDesc:'Chat with other users, share tips, and get the latest event info',chatSub:'👥 Live Chat · Support · Q&A',chatBtn:'Enter Chatroom',rank:'Live Leaderboard',live:'LIVE',tab1:'🏆 Weekly',tab2:'📊 All-Time',tab3:'🎯 Single High',searchPh:'Search user...',th1:'Rank',th2:'User',th3:'Weekly (GC)',th4:'Total (GC)',th5:'Single (GC)',th6:'Provider',th7:'Finish Time',update:'Updated at',refTitle:'Refer Friends · Earn Commission',refSub:'Share your invite link',refDesc:'Friends earn, you get 5% commission. Invitees get 5% bonus.',copyBtn:'Copy Link',resTitle:'Help & Resources',r1:'Email Templates',r2:'FAQ Chinese',r3:'Browser Plugin',r4:'Tutorial',r5:'Survey Guide',r6:'Contact Admin',r7:'Chatroom',r8:'Helper Download',r9:'Cloud Drive',stepTitle:'Get Started in 3 Steps',s1:'Sign Up',s1d:'Create free account',s2:'Do Tasks',s2d:'Points credited automatically',s3:'Redeem',s3d:'Spend points on items',start:'Start Earning Gascoin',ftTitle:'Hardcore Task Platform',ftNote:'Data from MoonBazaar official site, auto-updated hourly',
+stockModeTitle:'选择秒发方式',stockModeDesc:'直接使用普通 GC，不需要独立秒发余额，也不收取 16% 兑换手续费。',
+stockOpt1Title:'锁定余额 · 500 GC',stockOpt1Desc:'额外锁定固定 500 GC，30 天后将剩余锁款释放回普通余额。',
+stockOpt2Title:'保证金 · 300 GC',stockOpt2Desc:'额外支付固定 300 GC，成功发货后不退还。',
+stockRulesTitle:'规则说明',
+stockRule1:'优惠码只抵扣商品本金；额外锁款和保证金按上方显示的固定 GC 金额或商品原价比例计算。',
+stockRule2:'仍有未到期锁款时，任务撤单整笔加收 8%，优先扣锁定余额，再扣普通余额。',
+stockRule3:'已发货订单不可取消。',
+stockRule4:'提交时若售罄，则转为普通提现，不锁款、不收保证金。',
+stockRule5:'普通提现的 20% 保证不撤单选项不与秒发叠加。',
+srvTitle:'我的世界服务器',srvConnTitle:'连接方式：',srvConn:'域名 <code>mc.moonbazaar.xyz</code> 或 <code>mc.mnb.ee</code>，IP 直连 <code>45.78.68.99</code>（需加 mc.）',srvVerTitle:'游戏版本：',srvVer:'1.21.11，正版与离线均可登录',srvPvpTitle:'PvP 规则：',srvPvp:'采用 1.8 战斗机制，默认开启，无区域保护',srvFeatTitle:'辅助功能：',srvFeat:'无 tpa，无传送，无领地保护，纯生存',srvWelcome:'欢迎各位前来游玩',
+faqTitle:'常见问题',
+faq1q:'卡密怎么激活？',faq1a:'打开软件 → 侧边栏"激活 PRO" → 输入卡密 → 点激活即可。支持向上升级，不支持降级。',
+faq2q:'AI 答题收费吗？',faq2a:'内置 AI 免费用户每天 3 次，PRO 用户每天 100 次。也可以自备 API Key 无限使用，完全免费。',
+faq3q:'支持哪些系统？',faq3a:'目前只支持 Windows 10 / 11 (x64)，Mac 和 Linux 版本暂未发布。',
+faq4q:'数据会上传服务器吗？',faq4a:'问卷答案、被踢记录等可选上传用于共享。AI Key、人设等敏感内容全部本地存储，不上传服务器。',
+faq5q:'被误封了怎么办？',faq5a:'使用软件内置的"邮件助手"生成申诉邮件，通过内置浏览器登录后发送给官方客服，配合 FAQ 文档的模板效果更好。',
+faq6q:'怎么反馈 Bug 或建议？',faq6a:'打开软件 → 侧边栏"用户反馈" → 跳转 GitHub Issues 提交，也可以在投票榜给其他建议点 👍。提交后会自动收到通知。',
+faq7q:'换电脑后卡密能转移吗？',faq7a:'每张卡密最多绑定 2 台设备，换设备请联系 admin@moonbazaar.de5.net 申请解绑。'
+},
+en:{nav1:'📧 Emails',nav2:'❓ FAQ CN',nav4:'🔧 Plugin',nav5:'📖 Tutorial',nav6:'📮 Contact',nav7:'💬 Chat',nav8:'📥 Download',nav9:'📦 Pan',
+welcome:'Welcome to MoonBazaar',intro:'MoonBazaar is a <strong>reward task platform</strong>. Earn <strong>Gascoin</strong> by completing surveys, redeem for gift cards, Steam balance, cash and more.',badge1:'🏆 Weekly Prize 200 GC',badge2:'⭐ Referral Bonus 5%',
+guarTitle:'No-Rejection Guarantee',guarIntro:'When checked, this order charges an extra 20% premium on the original GC price. Coupons only apply to the base price.',guar1:'<strong>After successful submission</strong>, the withdrawal will not be rejected unless your balance is negative (including account ban, low quality score, task reversal, etc.).',guar2:'The guarantee applies <strong>only to this order</strong>. It does not lift account bans or guarantee instant delivery. Incorrect payment details may require correction.',guar3:'Email verification, purchase conditions, and existing withdrawal requirements must still be met.',guar4:'If the order is rejected due to negative balance, the deducted GC (<strong>including premium</strong>) will be refunded.',guarTip:'💰 Tip: Enable this for large withdrawals to protect against task reversals',
+chatTitle:'Join Our Chatroom',chatDesc:'Chat with other users, share tips, and get the latest event info',chatSub:'👥 Live Chat · Support · Q&A',chatBtn:'Enter Chatroom',
+refTitle:'Refer Friends · Earn Commission',refSub:'Share your invite link',refDesc:'Friends earn, you get 5% commission. Invitees get 5% bonus.',copyBtn:'Copy Link',
+resTitle:'Help & Resources',r1:'Email Templates',r2:'FAQ Chinese',r3:'Browser Plugin',r4:'Tutorial',r5:'Survey Guide',r6:'Contact Admin',r7:'Chatroom',r8:'Helper Download',r9:'Cloud Drive',
+stepTitle:'Get Started in 3 Steps',s1:'Sign Up',s1d:'Create free account',s2:'Do Tasks',s2d:'Points credited automatically',s3:'Redeem',s3d:'Spend points on items',start:'Start Earning Gascoin',ftTitle:'Hardcore Task Platform',ftNote:'Data from MoonBazaar official site, auto-updated hourly',
 helperTitle:'MoonBazaar Helper Desktop App',helperSub:'🎯 Double your survey efficiency. Smarter answers, higher earnings.',helperDownload:'Download (Windows Installer)',helperPortable:'Portable (No Install)',helperPan:'Mirror (Cloud Drive)',hm1:'Windows 10 / 11 (x64)',hm2:'~75 MB',hm3:'Free with optional PRO license',hm4:'License binds 1 device, transferable',
 hf1:'AI Answer Assistant',hf1d:'Select a question, get an AI-generated answer, auto-insert it. Supports 8 major AI providers (Zhipu, DeepSeek, OpenAI, Groq, etc.), or use your own API key for unlimited use.',
 hf2:'Kick-out Prediction',hf2d:'Based on real user data, tells you the <strong>high-risk question numbers</strong> and overall risk level for a survey — avoid wasting time.',
@@ -581,12 +758,29 @@ hf4:'Achievement System',hf4d:'Unlock achievements by completing surveys, earnin
 hf5:'Multi-tab Browser',hf5d:'Built-in multi-tab browser with split screen. Work on a survey on the left, look up info on the right.',
 hf6:'Anti-ban Details',hf6d:'Hide lottery games, proxy detection, request signature verification — reduce the risk of being flagged by the platform.',
 stockTitle:'Instant Withdrawal',stockDesc:'Green dot means the item or category is in stock and can be delivered instantly.',st1:'Real-time stock for all categories',st2:'Instant delivery when in stock',st3:'24/7 automated withdrawal',st4:'Supports No-Rejection Guarantee',
-srvTitle:'Minecraft Server',srvConnTitle:'How to connect: ',srvConn:'Domain <code>mc.moonbazaar.xyz</code> or <code>mc.mnb.ee</code>, direct IP <code>45.78.68.99</code> (add mc. prefix)',srvVerTitle:'Game version: ',srvVer:'1.21.11, both premium and cracked accounts',srvPvpTitle:'PvP rules: ',srvPvp:'1.8 combat mechanics, enabled by default, no area protection',srvFeatTitle:'Features: ',srvFeat:'No tpa, no teleport, no land claim, pure survival',srvWelcome:'Welcome, everyone!'}};
+stockModeTitle:'Choose Instant Mode',stockModeDesc:'Use regular GC directly. No separate instant balance, no 16% exchange fee.',
+stockOpt1Title:'Lock Balance · 500 GC',stockOpt1Desc:'Extra 500 GC locked; remaining lock releases back to regular balance after 30 days.',
+stockOpt2Title:'Deposit · 300 GC',stockOpt2Desc:'Extra 300 GC paid; not refunded after successful delivery.',
+stockRulesTitle:'Rules',
+stockRule1:'Coupons only deduct item base price; extra lock/deposit is calculated by the fixed GC amount shown above or proportional to the original price.',
+stockRule2:'If there is still an unreleased lock, any task reversal will add 8% to the whole order — locked balance deducted first, then regular balance.',
+stockRule3:'Delivered orders cannot be cancelled.',
+stockRule4:'If sold out at submission, the order converts to regular withdrawal with no lock and no deposit.',
+stockRule5:'The 20% No-Rejection option for regular withdrawals does not stack with Instant mode.',
+srvTitle:'Minecraft Server',srvConnTitle:'How to connect: ',srvConn:'Domain <code>mc.moonbazaar.xyz</code> or <code>mc.mnb.ee</code>, direct IP <code>45.78.68.99</code> (add mc. prefix)',srvVerTitle:'Game version: ',srvVer:'1.21.11, both premium and cracked accounts',srvPvpTitle:'PvP rules: ',srvPvp:'1.8 combat mechanics, enabled by default, no area protection',srvFeatTitle:'Features: ',srvFeat:'No tpa, no teleport, no land claim, pure survival',srvWelcome:'Welcome, everyone!',
+faqTitle:'FAQ',
+faq1q:'How to activate a license?',faq1a:'Open the app → sidebar "Activate PRO" → enter the code → click activate. Upgrade only, no downgrade.',
+faq2q:'Is AI answering free?',faq2a:'Built-in AI: free users get 3 uses/day, PRO users 100/day. Or bring your own API key for unlimited use.',
+faq3q:'Which systems are supported?',faq3a:'Currently Windows 10 / 11 (x64) only. Mac and Linux versions are not yet released.',
+faq4q:'Is my data uploaded?',faq4a:'Survey answers and kick-out records are optionally uploaded for sharing. AI keys, personas and other sensitive content are stored locally and never uploaded.',
+faq5q:'What if I get banned by mistake?',faq5a:'Use the built-in "Email Assistant" to generate an appeal email, then send it to official support through the built-in browser.',
+faq6q:'How to report bugs or ideas?',faq6a:'Open the app → sidebar "Feedback" → jump to GitHub Issues. You can also upvote existing suggestions.',
+faq7q:'Can I transfer my license to a new PC?',faq7a:'Each license binds up to 2 devices. Contact admin@moonbazaar.de5.net to unbind.'}};
+
 let L=localStorage.getItem('moonLang')||'zh';
 function setLang(lang){
 document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(T[lang][k])el.innerHTML=T[lang][k];});
 document.getElementById('langBtn').textContent=lang==='zh'?'EN':'中';
-document.getElementById('searchInput').placeholder=T[lang].searchPh;
 localStorage.setItem('moonLang',lang);L=lang;
 }
 setLang(L);
@@ -598,57 +792,11 @@ function setTheme(t){document.documentElement.setAttribute('data-theme',t);tb.te
 setTheme(th);
 tb.onclick=()=>setTheme(th==='light'?'dark':'light');
 
-document.querySelectorAll('.tb').forEach(b=>{b.onclick=function(){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));this.classList.add('on');document.querySelectorAll('.tc').forEach(x=>x.classList.remove('on'));document.getElementById('t-'+this.dataset.t).classList.add('on');}});
-
-document.getElementById('searchInput').addEventListener('input',function(){
-const q=this.value.toLowerCase().trim();
-document.querySelectorAll('tbody tr').forEach(tr=>{
-const u=tr.cells[1]?.textContent.toLowerCase()||'';
-tr.style.display=u.includes(q)?'':'none';
-});
-});
-
 function copyRef(){const t=document.getElementById('refLink').textContent;navigator.clipboard.writeText(t).then(()=>{alert(L==='zh'?'已复制邀请链接！':'Copied!');});}
 
 const topBtn=document.getElementById('topBtn');
 window.addEventListener('scroll',()=>{topBtn.classList.toggle('show',window.scrollY>300);});
 topBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
-
-let rawData={weekly:[],total:[],single:[]};
-function rankIcon(r){return r.includes('🥇')?'<span class="medal">🥇</span>':r.includes('🥈')?'<span class="medal">🥈</span>':r.includes('🥉')?'<span class="medal">🥉</span>':r;}
-function rowClass(idx){return idx===0?'top1':idx===1?'top2':idx===2?'top3':'';}
-function renderAll(){
-const w=rawData.weekly||[],t=rawData.total||[],s=rawData.single||[];
-document.getElementById('b-weekly').innerHTML=w.length?w.map((x,i)=>`<tr class="${rowClass(i)}"><td>${rankIcon(x.rank)}</td><td>${x.user}</td><td>${x.amount.toLocaleString()}</td></tr>`).join(''):`<tr><td colspan="3" class="ld">暂无数据</td></tr>`;
-document.getElementById('b-total').innerHTML=t.length?t.map((x,i)=>`<tr class="${rowClass(i)}"><td>${rankIcon(x.rank)}</td><td>${x.user}</td><td>${x.amount.toLocaleString()}</td></tr>`).join(''):`<tr><td colspan="3" class="ld">暂无数据</td></tr>`;
-document.getElementById('b-single').innerHTML=s.length?s.map((x,i)=>`<tr class="${rowClass(i)}"><td>${rankIcon(x.rank)}</td><td>${x.user}</td><td>${x.amount.toLocaleString()}</td><td>${x.provider||''}</td><td>${x.finish_time||''}</td></tr>`).join(''):`<tr><td colspan="5" class="ld">暂无数据</td></tr>`;
-}
-async function load(){
-try{
-const r=await fetch('/leaderboard.json?t='+Date.now(),{cache:'no-store'});
-if(!r.ok)throw new Error('HTTP '+r.status);
-const d=await r.json();
-rawData=d;
-const cnt=(d.weekly?.length||0)+(d.total?.length||0)+(d.single?.length||0);
-if(cnt===0){showEmpty();return;}
-renderAll();
-if(d.updatedAt)document.getElementById('ut').textContent=d.updatedAt;
-}catch(e){console.error(e);showErr(L==='zh'?'数据加载失败，请刷新页面':'Load failed, please refresh');}
-}
-function showEmpty(){
-const m=L==='zh'?'数据暂时不可用，管理员正在重新登录抓取，请稍后再来':'Data unavailable, admin is re-authenticating. Please check back soon.';
-document.getElementById('b-weekly').innerHTML=`<tr><td colspan="3" class="ld"><i class="fas fa-hourglass-half"></i> ${m}</td></tr>`;
-document.getElementById('b-total').innerHTML=`<tr><td colspan="3" class="ld"><i class="fas fa-hourglass-half"></i> ${m}</td></tr>`;
-document.getElementById('b-single').innerHTML=`<tr><td colspan="5" class="ld"><i class="fas fa-hourglass-half"></i> ${m}</td></tr>`;
-document.getElementById('ut').textContent='—';
-}
-function showErr(m){
-document.getElementById('b-weekly').innerHTML=`<tr><td colspan="3" class="ld" style="color:var(--red)"><i class="fas fa-exclamation-triangle"></i> ${m}</td></tr>`;
-document.getElementById('b-total').innerHTML=`<tr><td colspan="3" class="ld" style="color:var(--red)"><i class="fas fa-exclamation-triangle"></i> ${m}</td></tr>`;
-document.getElementById('b-single').innerHTML=`<tr><td colspan="5" class="ld" style="color:var(--red)"><i class="fas fa-exclamation-triangle"></i> ${m}</td></tr>`;
-}
-load();
-setInterval(load,300000);
 </script>
 </body>
 </html>
