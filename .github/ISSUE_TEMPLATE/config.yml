@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 使用教程
+    url: https://github.com/wts114514/moonbazaar-auto#readme
+    about: 先看看 README，很多问题都有答案
+  - name: 💬 讨论区
+    url: https://github.com/wts114514/moonbazaar-auto/discussions
+    about: 非 Bug / 非建议的话题请到 Discussions
+  - name: 📦 下载最新版
+    url: https://pan.moonbazaar.de5.net/
+    about: 国内网盘下载
