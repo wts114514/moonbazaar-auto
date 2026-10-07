@@ -1,0 +1,35 @@
+name: ✨ 功能建议
+description: 想要的新功能或改进
+title: "[建议] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢建议！**如果这个建议有人提过**，请直接在那个 Issue 上点 👍 投票，不用重复提交。
+        投票榜：按 👍 数排序，票数越高优先级越高。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 功能描述
+      description: 你想要什么功能？它解决了什么问题？
+      placeholder: "例如：希望增加 xxx 功能，这样就能..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternative
+    attributes:
+      label: 替代方案
+      description: 有没有其他替代方式？（可选）
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 补充说明
+      description: 其他想补充的（可选）
+    validations:
+      required: false
