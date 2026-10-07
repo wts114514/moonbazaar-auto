@@ -1,0 +1,48 @@
+name: 🐞 Bug 反馈
+description: 使用过程中遇到的问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！请尽量填写详细信息，方便快速定位问题。
+        **提交前请先搜索**，可能已经有人反馈过相同问题。
+
+  - type: input
+    id: version
+    attributes:
+      label: 软件版本
+      description: 在软件"设置"页面或侧边栏底部可以看到
+      placeholder: "例如 1.0.5"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: 系统版本
+      placeholder: "例如 Windows 11 23H2"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 详细描述问题出现的场景、复现步骤、期望效果
+      placeholder: |
+        1. 打开 xxx
+        2. 点击 xxx
+        3. 出现 xxx 错误
+        4. 期望应该是 xxx
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图 / 报错日志
+      description: 直接拖拽图片到此处即可上传；报错日志可从 DevTools (Ctrl+Shift+I) Console 里复制
+    validations:
+      required: false
