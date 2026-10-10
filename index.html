@@ -13,6 +13,11 @@
 html{scroll-behavior:smooth}
 body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);padding:15px;transition:background .4s,color .4s;background-image:radial-gradient(circle at 10% 20%,rgba(41,147,199,.06),transparent 40%),radial-gradient(circle at 90% 80%,rgba(241,196,15,.06),transparent 40%);background-attachment:fixed}
 .c{max-width:1000px;margin:0 auto}
+
+/* 公告栏 */
+.announce-bar{background:linear-gradient(90deg,var(--purple),var(--acc));color:#fff;padding:.6rem 1rem;border-radius:4px;margin-bottom:1rem;font-weight:700;font-size:.9rem;text-align:center;box-shadow:2px 2px 0 var(--sh);display:flex;align-items:center;justify-content:center;gap:8px;animation:fadeIn .5s}
+.announce-bar a{color:#fff;text-decoration:underline;margin-left:5px}
+
 .hd{background:var(--bgc);border:2px solid var(--bd);box-shadow:4px 4px 0 var(--sh);padding:1.2rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;position:sticky;top:10px;z-index:100;border-radius:4px;backdrop-filter:blur(10px)}
 .lg{font-family:'Orbitron';font-size:1.8rem;color:var(--txt);letter-spacing:1px}.lg span{color:var(--acc);text-shadow:0 0 10px rgba(41,147,199,.5)}
 .nav{display:flex;gap:.5rem .8rem;flex-wrap:wrap;align-items:center}
@@ -301,21 +306,19 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 .stock-mode-opt .mode-radio{
   width:18px;height:18px;border-radius:50%;
   border:2px solid var(--txt);
-  background:var(--bgc);
+  background:transparent;
   flex-shrink:0;
   margin-top:3px;
   position:relative;
   transition:.2s;
 }
 .stock-mode-opt .mode-radio.on{
-  border-color:var(--acc);
+  border-color:var(--txt);
+  border-width:4px;
 }
 .stock-mode-opt .mode-radio.on::after{
   content:"";
-  position:absolute;
-  inset:3px;
-  border-radius:50%;
-  background:var(--acc);
+  display:none;
 }
 .stock-mode-opt .mode-title{
   font-family:'Orbitron';
@@ -454,6 +457,13 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 </head>
 <body>
 <div class="c">
+<!-- 公告栏 -->
+<div class="announce-bar">
+  <i class="fas fa-bullhorn"></i>
+  <span data-i18n="announce">最新版本 v1.0.5 已发布！</span>
+  <a href="#changelog" data-i18n="announceLink">查看更新日志</a>
+</div>
+
 <header class="hd">
 <div class="lg">Moon<span>Bazaar</span></div>
 <div class="nav">
@@ -646,6 +656,28 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 </div>
 </section>
 
+<!-- ============ 更新日志（新加） ============ -->
+<section class="card" id="changelog">
+<h2 class="ct"><i class="fas fa-history" style="color:var(--acc)"></i> <span data-i18n="changelogTitle">更新日志</span></h2>
+<div style="font-weight:600; color:var(--txt2); line-height:1.8;">
+  <div style="border-bottom:1px dashed var(--bd); padding-bottom:.8rem; margin-bottom:.8rem">
+    <div style="font-family:'Orbitron'; color:var(--txt); font-size:1.05rem">v1.0.5 <span style="font-size:.8rem; font-weight:400; color:var(--txt2); margin-left:8px">2026-10-10</span></div>
+    <div style="margin-top:.4rem" data-i18n="changelog105">反馈页改为跳转 GitHub Issues；优化 KV 缓存减轻 D1 压力；修复若干已知问题。</div>
+  </div>
+  <div>
+    <div style="font-family:'Orbitron'; color:var(--txt); font-size:1.05rem">v1.0.4 <span style="font-size:.8rem; font-weight:400; color:var(--txt2); margin-left:8px">2026-09-15</span></div>
+    <div style="margin-top:.4rem" data-i18n="changelog104">增加秒发提现规则说明；优化移动端页面适配。</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ 安全提示（新加） ============ -->
+<section class="card special">
+<h2 class="ct"><i class="fas fa-shield-alt" style="color:var(--orange)"></i> <span data-i18n="securityTitle">安全提示</span></h2>
+<p style="font-weight:600; color:var(--txt); font-size:.95rem" data-i18n="securityDesc">请认准官方唯一域名：<code>moonbazaar.de5.net</code>。谨防假冒钓鱼网站，不要在其他网站输入你的账号密码或卡密。</p>
+</section>
+
+<!-- ============ 聊天室 ============ -->
 <section class="card chat-card">
 <h2 class="ct"><i class="fas fa-comments" style="color:var(--acc)"></i> <span data-i18n="chatTitle">加入我们的聊天室</span></h2>
 <p style="font-weight:600;color:var(--txt);font-size:1.05rem" data-i18n="chatDesc">与其他用户交流经验、分享技巧、获取最新活动信息</p>
@@ -653,6 +685,7 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 <a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" class="chat-btn"><i class="fas fa-comment-dots"></i> <span data-i18n="chatBtn">进入聊天室</span></a>
 </section>
 
+<!-- ============ 推荐好友 ============ -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-star" style="color:var(--gold)"></i> <span data-i18n="refTitle">推荐好友 · 赚取佣金</span></h2>
 <div class="ref">
@@ -663,22 +696,24 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 </div>
 </section>
 
+<!-- ============ 帮助与资源 ============ -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-life-ring" style="color:var(--acc)"></i> <span data-i18n="resTitle">帮助与资源</span></h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.9rem">
-<a href="https://docs.qq.com/doc/DRnFQTW13S25OS0tO" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-envelope" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r1">邮件模板</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Email Templates</span></a>
-<a href="https://docs.qq.com/doc/DRkdjcmJIVk1UUFZh" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-question-circle" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r2">FAQ 中文</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">常见问题汇总</span></a>
-<a href="https://docs.qq.com/doc/DRmxyVWxHZ0hyb2hy" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-question-circle" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span>FAQ EN</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Frequently Asked</span></a>
-<a href="https://wwbma.lanzoue.com/b01d70j0if" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-download" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r3">浏览器插件</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">提取码 6666</span></a>
-<a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-book" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r4">教程文档</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">PC修复/加载</span></a>
-<a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-clipboard-list" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r5">问卷教程</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">详细指导</span></a>
-<a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-comments" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r7">聊天室</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Minnit Chat</span></a>
-<a href="https://pan.moonbazaar.de5.net" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-cloud" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r9">国内网盘</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">pan.moonbazaar.de5.net</span></a>
-<a href="https://github.com/wts114514/moonbazaar-auto" target="_blank" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-magic" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--purple)"></i><span data-i18n="r8">Helper 下载</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">GitHub Release</span></a>
-<a href="mailto:admin@moonbazaar.de5.net" class="ri" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-paper-plane" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r6">联系站长</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">admin@moonbazaar.de5.net</span></a>
+<a href="https://docs.qq.com/doc/DRnFQTW13S25OS0tO" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-envelope" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r1">邮件模板</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Email Templates</span></a>
+<a href="https://docs.qq.com/doc/DRkdjcmJIVk1UUFZh" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-question-circle" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r2">FAQ 中文</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">常见问题汇总</span></a>
+<a href="https://docs.qq.com/doc/DRmxyVWxHZ0hyb2hy" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-question-circle" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span>FAQ EN</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Frequently Asked</span></a>
+<a href="https://wwbma.lanzoue.com/b01d70j0if" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-download" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r3">浏览器插件</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">提取码 6666</span></a>
+<a href="https://docs.qq.com/doc/DSndOWGZ0TEFQaVFY" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-book" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r4">教程文档</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">PC修复/加载</span></a>
+<a href="https://docs.qq.com/doc/DUmdJcWhZUnRkeHNV" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-clipboard-list" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r5">问卷教程</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">详细指导</span></a>
+<a href="https://organizations.minnit.chat/239768801276001/c//Main?mobile&popout" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-comments" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r7">聊天室</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">Minnit Chat</span></a>
+<a href="https://pan.moonbazaar.de5.net" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-cloud" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r9">国内网盘</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">pan.moonbazaar.de5.net</span></a>
+<a href="https://github.com/wts114514/moonbazaar-auto" target="_blank" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-magic" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--purple)"></i><span data-i18n="r8">Helper 下载</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">GitHub Release</span></a>
+<a href="mailto:admin@moonbazaar.de5.net" style="display:block;background:var(--bgc);border:2px solid var(--bd);padding:1rem;text-align:center;text-decoration:none;color:var(--txt);font-weight:700;box-shadow:3px 3px 0 var(--sh);border-radius:3px;transition:.2s"><i class="fas fa-paper-plane" style="font-size:1.6rem;display:block;margin-bottom:.4rem;color:var(--acc)"></i><span data-i18n="r6">联系站长</span><span style="font-weight:400;font-size:.75rem;color:var(--txt2);display:block;margin-top:.2rem">admin@moonbazaar.de5.net</span></a>
 </div>
 </section>
 
+<!-- ============ 三步上手 ============ -->
 <section class="card">
 <h2 class="ct"><i class="fas fa-play-circle" style="color:var(--acc)"></i> <span data-i18n="stepTitle">三步上手</span></h2>
 <div style="display:flex;gap:1rem;flex-wrap:wrap">
@@ -711,6 +746,7 @@ body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--txt2);p
 const T={
 zh:{nav1:'📧 邮件模板',nav2:'❓ FAQ中文',nav4:'🔧 插件',nav5:'📖 教程',nav6:'📮 联系',nav7:'💬 聊天室',nav8:'📥 下载 Helper',nav9:'📦 网盘',
 welcome:'欢迎来到 MoonBazaar',intro:'MoonBazaar 是一个<strong>积分任务平台</strong>，通过完成问卷、试玩应用等任务赚取 <strong>Gascoin</strong> 积分，可兑换礼品卡、游戏物品、Steam 余额、现金等丰富奖励。',badge1:'🏆 周榜奖励 200 GC',badge2:'⭐ 推荐返利 5%',
+announce:'最新版本 v1.0.5 已发布！',announceLink:'查看更新日志',changelogTitle:'更新日志',changelog105:'反馈页改为跳转 GitHub Issues；优化 KV 缓存减轻 D1 压力；修复若干已知问题。',changelog104:'增加秒发提现规则说明；优化移动端页面适配。',securityTitle:'安全提示',securityDesc:'请认准官方唯一域名：<code>moonbazaar.de5.net</code>。谨防假冒钓鱼网站，不要在其他网站输入你的账号密码或卡密。',
 guarTitle:'保证不撤单',guarIntro:'勾选后，本订单在商品原价 GC 的基础上额外收取 20% 溢价。优惠券只抵扣商品基础价格，不减免这笔溢价。',guar1:'<strong>订单成功提交后</strong>，除非账户余额为负数，否则不会拒绝本次提现（包括账户被封禁、质量分不足、任务撤销等情况）。',guar2:'保证只针对<strong>本订单</strong>，不解除账户封禁，也不保证即时到账；收款资料错误时仍可能需要补充或更正资料。',guar3:'提交前仍需满足邮箱验证、商品购买条件及原有提现要求。',guar4:'如果余额为负导致拒单，退回本订单已扣 GC（<strong>包含溢价</strong>）。',guarTip:'💰 建议：大额提现时勾选此选项，防止任务被撤销导致损失',
 chatTitle:'加入我们的聊天室',chatDesc:'与其他用户交流经验、分享技巧、获取最新活动信息',chatSub:'👥 实时聊天 · 官方客服 · 互助答疑',chatBtn:'进入聊天室',
 refTitle:'推荐好友 · 赚取佣金',refSub:'分享你的专属邀请链接',refDesc:'好友赚积分，你获得 5% 佣金。受邀者额外获得 5% 加成。',copyBtn:'复制链接',
@@ -745,6 +781,7 @@ faq7q:'换电脑后卡密能转移吗？',faq7a:'每张卡密最多绑定 2 台�
 },
 en:{nav1:'📧 Emails',nav2:'❓ FAQ CN',nav4:'🔧 Plugin',nav5:'📖 Tutorial',nav6:'📮 Contact',nav7:'💬 Chat',nav8:'📥 Download',nav9:'📦 Pan',
 welcome:'Welcome to MoonBazaar',intro:'MoonBazaar is a <strong>reward task platform</strong>. Earn <strong>Gascoin</strong> by completing surveys, redeem for gift cards, Steam balance, cash and more.',badge1:'🏆 Weekly Prize 200 GC',badge2:'⭐ Referral Bonus 5%',
+announce:'v1.0.5 Released!',announceLink:'View Changelog',changelogTitle:'Changelog',changelog105:'Feedback changed to GitHub Issues; KV cache optimization to reduce D1 pressure; various bug fixes.',changelog104:'Added instant withdrawal rules; optimized mobile page layout.',securityTitle:'Security Alert',securityDesc:'Please ensure the official domain: <code>moonbazaar.de5.net</code>. Beware of phishing sites. Do not enter your password or license on other websites.',
 guarTitle:'No-Rejection Guarantee',guarIntro:'When checked, this order charges an extra 20% premium on the original GC price. Coupons only apply to the base price.',guar1:'<strong>After successful submission</strong>, the withdrawal will not be rejected unless your balance is negative (including account ban, low quality score, task reversal, etc.).',guar2:'The guarantee applies <strong>only to this order</strong>. It does not lift account bans or guarantee instant delivery. Incorrect payment details may require correction.',guar3:'Email verification, purchase conditions, and existing withdrawal requirements must still be met.',guar4:'If the order is rejected due to negative balance, the deducted GC (<strong>including premium</strong>) will be refunded.',guarTip:'💰 Tip: Enable this for large withdrawals to protect against task reversals',
 chatTitle:'Join Our Chatroom',chatDesc:'Chat with other users, share tips, and get the latest event info',chatSub:'👥 Live Chat · Support · Q&A',chatBtn:'Enter Chatroom',
 refTitle:'Refer Friends · Earn Commission',refSub:'Share your invite link',refDesc:'Friends earn, you get 5% commission. Invitees get 5% bonus.',copyBtn:'Copy Link',
