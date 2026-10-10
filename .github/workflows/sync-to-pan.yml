@@ -38,7 +38,7 @@ jobs:
       - name: Upload to R2PAN
         env:
           SYNC_TOKEN: ${{ secrets.R2PAN_SYNC_TOKEN }}
-          PAN_URL: https://pan.moonbazaar.de5.net
+          PAN_URL: https://cloud-r2pan.1095370262.workers.dev
           TAG: ${{ steps.tag.outputs.tag }}
         run: |
           cd dist
@@ -72,7 +72,7 @@ jobs:
       - name: Cleanup old versions
         env:
           SYNC_TOKEN: ${{ secrets.R2PAN_SYNC_TOKEN }}
-          PAN_URL: https://pan.moonbazaar.de5.net
+          PAN_URL: https://cloud-r2pan.1095370262.workers.dev
         run: |
           curl -sS -X POST "$PAN_URL/api/sync/cleanup" \
             -H "Authorization: Bearer $SYNC_TOKEN" \
