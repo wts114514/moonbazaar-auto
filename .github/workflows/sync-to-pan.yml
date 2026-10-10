@@ -1,0 +1,80 @@
+name: Sync Release to R2PAN
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to sync (leave blank for latest)'
+        required: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve tag
+        id: tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          elif [ -n "${{ github.event.release.tag_name }}" ]; then
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          else
+            TAG=$(gh release list --limit 1 --json tagName --jq '.[0].tagName' -R ${{ github.repository }})
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p dist
+          gh release download ${{ steps.tag.outputs.tag }} --dir dist -R ${{ github.repository }}
+          ls -la dist
+
+      - name: Upload to R2PAN
+        env:
+          SYNC_TOKEN: ${{ secrets.R2PAN_SYNC_TOKEN }}
+          PAN_URL: https://pan.moonbazaar.de5.net
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          cd dist
+          shopt -s nullglob
+          for f in *; do
+            [ -f "$f" ] || continue
+            echo "=== Uploading: $f ==="
+
+            ENCODED_NAME=$(printf %s "$f" | python3 -c "import sys,urllib.parse; print(urllib.parse.quote(sys.stdin.read().strip()))")
+
+            RESP=$(curl -sS -X POST "$PAN_URL/api/sync/upload" \
+              -H "Authorization: Bearer $SYNC_TOKEN" \
+              -H "X-File-Name: $ENCODED_NAME" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary "@$f")
+            echo "Upload response: $RESP"
+
+            FILE_ID=$(echo "$RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))")
+            if [ -z "$FILE_ID" ]; then
+              echo "ERROR: upload failed for $f"
+              exit 1
+            fi
+
+            PUBLISH_RESP=$(curl -sS -X POST "$PAN_URL/api/sync/publish" \
+              -H "Authorization: Bearer $SYNC_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"file_id\":\"$FILE_ID\",\"market_title\":\"$f ($TAG)\",\"market_desc\":\"MoonBazaar 客户端 $TAG\"}")
+            echo "Publish response: $PUBLISH_RESP"
+          done
+
+      - name: Cleanup old versions
+        env:
+          SYNC_TOKEN: ${{ secrets.R2PAN_SYNC_TOKEN }}
+          PAN_URL: https://pan.moonbazaar.de5.net
+        run: |
+          curl -sS -X POST "$PAN_URL/api/sync/cleanup" \
+            -H "Authorization: Bearer $SYNC_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"name_contains":"MoonBazaar","keep_recent":2}'
