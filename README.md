@@ -2,6 +2,8 @@
 
 MoonBazaar 问卷平台的桌面辅助工具。
 
+> 💻 **想看源码？** 访问 [moonbazaar-helper](https://github.com/wts114514/moonbazaar-helper)
+
 ## 支持开发
 
 如果这个项目对你有帮助，欢迎通过爱发电赞助：
