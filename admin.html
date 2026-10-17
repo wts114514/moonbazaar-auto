@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoonBazaar 后台管理</title>
+<script>
+  // 🚨 核心拦截：如果没有 Token，立刻重定向到登录页
+  if (!sessionStorage.getItem('admin_token')) {
+    window.location.replace('/login.html');
+  }
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -17,24 +23,8 @@
 </head>
 <body class="bg-slate-100 min-h-screen">
 
-<!-- 登录页 -->
-<div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
-    <div class="text-center mb-6">
-      <div class="text-4xl mb-2">👑</div>
-      <h1 class="text-2xl font-black text-slate-900">MoonBazaar 后台管理</h1>
-      <p class="text-sm text-slate-500 mt-1">请输入管理员 Token</p>
-    </div>
-    <input type="password" id="tokenInput" class="w-full border-2 border-slate-300 rounded-lg px-4 py-3 text-sm mb-4" placeholder="管理员 Token">
-    <button id="loginBtn" class="w-full bg-gradient-to-r from-sky-500 to-blue-700 text-white font-bold py-3 rounded-lg hover:shadow-lg transition">
-      <i class="fas fa-sign-in-alt mr-2"></i>登录
-    </button>
-    <div id="loginError" class="text-sm text-red-500 text-center mt-3"></div>
-  </div>
-</div>
-
-<!-- 管理面板 -->
-<div id="dashboard" class="hidden">
+<!-- 管理面板 (直接显示) -->
+<div id="dashboard">
   <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10">
     <div class="flex items-center gap-3">
       <div class="text-xl font-black text-slate-900">👑 MoonBazaar 后台</div>
@@ -127,60 +117,21 @@
 <script>
 // ===== 配置 =====
 const API_BASE = 'https://api.moonbazaar.de5.net';
-// 安全加固：改用 sessionStorage，关闭浏览器自动退出
-let adminToken = sessionStorage.getItem('admin_token') || '';
+// 因为顶部的拦截，能执行到这里说明一定有 token
+let adminToken = sessionStorage.getItem('admin_token');
 let currentTab = 'reports';
 
-// ===== 登录 (适配 WAF 的 POST 限制) =====
-document.getElementById('loginBtn').onclick = async () => {
-  const token = document.getElementById('tokenInput').value.trim();
-  if (!token) return;
-  
-  const errorEl = document.getElementById('loginError');
-  const btn = document.getElementById('loginBtn');
-  errorEl.textContent = '验证中...';
-  btn.disabled = true;
-
-  try {
-    // 借用 POST 接口验证 Token：如果 Token 错误返回 403/无权限，如果正确返回卡密不存在
-    const res = await fetch(`${API_BASE}/api/admin/unbind-device`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, code: '__TEST_TOKEN__' })
-    });
-    const data = await res.json();
-    
-    if (data.error === '无权限' || res.status === 403) {
-      errorEl.textContent = 'Token 错误';
-    } else {
-      adminToken = token;
-      sessionStorage.setItem('admin_token', token);
-      showDashboard();
-    }
-  } catch (e) {
-    errorEl.textContent = '网络错误：' + e.message;
-  } finally {
-    btn.disabled = false;
-  }
-};
-
-document.getElementById('tokenInput').addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') document.getElementById('loginBtn').click();
-});
-
+// 退出登录
 document.getElementById('logoutBtn').onclick = () => {
   sessionStorage.removeItem('admin_token');
-  location.reload();
+  window.location.replace('/login.html');
 };
 
 document.getElementById('refreshBtn').onclick = () => { loadStats(); loadTab(currentTab); };
 
-function showDashboard() {
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('dashboard').classList.remove('hidden');
-  loadStats();
-  loadTab('reports');
-}
+// 初始化加载
+loadStats();
+loadTab('reports');
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.onclick = () => {
@@ -1111,11 +1062,6 @@ function formatTime(t) {
     const d = new Date(t.includes('T') ? t : t.replace(' ', 'T') + 'Z');
     return d.toLocaleString('zh-CN', { hour12: false });
   } catch { return t; }
-}
-
-// ===== 自动登录 =====
-if (adminToken) {
-  showDashboard();
 }
 </script>
 
