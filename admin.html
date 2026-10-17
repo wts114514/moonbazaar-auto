@@ -127,28 +127,40 @@
 <script>
 // ===== 配置 =====
 const API_BASE = 'https://api.moonbazaar.de5.net';
-let adminToken = localStorage.getItem('admin_token') || '';
+// 安全加固：改用 sessionStorage，关闭浏览器自动退出
+let adminToken = sessionStorage.getItem('admin_token') || '';
 let currentTab = 'reports';
 
-// ===== 登录 =====
+// ===== 登录 (适配 WAF 的 POST 限制) =====
 document.getElementById('loginBtn').onclick = async () => {
   const token = document.getElementById('tokenInput').value.trim();
   if (!token) return;
+  
   const errorEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
   errorEl.textContent = '验证中...';
+  btn.disabled = true;
 
   try {
-    const res = await fetch(`${API_BASE}/api/admin/reports?token=${encodeURIComponent(token)}`);
+    // 借用 POST 接口验证 Token：如果 Token 错误返回 403/无权限，如果正确返回卡密不存在
+    const res = await fetch(`${API_BASE}/api/admin/unbind-device`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, code: '__TEST_TOKEN__' })
+    });
     const data = await res.json();
-    if (data.error === '无权限') {
+    
+    if (data.error === '无权限' || res.status === 403) {
       errorEl.textContent = 'Token 错误';
-      return;
+    } else {
+      adminToken = token;
+      sessionStorage.setItem('admin_token', token);
+      showDashboard();
     }
-    adminToken = token;
-    localStorage.setItem('admin_token', token);
-    showDashboard();
   } catch (e) {
     errorEl.textContent = '网络错误：' + e.message;
+  } finally {
+    btn.disabled = false;
   }
 };
 
@@ -157,7 +169,7 @@ document.getElementById('tokenInput').addEventListener('keypress', (e) => {
 });
 
 document.getElementById('logoutBtn').onclick = () => {
-  localStorage.removeItem('admin_token');
+  sessionStorage.removeItem('admin_token');
   location.reload();
 };
 
