@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonBazaar 登录</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
+    <div class="text-center mb-6">
+      <div class="text-4xl mb-2">👑</div>
+      <h1 class="text-2xl font-black text-slate-900">MoonBazaar 后台</h1>
+      <p class="text-sm text-slate-500 mt-1">请输入管理员 Token</p>
+    </div>
+    
+    <input type="password" id="tokenInput" class="w-full border-2 border-slate-300 rounded-lg px-4 py-3 text-sm mb-4 focus:outline-none focus:border-sky-500 transition" placeholder="管理员 Token">
+    
+    <button id="loginBtn" class="w-full bg-gradient-to-r from-sky-500 to-blue-700 text-white font-bold py-3 rounded-lg hover:shadow-lg transition">
+      <i class="fas fa-sign-in-alt mr-2"></i>登录
+    </button>
+    
+    <div id="loginError" class="text-sm text-red-500 text-center mt-3 h-5"></div>
+  </div>
+
+<script>
+  const API_BASE = 'https://api.moonbazaar.de5.net';
+
+  // 如果已经登录，直接跳走
+  if (sessionStorage.getItem('admin_token')) {
+    window.location.replace('/admin.html');
+  }
+
+  document.getElementById('loginBtn').onclick = async () => {
+    const token = document.getElementById('tokenInput').value.trim();
+    if (!token) return;
+    
+    const errorEl = document.getElementById('loginError');
+    const btn = document.getElementById('loginBtn');
+    
+    errorEl.textContent = '验证中...';
+    errorEl.classList.remove('text-red-500');
+    errorEl.classList.add('text-sky-500');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>验证中';
+
+    try {
+      // 借用 POST 接口验证 Token
+      const res = await fetch(`${API_BASE}/api/admin/unbind-device`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, code: '__TEST_TOKEN__' })
+      });
+      const data = await res.json();
+      
+      if (data.error === '无权限' || res.status === 403) {
+        errorEl.textContent = 'Token 错误，请重试';
+        errorEl.classList.remove('text-sky-500');
+        errorEl.classList.add('text-red-500');
+      } else {
+        // 验证成功，保存并跳转
+        sessionStorage.setItem('admin_token', token);
+        window.location.replace('/admin.html');
+      }
+    } catch (e) {
+      errorEl.textContent = '网络错误：' + e.message;
+      errorEl.classList.remove('text-sky-500');
+      errorEl.classList.add('text-red-500');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i>登录';
+    }
+  };
+
+  // 回车登录
+  document.getElementById('tokenInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') document.getElementById('loginBtn').click();
+  });
+</script>
+</body>
+</html>
